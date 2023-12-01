@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { User } from '@/redux/types/response.type'
 import { LoginInput, RegisterInput } from '@redux/types/request.type'
-import { handleAxiosError, publicApi } from '@lib/axios'
-import { setCookie } from '@lib/utils'
+import { handleAxiosError, privateApi, publicApi } from '@lib/axios'
+import { setCookie, unsetCookie } from '@lib/utils'
 import AuthConfig from '@config/auth.config'
 
 const initialState = {
@@ -50,6 +50,21 @@ export const register = createAsyncThunk(
       setCookie(AuthConfig.accessTokenKey, data.data.accessToken)
       setCookie(AuthConfig.refreshTokenKey, data.data.refreshToken)
       return data.data.user
+    } catch (error) {
+      const { message } = handleAxiosError(error)
+      return rejectWithValue(message)
+    }
+  },
+)
+
+export const logout = createAsyncThunk(
+  'user/logout',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await privateApi.get('/auth/logout')
+      unsetCookie(AuthConfig.accessTokenKey)
+      unsetCookie(AuthConfig.refreshTokenKey)
+      return data.data
     } catch (error) {
       const { message } = handleAxiosError(error)
       return rejectWithValue(message)

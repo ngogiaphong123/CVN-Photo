@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -35,6 +36,7 @@ const formSchema = z.object({
 
 export function Login() {
   const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
   const { toast } = useToast()
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -52,6 +54,7 @@ export function Login() {
       toast({
         description: `Welcome back, ${result.payload.displayName}!`,
       })
+      navigate('/photos')
     } catch (err: any) {
       toast({
         title: 'Oops!',

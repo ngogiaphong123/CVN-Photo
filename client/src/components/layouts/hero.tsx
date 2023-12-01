@@ -9,11 +9,13 @@ export default function Hero() {
         <p className="text-center">call home</p>
       </div>
       <div className="text-2xl text-center text-muted-foreground">
-        A treasury of lingering moments
+        A treasury of lingering moments. <br />
       </div>
       <div>
         <Link to="/login">
-          <Button size={'lg'}>Go to WebPhoto</Button>
+          <Button className="text-white" size={'lg'}>
+            Go to WebPhoto
+          </Button>
         </Link>
       </div>
     </div>
