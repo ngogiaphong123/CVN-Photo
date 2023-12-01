@@ -1,0 +1,24 @@
+{
+	"name": "webphoto/server",
+	"autoload": {
+		"psr-4": {
+			"App\\": "./App"
+		}
+	},
+	"authors": [
+		{
+			"name": "ngogiaphong123",
+			"email": "ngogiaphong123@gmail.com"
+		}
+	],
+	"scripts": {
+		"start": "php -S localhost:8080 -t public"
+	},
+	"require": {
+		"vlucas/phpdotenv": "^5.6",
+		"php-di/php-di": "^7.0",
+		"ext-pdo": "*",
+		"ramsey/uuid": "^4.7",
+		"firebase/php-jwt": "^6.9"
+	}
+}
