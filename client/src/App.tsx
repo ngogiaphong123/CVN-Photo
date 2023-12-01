@@ -1,7 +1,9 @@
 import { Route, Routes } from 'react-router-dom'
-import { Login } from '@pages/Login'
-import { Register } from '@pages/Register'
-import { Landing } from './pages/Landing'
+import { Login } from '@/pages/login'
+import { Register } from '@/pages/register'
+import { Landing } from '@pages/landing'
+import Photos from '@pages/dashboard'
+import NotFound from '@/pages/not-found'
 
 function App() {
   return (
@@ -10,6 +12,8 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/photos" element={<Photos />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   )
