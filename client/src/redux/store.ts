@@ -1,8 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useSelector } from 'react-redux'
+import userSlice from './slices/user.slice'
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    user: userSlice.reducer,
+  },
 })
 
 export type RootState = ReturnType<typeof store.getState>

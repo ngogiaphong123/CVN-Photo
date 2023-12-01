@@ -10,6 +10,8 @@ export default defineConfig({
       '@redux': path.resolve(__dirname, './src/redux'),
       '@lib': path.resolve(__dirname, './src/lib'),
       '@components': path.resolve(__dirname, './src/components'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@config': path.resolve(__dirname, './src/config'),
     },
   },
 })
