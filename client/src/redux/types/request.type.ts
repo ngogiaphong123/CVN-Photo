@@ -8,3 +8,7 @@ export type RegisterInput = {
   password: string
   displayName: string
 }
+
+export type UpdateProfileInput = {
+  displayName: string
+}

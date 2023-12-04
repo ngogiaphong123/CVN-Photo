@@ -57,7 +57,7 @@ class UserEntity extends BaseEntity {
 		$error = Validator::validate([
 			'displayName' => $displayName,
 		], [
-			'displayName' => 'required|min:3|max:32',
+			'displayName' => 'required|min:3|max:24',
 		]);
 		if(!empty($error)) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, "Validation failed", $error);

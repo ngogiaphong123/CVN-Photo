@@ -19,7 +19,7 @@
     --secondary: 243 73% 90%;
     --secondary-foreground: 183 73% 6%;
 
-    --muted: 274.286 14% 90%;
+    --muted: 0 5% 93%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
     --accent: 243 72% 50%;
@@ -28,8 +28,8 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 274.286 14% 90%;
-    --input: 274.286 14% 90%;
+    --border: 0 5% 93%;
+    --input: 0 5% 93%;
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
@@ -69,6 +69,7 @@
 @layer base {
   * {
     @apply border-border;
+    @apply box-border;
   }
   body {
     @apply bg-background text-foreground;

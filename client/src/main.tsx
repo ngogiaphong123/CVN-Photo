@@ -3,7 +3,7 @@ import App from './App.tsx'
 import './index.css'
 import ReduxProvider from '@redux/provider'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { Toaster } from '@components/ui/toaster.tsx'
+import { Toaster } from '@/components/ui/toaster.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ReduxProvider>

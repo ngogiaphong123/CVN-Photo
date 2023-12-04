@@ -7,9 +7,8 @@ use App\Exceptions\HttpException;
 
 class Application {
 
-	public function __construct (private Router   $router,
-	                             private Request  $request,
-	                             private Response $response) {}
+	public function __construct (private readonly Router   $router,
+	                             private readonly Response $response) {}
 
 	public function run (): void {
 		try {

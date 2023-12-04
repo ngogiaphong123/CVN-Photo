@@ -74,15 +74,26 @@ class UserRepository implements IRepository {
 		return $result;
 	}
 
-	public function updateTokens (string $id, array $data) {
+	/**
+	 * @throws HttpException
+	 */
+	public function update (string $id, array $data, array $user) {
 		$userEntity = new UserEntity();
-		$userEntity->setAccessToken($data['accessToken'])->setRefreshToken($data['refreshToken'])->build();
-		$query = "UPDATE users SET accessToken = :accessToken, refreshToken = :refreshToken WHERE id = :id";
+		$userEntity->setEmail($data['email'] ?? $user['email'])->setDisplayName($data['displayName'] ?? $user['displayName'])
+			->setAvatar($data['avatar'] ?? $user['avatar'])->setAvatarPublicId($data['avatarPublicId'] ?? $user['avatarPublicId'])
+			->setAccessToken($data['accessToken'] ?? $user['accessToken'])->setRefreshToken($data['refreshToken'] ?? $user['refreshToken'])
+			->build();
+		$query = "UPDATE users SET email = :email, displayName = :displayName, avatar = :avatar, avatarPublicId = :avatarPublicId, accessToken = :accessToken, refreshToken = :refreshToken, updatedAt = :updatedAt WHERE id = :id";
 		$statement = $this->database->getConnection()->prepare($query);
 		$statement->execute([
 			':id' => $id,
+			':email' => $userEntity->getEmail(),
+			':displayName' => $userEntity->getDisplayName(),
+			':avatar' => $userEntity->getAvatar(),
+			':avatarPublicId' => $userEntity->getAvatarPublicId(),
 			':accessToken' => $userEntity->getAccessToken(),
 			':refreshToken' => $userEntity->getRefreshToken(),
+			':updatedAt' => $userEntity->getUpdatedAt(),
 		]);
 		return $this->findOne($id);
 	}

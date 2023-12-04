@@ -8,9 +8,6 @@ const publicApi = axios.create({
 
 const privateApi = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 })
 
 privateApi.interceptors.request.use(
@@ -39,10 +36,10 @@ privateApi.interceptors.response.use(
     ) {
       originalRequest._retry = true
       const refreshToken = getCookie(AuthConfig.refreshTokenKey)
-      const { data } = await publicApi.post('/auth/refresh', {
-        refreshToken,
-      })
-      if (data.statusCode === 201) {
+      const formData = new FormData()
+      formData.append('refreshToken', refreshToken)
+      const { data } = await publicApi.post('/auth/refresh', formData)
+      if (data.statusCode === 200) {
         setCookie(AuthConfig.accessTokenKey, data.data.accessToken)
         setCookie(AuthConfig.refreshTokenKey, data.data.refreshToken)
         return privateApi(originalRequest)
