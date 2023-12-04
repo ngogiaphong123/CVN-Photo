@@ -68,9 +68,7 @@ module.exports = {
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        "width-in-out": "width-in-out 0.4s ease-out infinite",
-        "width-out-in": "width-out-in 0.4s ease-out infinite",
+        "accordion-up": "accordion-up 0.2s ease-out"
       },
     },
   },

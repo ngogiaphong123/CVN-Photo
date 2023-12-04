@@ -6,7 +6,7 @@ import { Register } from '@pages/register'
 import { Photos } from '@/pages/photos'
 import { NotFound } from '@pages/not-found'
 import Profile from '@/pages/profile'
-import UserLayout from './components/layouts/user-layout'
+import UserLayout from '@components/layouts/user-layout'
 
 function App() {
   return (

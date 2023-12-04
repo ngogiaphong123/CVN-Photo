@@ -19,6 +19,13 @@ class Router {
 
 	public function __construct (private readonly Request $request, private readonly ContainerInterface $container) {}
 
+	/**
+	 * @throws NotFoundExceptionInterface
+	 * @throws NotFoundException
+	 * @throws ContainerExceptionInterface
+	 * @throws DependencyException
+	 * @throws HttpException
+	 */
 	public function get (string $path, array $middlewares = [], array $callbacks = []): Router {
 		$this->addRoute(HttpMethod::GET, $path, $middlewares, $callbacks);
 		return $this;

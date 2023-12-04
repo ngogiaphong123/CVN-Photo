@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Common\Enums\AuthError;
 use App\Common\Enums\Token;
 use App\Core\Config;
 use App\Exceptions\HttpException;
@@ -34,7 +35,7 @@ readonly class JwtService {
 			$decoded = JWT::decode($token, new Key($this->config::get("jwt")["publicKey"], 'RS256'));
 			return (array)$decoded;
 		} catch (Exception $e) {
-			throw new HttpException(401, "Access token expired");
+			throw new HttpException(401, AuthError::ACCESS_TOKEN_EXPIRED->value);
 		}
 	}
 
