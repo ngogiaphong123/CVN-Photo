@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Common\Enums\AuthError;
 use App\Common\Enums\Token;
+use App\Common\Error\AuthError;
 use App\Core\Config;
 use App\Exceptions\HttpException;
 use DateTime;

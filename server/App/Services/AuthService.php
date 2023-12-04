@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Common\Enums\AuthError;
 use App\Common\Enums\StatusCode;
 use App\Common\Enums\Token;
+use App\Common\Error\AuthError;
 use App\Exceptions\HttpException;
 use App\Repositories\UserRepository;
 use Exception;
