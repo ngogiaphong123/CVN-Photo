@@ -21,7 +21,7 @@ class UserRepository implements IRepository {
 	 */
 	public function create (array $data) {
 		$userEntity = new UserEntity();
-		$userEntity->setEmail($data['email'])->setDisplayName($data['displayName'])->setPassword($data["password"])
+		$userEntity->setEmail($data["email"] ?? "")->setDisplayName($data["displayName"] ?? "")->setPassword($data["password"] ?? "")
 			->setAvatar($this->config::get('user')['default']['avatar'])->setAvatarPublicId($this->config::get('user')['default']['avatarPublicId'])
 			->setAccessToken("")->setRefreshToken("")
 			->build();

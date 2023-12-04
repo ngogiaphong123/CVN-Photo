@@ -18,8 +18,8 @@ class CategoryRepository implements IRepository {
 
 	public function create (array $data): mixed {
 		$categoryEntity = new CategoryEntity();
-		$categoryEntity->setName($data['name'])->setMemo($data['memo'])->setUrl($data['url'])->setPublicId($data['publicId'])
-			->setUserId($data['userId'])->build();
+		$categoryEntity->setName($data['name'] ?? "")->setMemo($data['memo'] ?? "")->setUrl($data['url'] ?? "")->setPublicId($data['publicId'] ?? "")
+			->setUserId($data['userId'] ?? "")->build();
 		$query = "INSERT INTO categories (id, name, memo, url, publicId, userId, createdAt, updatedAt)
 		VALUES (:id, :name, :memo, :url, :publicId, :userId, :createdAt, :updatedAt)";
 		$statement = $this->database->getConnection()->prepare($query);

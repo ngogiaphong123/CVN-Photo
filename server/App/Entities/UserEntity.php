@@ -70,12 +70,18 @@ class UserEntity extends BaseEntity {
 		return $this->password;
 	}
 
+	/**
+	 * @throws HttpException
+	 */
 	public function setPassword (string $password): UserEntity {
 		$error = Validator::validate([
 			'password' => $password,
 		], [
 			'password' => 'required|min:8|max:32',
 		]);
+		if (!empty($error)) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, "Validation failed", $error);
+		}
 		$this->password = password_hash($password, PASSWORD_DEFAULT);
 		return $this;
 	}

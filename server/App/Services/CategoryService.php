@@ -8,8 +8,8 @@ use App\Common\Error\CategoryError;
 use App\Exceptions\HttpException;
 use App\Repositories\CategoryRepository;
 
-class CategoryService {
-	public function __construct (private readonly CategoryRepository $categoryRepository) {}
+readonly class CategoryService {
+	public function __construct (private CategoryRepository $categoryRepository) {}
 
 	/**
 	 * @throws HttpException
@@ -42,7 +42,7 @@ class CategoryService {
 	 */
 	public function delete (string $id, string $userId): int {
 		$category = $this->checkOwnerAndName($id, $userId);
-		return $this->categoryRepository->delete($id);
+		return $this->categoryRepository->delete($category['id']);
 	}
 
 	/**
