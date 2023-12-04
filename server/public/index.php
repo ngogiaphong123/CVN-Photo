@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\AuthController;
+use App\Controllers\CategoryController;
 use App\Controllers\UserController;
 use App\Core\Application;
 use App\Core\Router;
@@ -23,6 +24,12 @@ $router->post("auth/register", [], [AuthController::class, 'register'])
 	->get("auth/me", [JwtGuard::class], [AuthController::class, 'getMe'])
 	->post("auth/refresh", [], [AuthController::class, 'refreshToken'])
 	->post("users/upload-avatar", [JwtGuard::class], [UserController::class, 'uploadAvatar'])
-	->post("users/update-profile", [JwtGuard::class], [UserController::class, 'updateProfile']);
+	->post("users/update-profile", [JwtGuard::class], [UserController::class, 'updateProfile'])
+	->get("categories", [JwtGuard::class], [CategoryController::class, 'findUserCategories'])
+	->get("categories/:categoryId/photos", [JwtGuard::class], [CategoryController::class, 'findCategoryPhotos'])
+	->post("categories", [JwtGuard::class], [CategoryController::class, 'create'])
+	->post("categories/:categoryId", [JwtGuard::class], [CategoryController::class, 'update'])
+	->delete("categories/:categoryId", [JwtGuard::class], [CategoryController::class, 'delete']);
+
 
 $app->run();

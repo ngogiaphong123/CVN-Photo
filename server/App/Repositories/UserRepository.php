@@ -77,11 +77,11 @@ class UserRepository implements IRepository {
 	/**
 	 * @throws HttpException
 	 */
-	public function update (string $id, array $data, array $user) {
+	public function update (string $id, array $data, array $originalData) {
 		$userEntity = new UserEntity();
-		$userEntity->setEmail($data['email'] ?? $user['email'])->setDisplayName($data['displayName'] ?? $user['displayName'])
-			->setAvatar($data['avatar'] ?? $user['avatar'])->setAvatarPublicId($data['avatarPublicId'] ?? $user['avatarPublicId'])
-			->setAccessToken($data['accessToken'] ?? $user['accessToken'])->setRefreshToken($data['refreshToken'] ?? $user['refreshToken'])
+		$userEntity->setEmail($data['email'] ?? $originalData['email'])->setDisplayName($data['displayName'] ?? $originalData['displayName'])
+			->setAvatar($data['avatar'] ?? $originalData['avatar'])->setAvatarPublicId($data['avatarPublicId'] ?? $originalData['avatarPublicId'])
+			->setAccessToken($data['accessToken'] ?? $originalData['accessToken'])->setRefreshToken($data['refreshToken'] ?? $originalData['refreshToken'])
 			->build();
 		$query = "UPDATE users SET email = :email, displayName = :displayName, avatar = :avatar, avatarPublicId = :avatarPublicId, accessToken = :accessToken, refreshToken = :refreshToken, updatedAt = :updatedAt WHERE id = :id";
 		$statement = $this->database->getConnection()->prepare($query);
