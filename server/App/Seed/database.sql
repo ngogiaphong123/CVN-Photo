@@ -32,20 +32,10 @@ CREATE TABLE `categories` (
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updatedAt` datetime(3) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `categories_name_key` (`name`),
   KEY `categories_userId_fkey` (`userId`),
   CONSTRAINT `categories_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `categories`
---
-
-LOCK TABLES `categories` WRITE;
-/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `photoCategory`
@@ -63,15 +53,6 @@ CREATE TABLE `photoCategory` (
   CONSTRAINT `photoCategory_photoId_fkey` FOREIGN KEY (`photoId`) REFERENCES `photos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `photoCategory`
---
-
-LOCK TABLES `photoCategory` WRITE;
-/*!40000 ALTER TABLE `photoCategory` DISABLE KEYS */;
-/*!40000 ALTER TABLE `photoCategory` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `photos`
@@ -95,16 +76,6 @@ CREATE TABLE `photos` (
   CONSTRAINT `photos_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `photos`
---
-
-LOCK TABLES `photos` WRITE;
-/*!40000 ALTER TABLE `photos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `photos` ENABLE KEYS */;
-UNLOCK TABLES;
-
 --
 -- Table structure for table `users`
 --
@@ -138,4 +109,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-04 13:06:20
+-- Dump completed on 2023-12-04 16:34:16
