@@ -30,6 +30,4 @@ $router->post("auth/register", [], [AuthController::class, 'register'])
 	->post("categories", [JwtGuard::class], [CategoryController::class, 'create'])
 	->post("categories/:categoryId", [JwtGuard::class], [CategoryController::class, 'update'])
 	->delete("categories/:categoryId", [JwtGuard::class], [CategoryController::class, 'delete']);
-
-
 $app->run();

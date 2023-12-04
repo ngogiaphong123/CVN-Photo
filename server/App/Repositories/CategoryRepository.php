@@ -15,6 +15,7 @@ class CategoryRepository implements IRepository {
 	 * @return mixed|null
 	 * @throws HttpException
 	 */
+
 	public function create (array $data): mixed {
 		$categoryEntity = new CategoryEntity();
 		$categoryEntity->setName($data['name'])->setMemo($data['memo'])->setUrl($data['url'])->setPublicId($data['publicId'])
@@ -33,6 +34,25 @@ class CategoryRepository implements IRepository {
 			':updatedAt' => $categoryEntity->getUpdatedAt(),
 		]);
 		return $this->findOne($categoryEntity->getId());
+	}
+
+	/**
+	 * @throws HttpException
+	 */
+	public function findOneByName (array $data) {
+		$categoryEntity = new CategoryEntity();
+		$categoryEntity->setName($data['name'])->setUserId($data['userId'])->build();
+		$query = "SELECT * FROM categories WHERE name = :name AND userId = :userId";
+		$statement = $this->database->getConnection()->prepare($query);
+		$statement->execute([
+			':name' => $data['name'],
+			':userId' => $data['userId'],
+		]);
+		$result = $statement->fetch(PDO::FETCH_ASSOC);
+		if (!$result) {
+			return NULL;
+		}
+		return $result;
 	}
 
 	public function findOne (string $id) {

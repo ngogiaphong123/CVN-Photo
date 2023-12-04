@@ -2,24 +2,25 @@
 
 namespace App\Services;
 
+use App\Common\Enums\DefaultCategory;
 use App\Common\Enums\StatusCode;
 use App\Common\Error\CategoryError;
 use App\Exceptions\HttpException;
 use App\Repositories\CategoryRepository;
 
 class CategoryService {
-	public function __construct (private CategoryRepository $categoryRepository) {}
+	public function __construct (private readonly CategoryRepository $categoryRepository) {}
 
 	/**
 	 * @throws HttpException
 	 */
 	public function create (array $data, string $userId) {
 		$data['userId'] = $userId;
+		$category = $this->categoryRepository->findOneByName($data);
+		if ($category) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::CATEGORY_ALREADY_EXISTS->value);
+		}
 		return $this->categoryRepository->create($data);
-	}
-
-	public function findOne (string $id) {
-		return $this->categoryRepository->findOne($id);
 	}
 
 	/**
@@ -32,10 +33,7 @@ class CategoryService {
 				unset($data[$key]);
 			}
 		}
-		$category = $this->categoryRepository->findOne($id);
-		if (!$category || $category['userId'] !== $userId) {
-			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::CATEGORY_NOT_FOUND->value);
-		}
+		$category = $this->checkOwnerAndName($id, $userId);
 		return $this->categoryRepository->update($id, $data, $category);
 	}
 
@@ -43,10 +41,7 @@ class CategoryService {
 	 * @throws HttpException
 	 */
 	public function delete (string $id, string $userId): int {
-		$category = $this->categoryRepository->findOne($id);
-		if (!$category || $category['userId'] !== $userId) {
-			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::CATEGORY_NOT_FOUND->value);
-		}
+		$category = $this->checkOwnerAndName($id, $userId);
 		return $this->categoryRepository->delete($id);
 	}
 
@@ -65,4 +60,20 @@ class CategoryService {
 		return $this->categoryRepository->findUserCategories($userId);
 	}
 
+	/**
+	 * @param string $id
+	 * @param string $userId
+	 * @return mixed
+	 * @throws HttpException
+	 */
+	public function checkOwnerAndName (string $id, string $userId): mixed {
+		$category = $this->categoryRepository->findOne($id);
+		if (!$category || $category['userId'] !== $userId) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::CATEGORY_NOT_FOUND->value);
+		}
+		if ($category['name'] === DefaultCategory::FAVORITE->value || $category['name'] === DefaultCategory::UNCATEGORIZED->value) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::CATEGORY_NOT_ALLOWED->value);
+		}
+		return $category;
+	}
 }
