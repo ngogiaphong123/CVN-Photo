@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Common\Enums\StatusCode;
-use App\Common\Enums\UploadError;
+use App\Common\Error\UploadError;
 use App\Exceptions\HttpException;
 use Cloudinary\Api\Exception\ApiError;
 use Cloudinary\Api\Upload\UploadApi;
