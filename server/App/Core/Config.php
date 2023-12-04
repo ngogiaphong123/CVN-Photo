@@ -27,6 +27,11 @@ class Config {
 				"accessTokenTTL" => $_ENV['JWT_ACCESS_TOKEN_TTL'],
 				"refreshTokenTTL" => $_ENV['JWT_REFRESH_TOKEN_TTL'],
 			],
+			"cloudinary" => [
+				"cloudName" => $_ENV['CLOUDINARY_CLOUD_NAME'],
+				"apiKey" => $_ENV['CLOUDINARY_API_KEY'],
+				"apiSecret" => $_ENV['CLOUDINARY_API_SECRET'],
+			],
 		];
 	}
 

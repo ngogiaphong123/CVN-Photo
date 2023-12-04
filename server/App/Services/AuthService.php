@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Common\Enums\AuthError;
 use App\Common\Enums\StatusCode;
 use App\Common\Enums\Token;
 use App\Exceptions\HttpException;
@@ -10,9 +11,15 @@ use Exception;
 
 class AuthService {
 	public function __construct (
-		private UserRepository $userRepository,
-		private JwtService     $jwtService,
+		private readonly UserRepository $userRepository,
+		private readonly JwtService     $jwtService,
 	) {}
+	public function hideUserCredentials (array $user): array {
+		unset($user['password']);
+		unset($user['accessToken']);
+		unset($user['refreshToken']);
+		return $user;
+	}
 
 	/**
 	 * @throws HttpException
@@ -20,7 +27,7 @@ class AuthService {
 	public function register (array $data): array {
 		$user = $this->userRepository->findOneByEmail($data['email']);
 		if ($user) {
-			throw new HttpException(StatusCode::BAD_REQUEST->value, "Email already exists");
+			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::EMAIL_ALREADY_EXISTS->value);
 		}
 		$user = $this->userRepository->create($data);
 		return $this->generateTokens($user);
@@ -32,10 +39,10 @@ class AuthService {
 	public function login (array $data): array {
 		$user = $this->userRepository->findOneByEmail($data['email']);
 		if (!$user) {
-			throw new HttpException(StatusCode::BAD_REQUEST->value, "Email does not exist");
+			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::EMAIL_DOES_NOT_EXIST->value);
 		}
 		if (!password_verify($data['password'], $user['password'])) {
-			throw new HttpException(StatusCode::BAD_REQUEST->value, "Password is incorrect");
+			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::PASSWORD_IS_INCORRECT->value);
 		}
 		return $this->generateTokens($user);
 	}
@@ -43,15 +50,12 @@ class AuthService {
 	/**
 	 * @throws HttpException
 	 */
-	public function getMe (string $userId) {
+	public function getMe (string $userId): array {
 		$user = $this->userRepository->findOne($userId);
 		if (!$user) {
-			throw new HttpException(StatusCode::BAD_REQUEST->value, "User does not exist");
+			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::USER_DOES_NOT_EXIST->value);
 		}
-		unset($user['password']);
-		unset($user['accessToken']);
-		unset($user['refreshToken']);
-		return $user;
+		return $this->hideUserCredentials($user);
 	}
 
 	/**
@@ -60,12 +64,12 @@ class AuthService {
 	public function logout (string $userId): array {
 		$user = $this->userRepository->findOne($userId);
 		if (!$user) {
-			throw new HttpException(StatusCode::BAD_REQUEST->value, "User does not exist");
+			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::USER_DOES_NOT_EXIST->value);
 		}
-		$this->userRepository->updateTokens($user['id'], [
+		$this->userRepository->update($user['id'], [
 			'accessToken' => '',
 			'refreshToken' => '',
-		]);
+		], $user);
 		return [
 			'accessToken' => '',
 			'refreshToken' => '',
@@ -77,23 +81,23 @@ class AuthService {
 	 * @throws Exception
 	 */
 	public function refreshTokens (array $data): array {
-		if(!$data['refreshToken']) {
-			throw new HttpException(StatusCode::BAD_REQUEST->value, "Refresh token is required");
+		if (!$data['refreshToken']) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::REFRESH_TOKEN_IS_INVALID->value);
 		}
 		$payload = $this->jwtService->verifyToken($data['refreshToken']);
 		$user = $this->userRepository->findOne($payload['userId']);
 		if (!$user) {
-			throw new HttpException(StatusCode::BAD_REQUEST->value, "User does not exist");
+			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::USER_DOES_NOT_EXIST->value);
 		}
-		if($user['refreshToken'] !== $data['refreshToken']) {
-			throw new HttpException(StatusCode::BAD_REQUEST->value, "Invalid refresh token");
+		if ($user['refreshToken'] !== $data['refreshToken']) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::REFRESH_TOKEN_IS_INVALID->value);
 		}
 		$accessToken = $this->jwtService->generateToken($user['id'], Token::ACCESS_TOKEN);
 		$refreshToken = $this->jwtService->generateToken($user['id'], Token::REFRESH_TOKEN);
-		$this->userRepository->updateTokens($user['id'], [
+		$this->userRepository->update($user['id'], [
 			'accessToken' => $accessToken,
 			'refreshToken' => $refreshToken,
-		]);
+		], $user);
 		return [
 			'accessToken' => $accessToken,
 			'refreshToken' => $refreshToken,
@@ -103,21 +107,19 @@ class AuthService {
 	/**
 	 * @param mixed $user
 	 * @return array
+	 * @throws HttpException
 	 */
 	public function generateTokens (mixed $user): array {
 		$accessToken = $this->jwtService->generateToken($user['id'], Token::ACCESS_TOKEN);
 		$refreshToken = $this->jwtService->generateToken($user['id'], Token::REFRESH_TOKEN);
-		$this->userRepository->updateTokens($user['id'], [
+		$this->userRepository->update($user['id'], [
 			'accessToken' => $accessToken,
 			'refreshToken' => $refreshToken,
-		]);
-		unset($user['password']);
-		unset($user['accessToken']);
-		unset($user['refreshToken']);
+		], $user);
 		return [
 			'accessToken' => $accessToken,
 			'refreshToken' => $refreshToken,
-			'user' => $user,
+			'user' => $this->hideUserCredentials($user),
 		];
 	}
 }

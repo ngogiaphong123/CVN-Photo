@@ -45,8 +45,8 @@ const formSchema = z
       .min(3, {
         message: 'Display name must be at least 3 characters',
       })
-      .max(32, {
-        message: 'Display name must be at most 32 characters',
+      .max(24, {
+        message: 'Display name must be at most 24 characters',
       }),
   })
   .refine(data => data.password === data.confirmPassword, {
@@ -163,7 +163,7 @@ export function Register() {
             className={
               form.formState.isSubmitting
                 ? 'bg-muted cursor-loading hover:bg-muted'
-                : 'bg-secondary hover:bg-primary'
+                : 'bg-primary hover:bg-opacity-60 text-white'
             }
             type="submit"
           >

@@ -17,8 +17,15 @@ class Router {
 	private static string $REPLACE_PATTERN = '([\w-]+)';
 	private array $routes = [];
 
-	public function __construct (private Request $request, private Response $response, private ContainerInterface $container) {}
+	public function __construct (private readonly Request $request, private readonly ContainerInterface $container) {}
 
+	/**
+	 * @throws NotFoundExceptionInterface
+	 * @throws NotFoundException
+	 * @throws ContainerExceptionInterface
+	 * @throws DependencyException
+	 * @throws HttpException
+	 */
 	public function get (string $path, array $middlewares = [], array $callbacks = []): Router {
 		$this->addRoute(HttpMethod::GET, $path, $middlewares, $callbacks);
 		return $this;

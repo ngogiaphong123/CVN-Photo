@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { Button } from '@components/ui/button'
+import { Button } from '@/components/ui/button'
 import { Icon } from '@iconify/react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -14,7 +14,7 @@ import {
 import { AppDispatch, useAppSelector } from '@redux/store'
 import { useDispatch } from 'react-redux'
 import { logout } from '@redux/slices/user.slice'
-import { useToast } from '@components/ui/use-toast'
+import { useToast } from '@/components/ui/use-toast'
 
 export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>()
@@ -39,7 +39,7 @@ export default function Navbar() {
     }
   }
   return (
-    <header className="flex items-center justify-between px-8 py-4 border-b">
+    <header className="flex items-center justify-between h-16 px-8 py-2 border-b">
       <div>
         <p className="text-primary">
           <Link to="/">WebPhoto</Link>
@@ -48,26 +48,20 @@ export default function Navbar() {
       <div className="flex items-center gap-4">
         <Button
           variant={'ghost'}
-          className="text-foreground hover:bg-muted hover:text-foreground"
+          className="text-foreground hover:bg-muted hover:text-primary"
         >
-          <div className="flex items-center gap-4 ">
+          <div className="flex items-center gap-4">
             <Icon icon="material-symbols:upload" width={24} />
             Upload
           </div>
         </Button>
         <div className="flex items-center">
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Button
-                className="flex items-center p-0 rounded-full"
-                variant={'ghost'}
-                size={'lg'}
-              >
+            <DropdownMenuTrigger className='p-0 rounded-full'>
                 <Avatar>
                   <AvatarImage src={user.avatar} />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
               <DropdownMenuLabel>Hi, {user.displayName}</DropdownMenuLabel>

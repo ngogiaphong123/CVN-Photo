@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@redux/store'
 import { login } from '@redux/slices/user.slice'
-import { useToast } from '@components/ui/use-toast'
+import { useToast } from '@/components/ui/use-toast'
 
 const formSchema = z.object({
   email: z.string().email({
@@ -115,7 +115,7 @@ export function Login() {
             className={
               form.formState.isSubmitting
                 ? 'bg-muted cursor-loading hover:bg-muted'
-                : 'bg:primary hover:bg-opacity-60'
+                : 'bg:primary hover:bg-opacity-60 text-white'
             }
             type="submit"
           >

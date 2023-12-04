@@ -41,4 +41,8 @@ class Request {
 	public function getHeader (string $string) {
 		return $_SERVER[$string] ?? NULL;
 	}
+
+	public function getFile (string $key) {
+		return $_FILES[$key] ?? NULL;
+	}
 }

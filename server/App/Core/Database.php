@@ -7,10 +7,7 @@ use PDO;
 
 class Database {
 	private static ?PDO $connection = NULL;
-	private Config $config;
-
-	public function __construct (Config $config) {
-		$this->config = $config;
+	public function __construct (private readonly Config $config) {
 		$config = $this->config::get('db');
 		$dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['database']}";
 		self::$connection = new PDO($dsn, $config['username'], $config['password']);

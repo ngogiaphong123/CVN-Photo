@@ -22,6 +22,7 @@
 		"php-di/php-di": "^7.0",
 		"ext-pdo": "*",
 		"ramsey/uuid": "^4.7",
-		"firebase/php-jwt": "^6.9"
+		"firebase/php-jwt": "^6.9",
+		"cloudinary/cloudinary_php": "^2"
 	}
 }
