@@ -20,9 +20,9 @@ class UserEntity extends BaseEntity {
 	public function __construct () {
 		parent::__construct();
 	}
-	public function build() : UserEntity {
-		$this->setCreatedAt(date('Y-m-d H:i:s'));
-		$this->setUpdatedAt(date('Y-m-d H:i:s'));
+
+	public function build (): UserEntity {
+		$this->setCreatedAt(date('Y-m-d H:i:s'))->setUpdatedAt(date('Y-m-d H:i:s'));
 		return $this;
 	}
 
@@ -39,7 +39,7 @@ class UserEntity extends BaseEntity {
 		], [
 			'email' => 'required|email',
 		]);
-		if(!empty($error)) {
+		if (!empty($error)) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, "Validation failed", $error);
 		}
 		$this->email = $email;
@@ -59,7 +59,7 @@ class UserEntity extends BaseEntity {
 		], [
 			'displayName' => 'required|min:3|max:24',
 		]);
-		if(!empty($error)) {
+		if (!empty($error)) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, "Validation failed", $error);
 		}
 		$this->displayName = $displayName;
@@ -70,12 +70,18 @@ class UserEntity extends BaseEntity {
 		return $this->password;
 	}
 
+	/**
+	 * @throws HttpException
+	 */
 	public function setPassword (string $password): UserEntity {
 		$error = Validator::validate([
 			'password' => $password,
 		], [
 			'password' => 'required|min:8|max:32',
 		]);
+		if (!empty($error)) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, "Validation failed", $error);
+		}
 		$this->password = password_hash($password, PASSWORD_DEFAULT);
 		return $this;
 	}
@@ -133,6 +139,7 @@ class UserEntity extends BaseEntity {
 		$this->updatedAt = $updatedAt;
 		return $this;
 	}
+
 	public function toArray (): array {
 		return [
 			'id' => $this->getId(),

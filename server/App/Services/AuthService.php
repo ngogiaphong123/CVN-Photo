@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Common\Enums\DefaultCategory;
 use App\Common\Enums\StatusCode;
 use App\Common\Enums\Token;
 use App\Common\Error\AuthError;
 use App\Exceptions\HttpException;
+use App\Repositories\CategoryRepository;
 use App\Repositories\UserRepository;
 use Exception;
 
@@ -13,6 +15,7 @@ class AuthService {
 	public function __construct (
 		private readonly UserRepository $userRepository,
 		private readonly JwtService     $jwtService,
+		private readonly CategoryRepository $categoryRepository,
 	) {}
 	public function hideUserCredentials (array $user): array {
 		unset($user['password']);
@@ -30,6 +33,20 @@ class AuthService {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::EMAIL_ALREADY_EXISTS->value);
 		}
 		$user = $this->userRepository->create($data);
+		$this->categoryRepository->create([
+			'name' => DefaultCategory::UNCATEGORIZED->value,
+			'memo' => '',
+			'url' => '',
+			'publicId' => '',
+			'userId' => $user['id'],
+		]);
+		$this->categoryRepository->create([
+			'name' => DefaultCategory::FAVORITE->value,
+			'memo' => '',
+			'url' => '',
+			'publicId' => '',
+			'userId' => $user['id'],
+		]);
 		return $this->generateTokens($user);
 	}
 
