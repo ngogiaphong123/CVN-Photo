@@ -14,14 +14,14 @@ class CategoryController {
 	/**
 	 * @throws HttpException
 	 */
-	public function create (): void {
+	public function createCategory (): void {
 		$this->response->response(StatusCode::CREATED->value, "Create category successfully", $this->categoryService->create($this->request->getBody(), $_SESSION['userId']));
 	}
 
 	/**
 	 * @throws HttpException
 	 */
-	public function update (): void {
+	public function updateCategory (): void {
 		$this->response->response(StatusCode::OK->value,
 			"Update category successfully",
 			$this->categoryService->update($this->request->getParam('categoryId'), $this->request->getBody(), $_SESSION['userId'])
@@ -41,7 +41,7 @@ class CategoryController {
 	/**
 	 * @throws HttpException
 	 */
-	public function delete (): void {
+	public function deleteCategory (): void {
 		$this->response->response(StatusCode::OK->value, "Delete category successfully", $this->categoryService->delete($this->request->getParam('categoryId'), $_SESSION['userId']));
 	}
 }

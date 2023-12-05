@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Common\Enums\StatusCode;
 use App\Common\Error\AuthError;
+use App\Common\Error\UploadError;
 use App\Core\Config;
 use App\Exceptions\HttpException;
 use App\Repositories\UserRepository;
@@ -21,7 +22,10 @@ class UserService {
 	/**
 	 * @throws HttpException
 	 */
-	public function uploadAvatar (array $file, string $userId): array {
+	public function uploadAvatar (array | null $file, string $userId): array {
+		if(!$file) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, UploadError::FILE_IS_REQUIRED->value);
+		}
 		$user = $this->userRepository->findOne($userId);
 		if (!$user) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::USER_DOES_NOT_EXIST->value);
@@ -31,8 +35,8 @@ class UserService {
 		}
 		if ($file["name"] === "" && $file["size"] === 0) {
 			$updatedUser = $this->userRepository->update($userId, [
-				"avatar" => $this->config::get('user')['default']['avatar'],
-				"avatarPublicId" => $this->config::get('user')['default']['avatarPublicId'],
+				"url" => $this->config::get('user')['default']['avatar'],
+				"publicId" => $this->config::get('user')['default']['avatarPublicId'],
 			], $user);
 			return $this->hideUserCredentials($updatedUser);
 		}

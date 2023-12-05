@@ -1,8 +1,13 @@
 <?php
 
 namespace App\Common\Validator;
-
+use DateTime;
 class Validator {
+	static function validateDate ($date, $format = 'Y-m-d H:i:s'): bool {
+		$dateTime = DateTime::createFromFormat($format, $date);
+		return $dateTime->format($format) === $date;
+	}
+
 	static function validate ($array, $rules): string {
 		$errors = [];
 		foreach ($rules as $key => $rule) {

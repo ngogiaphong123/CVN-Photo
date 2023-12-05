@@ -11,7 +11,7 @@ use Cloudinary\Api\Upload\UploadApi;
 class UploadService {
 	public function __construct (private readonly UploadApi $uploadApi) {}
 
-	private static int $MAX_FILE_SIZE = 1024 * 1024 * 2;
+	public static int $MAX_FILE_SIZE = 1024 * 1024 * 2;
 
 	/**
 	 * @throws HttpException
@@ -33,8 +33,8 @@ class UploadService {
 		}
 
 		return [
-			'avatar' => $result['secure_url'],
-			'avatarPublicId' => $result['public_id'],
+			'secureUrl' => $result['secure_url'],
+			'publicId' => $result['public_id'],
 		];
 	}
 

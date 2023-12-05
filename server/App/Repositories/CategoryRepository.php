@@ -41,7 +41,7 @@ class CategoryRepository implements IRepository {
 	 */
 	public function findOneByName (array $data) {
 		$categoryEntity = new CategoryEntity();
-		$categoryEntity->setName($data['name'])->setUserId($data['userId'])->build();
+		$categoryEntity->setName($data['name'] ?? "")->setUserId($data['userId'] ?? "")->build();
 		$query = "SELECT * FROM categories WHERE name = :name AND userId = :userId";
 		$statement = $this->database->getConnection()->prepare($query);
 		$statement->execute([
