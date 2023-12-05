@@ -33,7 +33,7 @@ CREATE TABLE `categories` (
   `updatedAt` datetime(3) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `categories_userId_fkey` (`userId`),
-  CONSTRAINT `categories_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `categories_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,7 +50,7 @@ CREATE TABLE `photoCategory` (
   PRIMARY KEY (`photoId`,`categoryId`),
   KEY `photoCategory_categoryId_fkey` (`categoryId`),
   CONSTRAINT `photoCategory_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `photoCategory_photoId_fkey` FOREIGN KEY (`photoId`) REFERENCES `photos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `photoCategory_photoId_fkey` FOREIGN KEY (`photoId`) REFERENCES `photos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -67,13 +67,14 @@ CREATE TABLE `photos` (
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `url` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `publicId` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `size` int NOT NULL,
+  `size` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `userId` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `takenAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updatedAt` datetime(3) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `photos_userId_fkey` (`userId`),
-  CONSTRAINT `photos_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `photos_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 --
@@ -109,4 +110,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-04 16:34:16
+-- Dump completed on 2023-12-05 15:36:02
