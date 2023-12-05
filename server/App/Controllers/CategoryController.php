@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use App\Common\Enums\StatusCode;
+use App\Common\Message\CategoryMessage;
 use App\Core\Request;
 use App\Core\Response;
+use App\Core\Session;
 use App\Exceptions\HttpException;
 use App\Services\CategoryService;
 
@@ -15,7 +17,7 @@ class CategoryController {
 	 * @throws HttpException
 	 */
 	public function createCategory (): void {
-		$this->response->response(StatusCode::CREATED->value, "Create category successfully", $this->categoryService->create($this->request->getBody(), $_SESSION['userId']));
+		$this->response->response(StatusCode::CREATED->value, CategoryMessage::CREATE_SUCCESSFULLY->value, $this->categoryService->create($this->request->getBody(), Session::get("userId")));
 	}
 
 	/**
@@ -23,8 +25,8 @@ class CategoryController {
 	 */
 	public function updateCategory (): void {
 		$this->response->response(StatusCode::OK->value,
-			"Update category successfully",
-			$this->categoryService->update($this->request->getParam('categoryId'), $this->request->getBody(), $_SESSION['userId'])
+			CategoryMessage::UPDATE_SUCCESSFULLY->value,
+			$this->categoryService->update($this->request->getParam('categoryId'), $this->request->getBody(), Session::get("userId"))
 		);
 	}
 
@@ -32,16 +34,17 @@ class CategoryController {
 	 * @throws HttpException
 	 */
 	public function findCategoryPhotos (): void {
-		$this->response->response(StatusCode::OK->value, "Get category photos successfully", $this->categoryService->findCategoryPhotos($this->request->getParam('categoryId'), $_SESSION['userId']));
+		$this->response->response(StatusCode::OK->value, CategoryMessage::GET_CATEGORY_PHOTO_SUCCESSFULLY->value, $this->categoryService->findCategoryPhotos($this->request->getParam('categoryId'), Session::get("userId")));
 	}
 
 	public function findUserCategories (): void {
-		$this->response->response(StatusCode::OK->value, "Get user categories successfully", $this->categoryService->findUserCategories($_SESSION['userId']));
+		$this->response->response(StatusCode::OK->value, CategoryMessage::GET_USER_CATEGORY_SUCCESSFULLY->value, $this->categoryService->findUserCategories(Session::get("userId")));
 	}
+
 	/**
 	 * @throws HttpException
 	 */
 	public function deleteCategory (): void {
-		$this->response->response(StatusCode::OK->value, "Delete category successfully", $this->categoryService->delete($this->request->getParam('categoryId'), $_SESSION['userId']));
+		$this->response->response(StatusCode::OK->value, CategoryMessage::DELETE_SUCCESSFULLY->value, $this->categoryService->delete($this->request->getParam('categoryId'), Session::get("userId")));
 	}
 }

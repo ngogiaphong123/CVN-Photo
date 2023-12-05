@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom'
 import { AppDispatch } from '@redux/store'
 import { useDispatch } from 'react-redux'
 import { register } from '@redux/slices/user.slice'
-import { useToast } from '../components/ui/use-toast'
+import { useToast } from '@components/ui/use-toast'
 
 const formSchema = z
   .object({
