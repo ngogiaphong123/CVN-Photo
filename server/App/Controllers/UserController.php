@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use App\Common\Enums\StatusCode;
+use App\Common\Message\UserMessage;
 use App\Core\Request;
 use App\Core\Response;
+use App\Core\Session;
 use App\Exceptions\HttpException;
 use App\Services\UserService;
 
@@ -15,8 +17,8 @@ class UserController {
 	 * @throws HttpException
 	 */
 	public function uploadAvatar (): void {
-		$this->response->response(StatusCode::OK->value, "Upload avatar successfully",
-			$this->userService->uploadAvatar($this->request->getFile('avatar'), $_SESSION['userId'])
+		$this->response->response(StatusCode::OK->value, UserMessage::UPLOAD_AVATAR_SUCCESSFULLY->value,
+			$this->userService->uploadAvatar($this->request->getFile('avatar'), Session::get("userId"))
 		);
 	}
 
@@ -24,8 +26,8 @@ class UserController {
 	 * @throws HttpException
 	 */
 	public function updateProfile (): void {
-		$this->response->response(StatusCode::OK->value, "Update profile successfully",
-			$this->userService->updateProfile($this->request->getBody(), $_SESSION['userId'])
+		$this->response->response(StatusCode::OK->value, UserMessage::UPDATE_PROFILE_SUCCESSFULLY->value,
+			$this->userService->updateProfile($this->request->getBody(), Session::get("userId"))
 		);
 	}
 }
