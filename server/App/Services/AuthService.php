@@ -54,7 +54,7 @@ class AuthService {
 	 * @throws HttpException
 	 */
 	public function login (array $data): array {
-		$user = $this->userRepository->findOneByEmail($data['email']);
+		$user = $this->userRepository->findOneByEmail($data['email'] ?? "");
 		if (!$user) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::EMAIL_DOES_NOT_EXIST->value);
 		}
@@ -98,7 +98,7 @@ class AuthService {
 	 * @throws Exception
 	 */
 	public function refreshTokens (array $data): array {
-		if (!$data['refreshToken']) {
+		if (!isset($data['refreshToken'])) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::REFRESH_TOKEN_IS_INVALID->value);
 		}
 		$payload = $this->jwtService->verifyToken($data['refreshToken']);

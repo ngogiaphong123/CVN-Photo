@@ -3,6 +3,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\AuthController;
 use App\Controllers\CategoryController;
+use App\Controllers\PhotoCategoryController;
+use App\Controllers\PhotoController;
 use App\Controllers\UserController;
 use App\Core\Application;
 use App\Core\Router;
@@ -27,7 +29,15 @@ $router->post("auth/register", [], [AuthController::class, 'register'])
 	->post("users/update-profile", [JwtGuard::class], [UserController::class, 'updateProfile'])
 	->get("categories", [JwtGuard::class], [CategoryController::class, 'findUserCategories'])
 	->get("categories/:categoryId/photos", [JwtGuard::class], [CategoryController::class, 'findCategoryPhotos'])
-	->post("categories", [JwtGuard::class], [CategoryController::class, 'create'])
-	->post("categories/:categoryId", [JwtGuard::class], [CategoryController::class, 'update'])
-	->delete("categories/:categoryId", [JwtGuard::class], [CategoryController::class, 'delete']);
+	->post("categories", [JwtGuard::class], [CategoryController::class, 'createCategory'])
+	->post("categories/:categoryId", [JwtGuard::class], [CategoryController::class, 'updateCategory'])
+	->delete("categories/:categoryId", [JwtGuard::class], [CategoryController::class, 'deleteCategory'])
+	->post("photos", [JwtGuard::class], [PhotoController::class, 'uploadPhotos'])
+	->post("photos/:photoId", [JwtGuard::class], [PhotoController::class, 'updatePhoto'])
+	->delete("photos/:photoId", [JwtGuard::class], [PhotoController::class, 'deletePhoto'])
+	->get("photos/:photoId", [JwtGuard::class], [PhotoController::class, 'findUserPhoto'])
+	->get("photos", [JwtGuard::class], [PhotoController::class, 'findUserPhotos'])
+	->post("photo-category", [JwtGuard::class], [PhotoCategoryController::class, 'addPhotoToCategory'])
+	->post("photo-category/delete", [JwtGuard::class], [PhotoCategoryController::class, 'removePhotoFromCategory']);
+
 $app->run();
