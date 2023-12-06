@@ -50,7 +50,7 @@ class PhotoService {
 			$this->photoCategoryRepository->addToUncategorized($photo['id'], $userId);
 			$photos[] = $photo;
 		}
-		return $photos;
+		return $this->findUserPhotos($userId);
 	}
 
 	/**
