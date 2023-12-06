@@ -67,7 +67,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="flex flex-col items-start h-full px-32 py-8">
+    <div className="flex flex-col items-start h-full pt-20">
       <AvatarDialog />
       <Form {...form}>
         <form className="w-8/12 pt-4" onSubmit={form.handleSubmit(onSubmit)}>

@@ -34,7 +34,7 @@ export default function Sidebar({ className }: { className?: string }) {
 
   return (
     <div className={cn('bg-white', className)}>
-      <div className="py-4 space-y-4">
+      <div className="pt-20 space-y-4">
         <div className="px-3 py-2">
           <div className="space-y-1">
             <Link
@@ -58,7 +58,7 @@ export default function Sidebar({ className }: { className?: string }) {
               </div>
             </Link>
 
-            <h2 className="mb-2 text-xl font-bold text-black">Photos</h2>
+            <h2 className="px-4 mb-2 text-xl font-bold text-black">Photos</h2>
             {sidebarItems.map(item => (
               <Link
                 key={item.href}
@@ -66,7 +66,7 @@ export default function Sidebar({ className }: { className?: string }) {
                 className={cn(
                   buttonVariants({ variant: 'ghost' }),
                   pathname === item.href
-                    ? 'text-primary hover:bg-muted hover:text-primary'
+                    ? 'text-primary hover:bg-muted hover:text-primary bg-muted'
                     : 'hover:bg-muted hover:text-primary',
                   'justify-start w-full text-left h-12',
                 )}

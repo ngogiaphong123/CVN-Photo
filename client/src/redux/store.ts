@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useSelector } from 'react-redux'
 import userSlice from './slices/user.slice'
+import photoSlice from './slices/photo.slice'
 
 export const store = configureStore({
   reducer: {
     user: userSlice.reducer,
+    photo: photoSlice.reducer,
   },
 })
 
