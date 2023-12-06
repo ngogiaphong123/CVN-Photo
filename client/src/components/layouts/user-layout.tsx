@@ -8,9 +8,9 @@ export default function UserLayout() {
     <div className="flex-col min-h-screen">
       <Navbar />
       <div className="flex flex-1">
-        <Sidebar className="w-2/12" />
+        <Sidebar className="flex justify-center w-2/12 border-r" />
         <ScrollArea className="w-full h-screen">
-            <Outlet/>
+          <Outlet />
         </ScrollArea>
       </div>
     </div>

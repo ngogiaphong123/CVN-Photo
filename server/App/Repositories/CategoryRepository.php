@@ -33,7 +33,7 @@ class CategoryRepository implements IRepository {
 			':createdAt' => $categoryEntity->getCreatedAt(),
 			':updatedAt' => $categoryEntity->getUpdatedAt(),
 		]);
-		return $this->findOne($categoryEntity->getId());
+		return $this->findUserCategories($categoryEntity->getUserId());
 	}
 
 	/**
@@ -54,6 +54,14 @@ class CategoryRepository implements IRepository {
 		}
 		return $result;
 	}
+	public function getNumPhotosInCategory (string $categoryId): int {
+		$query = "SELECT * FROM photoCategory WHERE categoryId = :categoryId";
+		$statement = $this->database->getConnection()->prepare($query);
+		$statement->execute([
+			':categoryId' => $categoryId,
+		]);
+		return $statement->rowCount();
+	}
 
 	public function findOne (string $id) {
 		$query = "SELECT * FROM categories WHERE id = :id";
@@ -65,6 +73,7 @@ class CategoryRepository implements IRepository {
 		if (!$result) {
 			return NULL;
 		}
+		$result['numPhotos'] = $this->getNumPhotosInCategory($result['id']);
 		return $result;
 	}
 
@@ -110,6 +119,9 @@ class CategoryRepository implements IRepository {
 		$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 		if (!$result) {
 			return [];
+		}
+		foreach ($result as $key => $value) {
+			$result[$key]['numPhotos'] = $this->getNumPhotosInCategory($value['id']);
 		}
 		return $result;
 	}

@@ -49,7 +49,7 @@ CREATE TABLE `photoCategory` (
   `categoryId` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`photoId`,`categoryId`),
   KEY `photoCategory_categoryId_fkey` (`categoryId`),
-  CONSTRAINT `photoCategory_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `photoCategory_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `photoCategory_photoId_fkey` FOREIGN KEY (`photoId`) REFERENCES `photos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

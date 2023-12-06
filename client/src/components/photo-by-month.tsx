@@ -12,7 +12,7 @@ export default function PhotoByMonth({
 
   return (
     <div className="flex flex-col justify-center gap-4 p-4">
-      <div className="text-2xl font-bold">
+      <div className="font-bold text-l md:text-2xl">
         {convertToMonth(dateFormatted.getMonth())} {dateFormatted.getFullYear()}{' '}
       </div>
       <div className="flex flex-wrap items-center justify-start gap-4">
@@ -20,7 +20,7 @@ export default function PhotoByMonth({
           <div className="" key={photo.id}>
             <img
               loading="lazy"
-              className="object-cover h-48 transition-all duration-200 ease-in-out shadow-lg hover:scale-105"
+              className="object-cover h-24 transition-all duration-200 ease-in-out shadow-lg hover:scale-105 md:h-48"
               src={photo.url}
               alt={photo.name}
             />

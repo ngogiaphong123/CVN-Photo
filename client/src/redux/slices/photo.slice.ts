@@ -3,18 +3,35 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { handleAxiosError, privateApi } from '@lib/axios'
 const initialState = {
   photos: [] as Photo[],
+  loading: true,
 }
 const photoSlice = createSlice({
   name: 'photo',
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(getPhotos.fulfilled, (state, action) => {
-      state.photos = action.payload
-    })
-    builder.addCase(uploadPhotos.fulfilled, (state, action) => {
-      state.photos = action.payload
-    })
+    builder
+      .addCase(uploadPhotos.pending, state => {
+        state.loading = true
+      })
+      .addCase(getPhotosInCategory.pending, state => {
+        state.loading = true
+      })
+      .addCase(getPhotos.pending, state => {
+        state.loading = true
+      })
+      .addCase(getPhotos.fulfilled, (state, action) => {
+        state.photos = action.payload
+        state.loading = false
+      })
+      .addCase(uploadPhotos.fulfilled, (state, action) => {
+        state.photos = action.payload
+        state.loading = false
+      })
+      .addCase(getPhotosInCategory.fulfilled, (state, action) => {
+        state.photos = action.payload
+        state.loading = false
+      })
   },
 })
 
@@ -47,5 +64,17 @@ export const uploadPhotos = createAsyncThunk(
     }
   },
 )
-
+export const getPhotosInCategory = createAsyncThunk(
+  'photo/getPhotosInCategory',
+  async (categoryId: string | undefined, { rejectWithValue }) => {
+    try {
+      if (!categoryId) return rejectWithValue('Category id is undefined')
+      const { data } = await privateApi.get(`/categories/${categoryId}/photos`)
+      return data.data
+    } catch (error) {
+      const { message } = handleAxiosError(error)
+      return rejectWithValue(message)
+    }
+  },
+)
 export default photoSlice

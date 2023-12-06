@@ -47,4 +47,11 @@ class CategoryController {
 	public function deleteCategory (): void {
 		$this->response->response(StatusCode::OK->value, CategoryMessage::DELETE_SUCCESSFULLY->value, $this->categoryService->delete($this->request->getParam('categoryId'), Session::get("userId")));
 	}
+
+	/**
+	 * @throws HttpException
+	 */
+	public function findOneCategory(): void {
+		$this->response->response(StatusCode::OK->value, CategoryMessage::GET_CATEGORY_SUCCESSFULLY->value, $this->categoryService->findOne($this->request->getParam('categoryId'), Session::get("userId")));
+	}
 }

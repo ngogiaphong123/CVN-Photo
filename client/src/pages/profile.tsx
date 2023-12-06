@@ -67,10 +67,10 @@ export default function Profile() {
   }
 
   return (
-    <div className="flex flex-col items-start h-full pt-20">
+    <div className="flex flex-col items-start h-full px-4 pt-20">
       <AvatarDialog />
       <Form {...form}>
-        <form className="w-8/12 pt-4" onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="w-full pt-4 md:w-8/12" onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-4">
             <FormField
               control={form.control}
@@ -105,10 +105,8 @@ export default function Profile() {
             />
             <Button
               className={cn(
-                form.formState.isSubmitting
-                  ? 'bg-muted cursor-loading hover:bg-muted '
-                  : 'bg-accent hover:bg-accent ',
-                'py-2 px-4 rounded-lg shadow-lg text-white w-2/12',
+                form.formState.isSubmitting ? '' : 'bg-accent hover:bg-accent ',
+                'py-2 px-4 rounded-lg shadow-lg text-white md:w-2/12',
               )}
               type="submit"
             >
