@@ -76,4 +76,15 @@ readonly class CategoryService {
 		}
 		return $category;
 	}
+
+	/**
+	 * @throws HttpException
+	 */
+	public function findOne (string $categoryId, string $userId) {
+		$category = $this->categoryRepository->findOne($categoryId);
+		if (!$category || $category['userId'] !== $userId) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::CATEGORY_NOT_FOUND->value);
+		}
+		return $category;
+	}
 }

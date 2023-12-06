@@ -88,7 +88,13 @@ export default function Navbar() {
               <DropdownMenuLabel>Hi, {user.displayName}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    navigate('/profile')
+                  }}
+                >
+                  Profile
+                </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={onLogout}>Log out</DropdownMenuItem>

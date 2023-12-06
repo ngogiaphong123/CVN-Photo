@@ -80,10 +80,10 @@ export default function AvatarDialog() {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </DialogTrigger>
-        <div className="flex flex-col">
+        <div className="flex flex-col justify-center">
           <p>{user.displayName}</p>
           <DialogTrigger>
-            <p className="font-bold text-accent">Change your profile photo</p>
+            <p className="font-bold text-primary">Change profile photo</p>
           </DialogTrigger>
         </div>
         <DialogContent>

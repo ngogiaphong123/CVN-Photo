@@ -19,3 +19,14 @@ export type Photo = {
   createdAt: string
   updatedAt: string
 }
+
+export type Category = {
+  id: string
+  name: string
+  memo: string
+  url: string
+  publicId: string
+  createdAt: string
+  updatedAt: string
+  numPhotos: number
+}
