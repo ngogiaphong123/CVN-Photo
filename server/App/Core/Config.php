@@ -19,7 +19,7 @@ class Config {
 				"default" => [
 					"avatar" => $_ENV['DEFAULT_AVATAR'],
 					"avatarPublicId" => $_ENV['DEFAULT_AVATAR_PUBLIC_ID'],
-				]
+				],
 			],
 			"jwt" => [
 				"privateKey" => $_ENV['JWT_PRIVATE_KEY'],

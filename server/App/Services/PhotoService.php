@@ -13,7 +13,8 @@ use App\Repositories\UserRepository;
 
 class PhotoService {
 
-	public function __construct ( private readonly PhotoRepository $photoRepository, private readonly UploadService $uploadService, private readonly UserRepository $userRepository, private PhotoCategoryRepository $photoCategoryRepository) {}
+	public function __construct (private readonly PhotoRepository $photoRepository, private readonly UploadService $uploadService, private readonly UserRepository $userRepository, private PhotoCategoryRepository $photoCategoryRepository) {}
+
 	/**
 	 * @throws HttpException
 	 */

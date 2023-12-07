@@ -54,6 +54,7 @@ class CategoryRepository {
 		}
 		return $result;
 	}
+
 	public function getNumPhotosInCategory (string $categoryId): int {
 		$query = "SELECT * FROM photoCategory WHERE categoryId = :categoryId";
 		$statement = $this->database->getConnection()->prepare($query);

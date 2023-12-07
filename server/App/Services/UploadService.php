@@ -31,7 +31,7 @@ class UploadService {
 		} catch (ApiError $e) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, $e->getMessage());
 		}
-        $result['secure_url'] = str_replace('upload/', 'upload/q_auto,f_auto/', $result['secure_url']);
+		$result['secure_url'] = str_replace('upload/', 'upload/q_auto,f_auto/', $result['secure_url']);
 		return [
 			'secureUrl' => $result['secure_url'],
 			'publicId' => $result['public_id'],

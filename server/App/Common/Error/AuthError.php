@@ -2,7 +2,7 @@
 
 namespace App\Common\Error;
 
-enum AuthError : string {
+enum AuthError: string {
 	case EMAIL_ALREADY_EXISTS = "Email already exists";
 	case EMAIL_DOES_NOT_EXIST = "Email does not exist";
 	case PASSWORD_IS_INCORRECT = "Password is incorrect";
