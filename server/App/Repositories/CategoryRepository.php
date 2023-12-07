@@ -7,7 +7,7 @@ use App\Entities\CategoryEntity;
 use App\Exceptions\HttpException;
 use PDO;
 
-class CategoryRepository implements IRepository {
+class CategoryRepository {
 	public function __construct (private readonly Database $database) {}
 
 	/**

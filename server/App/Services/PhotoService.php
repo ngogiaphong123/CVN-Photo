@@ -22,7 +22,6 @@ class PhotoService {
 		if (!$user) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::USER_DOES_NOT_EXIST->value);
 		}
-		$photos = [];
 		foreach ($data['type'] as $key => $value) {
 			if (!in_array($value, ['image/jpeg', 'image/png', 'image/jpg'])) {
 				throw new HttpException(StatusCode::BAD_REQUEST->value, UploadError::FILE_TYPE_IS_NOT_ALLOWED->value);
@@ -48,7 +47,6 @@ class PhotoService {
 				'description' => '',
 			]);
 			$this->photoCategoryRepository->addToUncategorized($photo['id'], $userId);
-			$photos[] = $photo;
 		}
 		return $this->findUserPhotos($userId);
 	}

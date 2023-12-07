@@ -26,11 +26,11 @@ const sidebarItems: SidebarItem[] = [
   //     icon: 'ri:memories-line',
   //     href: '/memories',
   //   },
-  {
-    title: 'Favorites',
-    icon: 'material-symbols:favorite',
-    href: '/favorites',
-  },
+//   {
+//     title: 'Favorites',
+//     icon: 'material-symbols:favorite',
+//     href: '/favorites',
+//   },
 ]
 let categoryItems: SidebarItem[] = []
 
