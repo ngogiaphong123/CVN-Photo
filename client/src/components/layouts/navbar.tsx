@@ -23,13 +23,24 @@ export default function Navbar() {
   const navigate = useNavigate()
   const user = useAppSelector(state => state.user).user
   const upload = async (input: FileList) => {
+    const result = await dispatch(uploadPhotos(input))
     toast({
       description: `Uploading your photos...`,
     })
-    await dispatch(uploadPhotos(input))
-    toast({
-      description: `Photos uploaded!`,
-    })
+    try {
+      if (result.meta.requestStatus === 'rejected')
+        throw new Error(result.payload)
+      toast({
+        description: `Uploaded your photos`,
+      })
+      navigate('/photos')
+    } catch (err: any) {
+      toast({
+        title: 'Oops!',
+        description: `${err.message}`,
+        variant: 'destructive',
+      })
+    }
   }
 
   const onLogout = async () => {

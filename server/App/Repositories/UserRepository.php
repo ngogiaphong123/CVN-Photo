@@ -8,7 +8,7 @@ use App\Entities\UserEntity;
 use App\Exceptions\HttpException;
 use PDO;
 
-class UserRepository implements IRepository {
+class UserRepository {
 	static string $tableName = 'users';
 
 	public function __construct (

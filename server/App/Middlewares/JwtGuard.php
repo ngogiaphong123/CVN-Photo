@@ -10,8 +10,7 @@ use App\Services\JwtService;
 use Exception;
 
 class JwtGuard extends BaseMiddleware {
-	public function __construct (private readonly Request $request, private readonly JwtService $jwtService) {
-	}
+	public function __construct (private readonly Request $request, private readonly JwtService $jwtService) {}
 
 	/**
 	 * @throws HttpException

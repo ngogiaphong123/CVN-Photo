@@ -26,11 +26,11 @@ const sidebarItems: SidebarItem[] = [
   //     icon: 'ri:memories-line',
   //     href: '/memories',
   //   },
-  {
-    title: 'Favorites',
-    icon: 'material-symbols:favorite',
-    href: '/favorites',
-  },
+  //   {
+  //     title: 'Favorites',
+  //     icon: 'material-symbols:favorite',
+  //     href: '/favorites',
+  //   },
 ]
 let categoryItems: SidebarItem[] = []
 
@@ -115,6 +115,10 @@ export default function Sidebar({ className }: { className?: string }) {
           >
             <div className="flex items-center justify-between gap-4">
               {' '}
+              <Icon
+                icon="material-symbols-light:category"
+                className="block w-8 h-8 mr-2 md:hidden"
+              />
               <div className="hidden text-xl md:flex">Category</div>
             </div>
           </Link>
@@ -133,7 +137,11 @@ export default function Sidebar({ className }: { className?: string }) {
               >
                 <div className="flex items-center justify-between gap-4">
                   {' '}
-                  <img className="w-8 h-8 mr-2 rounded-full" src={item.url} alt="" />
+                  <img
+                    className="w-8 h-8 mr-2 rounded-full"
+                    src={item.url}
+                    alt=""
+                  />
                   <div className="hidden lg:flex">{item.title}</div>
                 </div>
               </Link>

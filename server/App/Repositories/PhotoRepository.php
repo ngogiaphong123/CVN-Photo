@@ -7,7 +7,7 @@ use App\Entities\PhotoEntity;
 use App\Exceptions\HttpException;
 use PDO;
 
-class PhotoRepository implements IRepository {
+class PhotoRepository {
 
 	public function __construct (private readonly Database $database) {}
 

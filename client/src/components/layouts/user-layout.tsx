@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from './navbar'
 import Sidebar from './sidebar'
-import { ScrollArea } from '../ui/scroll-area'
+import { ScrollArea } from '@components/ui/scroll-area'
 
 export default function UserLayout() {
   return (
