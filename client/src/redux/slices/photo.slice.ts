@@ -11,9 +11,6 @@ const photoSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(uploadPhotos.pending, state => {
-        state.loading = true
-      })
       .addCase(getPhotosInCategory.pending, state => {
         state.loading = true
       })
@@ -52,6 +49,12 @@ export const uploadPhotos = createAsyncThunk(
   'photo/uploadPhotos',
   async (files: FileList, { rejectWithValue }) => {
     try {
+      for (let i = 0; i < files.length; i++) {
+        if (files[i].size > 1024 * 1024 * 2)
+          return rejectWithValue('File size is too large')
+        if (files[i].type !== 'image/jpeg' && files[i].type !== 'image/png')
+          return rejectWithValue('File type is not supported')
+      }
       const formData = new FormData()
       for (let i = 0; i < files.length; i++) {
         formData.append('photos[]', files[i])

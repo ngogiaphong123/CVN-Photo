@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { getPhotos } from '@redux/slices/photo.slice'
 import PhotoByMonth from '@components/photo-by-month'
 import { sortPhotosByMonthAndYear } from '@lib/helper'
-import PhotosSkeleton from '../components/layouts/photos-skeleton'
+import PhotosSkeleton from '@components/layouts/photos-skeleton'
 import { motion } from 'framer-motion'
 
 export function Photos() {

@@ -4,9 +4,9 @@ import { useParams } from 'react-router'
 import { getPhotosInCategory } from '@redux/slices/photo.slice'
 import { AppDispatch, useAppSelector } from '@redux/store'
 import { getCategory } from '@redux/slices/category.slice'
-import PhotosSkeleton from '../components/layouts/photos-skeleton'
+import PhotosSkeleton from '@components/layouts/photos-skeleton'
 import { motion } from 'framer-motion'
-import { Skeleton } from '../components/ui/skeleton'
+import { Skeleton } from '@components/ui/skeleton'
 
 export default function CategoryDetail() {
   const { categoryId } = useParams()
