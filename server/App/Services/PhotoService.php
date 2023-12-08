@@ -6,6 +6,7 @@ use App\Common\Enums\StatusCode;
 use App\Common\Error\AuthError;
 use App\Common\Error\PhotoError;
 use App\Common\Error\UploadError;
+use App\Common\Validator\Validator;
 use App\Exceptions\HttpException;
 use App\Repositories\PhotoCategoryRepository;
 use App\Repositories\PhotoRepository;
@@ -95,4 +96,14 @@ class PhotoService {
 		}
 		return $photo;
 	}
+    public function findUsersPhotoByPage (string $userId, string $page, string $limit): array {
+        $isValid =Validator::validateInteger([
+            'page' => $page,
+            'limit' => $limit,
+        ]);
+        if (!$isValid) {
+            throw new HttpException(StatusCode::BAD_REQUEST->value, PhotoError::INVALID_PAGE_OR_LIMIT->value);
+        }
+        return $this->photoRepository->findUsersPhotos($userId, $page, $limit);
+    }
 }

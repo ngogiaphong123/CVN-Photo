@@ -1,33 +1,21 @@
-import { AppDispatch, useAppSelector } from '@redux/store'
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { getPhotos } from '@redux/slices/photo.slice'
 import PhotoByMonth from '@components/photo-by-month'
 import { sortPhotosByMonthAndYear } from '@lib/helper'
 import PhotosSkeleton from '@components/layouts/photos-skeleton'
 import { motion } from 'framer-motion'
+import { usePhotos } from '../hooks/photo.hook'
 
 export function Photos() {
-  const photos = useAppSelector(state => state.photo).photos
-  const isLoading = useAppSelector(state => state.photo).loading
-  const dispatch = useDispatch<AppDispatch>()
-  const processedPhotos = sortPhotosByMonthAndYear(photos)
-
+  const { data, isLoading, isError } = usePhotos()
   const renderPhotos = () => {
-    if (isLoading) {
-      return <PhotosSkeleton />
-    }
-    if (photos.length === 0) {
+    if (isLoading && !data)
       return (
-        <div className="flex flex-col h-screen pt-20">
-          <div className="flex flex-col justify-center gap-4 p-4">
-            <div className="text-xl font-bold uppercase md:text-2xl text-accent">
-              No photos
-            </div>
-          </div>
+        <div className="pt-20">
+          <PhotosSkeleton />
         </div>
       )
-    }
+    if (isError) return <div>error</div>
+    if (!data) return <div>no data</div>
+    const processedPhotos = sortPhotosByMonthAndYear(data)
     return (
       <>
         {' '}
@@ -39,10 +27,6 @@ export function Photos() {
       </>
     )
   }
-
-  useEffect(() => {
-    dispatch(getPhotos())
-  }, [])
   return (
     <motion.div
       initial={{ opacity: 0 }}

@@ -15,25 +15,23 @@ import { AppDispatch, useAppSelector } from '@redux/store'
 import { useDispatch } from 'react-redux'
 import { logout } from '@redux/slices/user.slice'
 import { useToast } from '@/components/ui/use-toast'
-import { uploadPhotos } from '@redux/slices/photo.slice'
+import { useUploadPhoto } from '@/hooks/photo.hook'
 
 export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>()
   const { toast } = useToast()
   const navigate = useNavigate()
   const user = useAppSelector(state => state.user).user
+  const { mutateAsync: uploadNewPhotos } = useUploadPhoto()
   const upload = async (input: FileList) => {
-    const result = await dispatch(uploadPhotos(input))
     toast({
       description: `Uploading your photos...`,
     })
     try {
-      if (result.meta.requestStatus === 'rejected')
-        throw new Error(result.payload)
+      await uploadNewPhotos(input)
       toast({
-        description: `Uploaded your photos`,
+        description: `Uploaded photos!`,
       })
-      navigate('/photos')
     } catch (err: any) {
       toast({
         title: 'Oops!',
@@ -80,7 +78,7 @@ export default function Navbar() {
               type="file"
               className="hidden"
               onChange={e => {
-                if (!e.target.files) return
+                if (!e.target.files?.length) return
                 upload(e.target.files)
               }}
             />

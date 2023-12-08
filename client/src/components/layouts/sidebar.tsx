@@ -21,16 +21,6 @@ const sidebarItems: SidebarItem[] = [
     icon: 'solar:library-bold-duotone',
     href: '/photos',
   },
-  //   {
-  //     title: 'Memories',
-  //     icon: 'ri:memories-line',
-  //     href: '/memories',
-  //   },
-  //   {
-  //     title: 'Favorites',
-  //     icon: 'material-symbols:favorite',
-  //     href: '/favorites',
-  //   },
 ]
 let categoryItems: SidebarItem[] = []
 
@@ -74,7 +64,10 @@ export default function Sidebar({ className }: { className?: string }) {
                   <AvatarImage src={user.avatar} />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <div className="hidden lg:flex"> {user.displayName}</div>
+                <div className="hidden truncate lg:flex">
+                  {' '}
+                  {user.displayName}
+                </div>
               </div>
             </Link>
             <div className="flex items-center justify-between gap-4 px-4 py-2">
@@ -97,7 +90,7 @@ export default function Sidebar({ className }: { className?: string }) {
                 <div className="flex items-center justify-between gap-4">
                   {' '}
                   <Icon icon={item.icon} className="w-8 h-8 mr-2" />
-                  <div className="hidden lg:flex">{item.title}</div>
+                  <div className="hidden truncate lg:flex">{item.title}</div>
                 </div>
               </Link>
             ))}
@@ -119,7 +112,7 @@ export default function Sidebar({ className }: { className?: string }) {
                 icon="material-symbols-light:category"
                 className="block w-8 h-8 mr-2 md:hidden"
               />
-              <div className="hidden text-xl md:flex">Category</div>
+              <div className="hidden text-xl truncate md:flex">Category</div>
             </div>
           </Link>
           <div className="py-2">
@@ -132,7 +125,7 @@ export default function Sidebar({ className }: { className?: string }) {
                   pathname === item.href
                     ? 'text-primary hover:bg-muted hover:text-primary font-bold'
                     : 'hover:bg-muted hover:text-primary',
-                  'justify-start w-full text-left h-12',
+                  'justify-start text-left h-12 truncate w-full',
                 )}
               >
                 <div className="flex items-center justify-between gap-4">
@@ -142,7 +135,7 @@ export default function Sidebar({ className }: { className?: string }) {
                     src={item.url}
                     alt=""
                   />
-                  <div className="hidden lg:flex">{item.title}</div>
+                  <div className="hidden truncate lg:flex">{item.title}</div>
                 </div>
               </Link>
             ))}

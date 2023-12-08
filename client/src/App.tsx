@@ -10,6 +10,7 @@ import UserLayout from '@components/layouts/user-layout'
 import CategoryDetail from '@/pages/category-detail'
 import Category from '@pages/category'
 import { AnimatePresence } from 'framer-motion'
+import PhotoDetail from './pages/photo-detail'
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
                   element={<CategoryDetail />}
                 />
               </Route>
+              <Route path="photos/:photoId" element={<PhotoDetail />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
