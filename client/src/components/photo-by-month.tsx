@@ -17,15 +17,8 @@ export default function PhotoByMonth({
         {convertToMonth(dateFormatted.getMonth())} {dateFormatted.getFullYear()}{' '}
       </div>
       <div className="grid grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6">
-        {photos.map((photo, index) => (
-          <PhotoImage
-            photo={photo}
-            key={photo.id}
-            nextId={
-              index === photos.length - 1 ? undefined : photos[index + 1].id
-            }
-            prevId={index === 0 ? undefined : photos[index - 1].id}
-          />
+        {photos.map(photo => (
+          <PhotoImage photo={photo} key={photo.id} />
         ))}
       </div>
     </div>

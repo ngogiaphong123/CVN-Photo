@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { privateApi } from '@/lib/axios'
 import { Photo } from '@/redux/types/response.type'
-import { UpdatePhotoInput } from '../redux/types/request.type'
+import { UpdatePhotoInput } from '@redux/types/request.type'
 export const usePhotos = () => {
   return useQuery({
     queryKey: ['photos'],
