@@ -15,7 +15,6 @@ import { format } from 'date-fns'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -34,7 +33,7 @@ import { cn } from '@lib/utils'
 import { useUpdatePhoto } from '@/hooks/photo.hook'
 import { useState } from 'react'
 const schema = z.object({
-  dob: z.date({
+  takenAt: z.date({
     required_error: 'A date of birth is required.',
   }),
 })
@@ -46,7 +45,7 @@ export default function ChangDateDialog({ photo }: { photo: Photo }) {
     resolver: zodResolver(schema),
   })
   function onSubmit(data: z.infer<typeof schema>) {
-    const date = new Date(data.dob)
+    const date = new Date(data.takenAt)
     const tzOffset = new Date().getTimezoneOffset() * 60000
     const localISOTime = new Date(date.getTime() - tzOffset)
       .toISOString()
@@ -89,10 +88,10 @@ export default function ChangDateDialog({ photo }: { photo: Photo }) {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="dob"
+              name="takenAt"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Taken date:</FormLabel>
@@ -127,12 +126,11 @@ export default function ChangDateDialog({ photo }: { photo: Photo }) {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription></FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="text-white">
+            <Button type="submit" className="m-0 text-white">
               Submit
             </Button>
           </form>

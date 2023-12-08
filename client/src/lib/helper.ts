@@ -32,7 +32,7 @@ export const convertToMonth = (month: number) => {
     'July',
     'August',
     'September',
-    'Octobor',
+    'October',
     'November',
     'December',
   ]

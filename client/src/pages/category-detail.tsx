@@ -33,7 +33,7 @@ export default function CategoryDetail() {
           <div className="font-semi text-muted-foreground">
             Create at {new Date(category.createdAt).toDateString()}
           </div>
-          <div className="flex flex-wrap justify-between gap-4">
+          <div className="grid grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6">
             {photos.map(photo => (
               <PhotoImage photo={photo} />
             ))}

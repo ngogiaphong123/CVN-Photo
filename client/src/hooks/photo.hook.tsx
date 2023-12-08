@@ -71,3 +71,19 @@ export const useUpdatePhoto = (photoId: string) => {
     },
   })
 }
+
+export const useDeletePhoto = (photoId: string | undefined) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationKey: ['deletePhoto'],
+    mutationFn: async () => {
+      const { data } = await privateApi.delete(`/photos/${photoId}`)
+      return data.data as number
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['photos'],
+      })
+    },
+  })
+}
