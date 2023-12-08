@@ -6,10 +6,11 @@ use DateTime;
 
 class Validator {
 	static function validateDate ($date, $format = 'Y-m-d H:i:s'): bool {
+		$date = explode('.', $date)[0];
 		$dateTime = DateTime::createFromFormat($format, $date);
 		return $dateTime->format($format) === $date;
 	}
-    static function validateInteger(array $data) {
+    static function validateInteger(array $data): bool {
         foreach ($data as $key => $value) {
             if (!is_numeric($value) || intval($value) === 0) {
                 return false;

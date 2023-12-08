@@ -109,7 +109,6 @@ class PhotoEntity extends BaseEntity {
 	 * @throws HttpException
 	 */
 	public function setTakenAt (string $takenAt): PhotoEntity {
-		// verify date format
 		$ok = Validator::validateDate($takenAt);
 		if (!$ok) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, PhotoError::INVALID_DATE->value);

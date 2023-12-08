@@ -12,3 +12,9 @@ export type RegisterInput = {
 export type UpdateProfileInput = {
   displayName: string
 }
+
+export type UpdatePhotoInput = {
+  name?: string
+  description?: string
+  takenAt?: string
+}
