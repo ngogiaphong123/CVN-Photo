@@ -89,4 +89,15 @@ class PhotoRepository {
 		]);
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+    public function findUsersPhotos(string $userId, int $page, int $limit) {
+        $offset = ($page - 1) * $limit;
+        $query = "SELECT id, name, description, url, publicId, size, userId, takenAt, createdAt, updatedAt FROM photos WHERE userId = :userId LIMIT :limit OFFSET :offset";
+        $statement = $this->database->getConnection()->prepare($query);
+        $statement->bindValue(':userId', $userId, PDO::PARAM_STR);
+        $statement->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

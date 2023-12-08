@@ -9,6 +9,14 @@ class Validator {
 		$dateTime = DateTime::createFromFormat($format, $date);
 		return $dateTime->format($format) === $date;
 	}
+    static function validateInteger(array $data) {
+        foreach ($data as $key => $value) {
+            if (!is_numeric($value) || intval($value) === 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 	static function validate ($array, $rules): string {
 		$errors = [];

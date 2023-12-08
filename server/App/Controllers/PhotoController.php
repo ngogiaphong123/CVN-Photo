@@ -44,4 +44,11 @@ class PhotoController {
 	public function updatePhoto (): void {
 		$this->response->response(StatusCode::OK->value, PhotoMessage::UPDATE_PHOTO_SUCCESSFULLY->value, $this->photoService->update($this->request->getParam('photoId'), $this->request->getBody(), Session::get("userId")));
 	}
+
+    /**
+     * @throws HttpException
+     */
+    public function findUsersPhotoByPage(): void {
+        $this->response->response(StatusCode::OK->value, PhotoMessage::GET_USER_PHOTOS_SUCCESSFULLY->value, $this->photoService->findUsersPhotoByPage(Session::get("userId"), $this->request->getParam('page'), $this->request->getParam('limit')));
+    }
 }
