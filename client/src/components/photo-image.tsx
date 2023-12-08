@@ -1,9 +1,17 @@
 import { Photo } from '@redux/types/response.type'
 import { Link } from 'react-router-dom'
 
-export default function PhotoImage({ photo }: { photo: Photo }) {
+export default function PhotoImage({
+  photo,
+  nextId,
+  prevId,
+}: {
+  photo: Photo
+  nextId?: string
+  prevId?: string
+}) {
   return (
-    <Link to={`/photos/${photo.id}`}>
+    <Link to={`/photos/${photo.id}`} state={{ nextId: nextId, prevId: prevId }}>
       <img
         key={photo.id}
         loading="lazy"

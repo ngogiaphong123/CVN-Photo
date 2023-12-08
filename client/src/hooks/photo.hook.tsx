@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { privateApi } from '@/lib/axios'
 import { Photo } from '@/redux/types/response.type'
+import { UpdatePhotoInput } from '../redux/types/request.type'
 export const usePhotos = () => {
   return useQuery({
     queryKey: ['photos'],
@@ -42,10 +43,31 @@ export const useUploadPhoto = () => {
 
 export const usePhoto = (photoId: string | undefined) => {
   return useQuery({
-    queryKey: ['photo', photoId],
+    queryKey: [`${photoId}`],
     queryFn: async () => {
       const { data } = await privateApi.get(`/photos/${photoId}`)
       return data.data as Photo
+    },
+    retry: false,
+  })
+}
+
+export const useUpdatePhoto = (photoId: string) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationKey: ['updatePhoto'],
+    mutationFn: async (updateInput: UpdatePhotoInput) => {
+      const formData = new FormData()
+      for (const [key, value] of Object.entries(updateInput)) {
+        formData.append(key, value)
+      }
+      const { data } = await privateApi.post(`/photos/${photoId}`, formData)
+      return data.data as Photo
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [`${photoId}`],
+      })
     },
   })
 }

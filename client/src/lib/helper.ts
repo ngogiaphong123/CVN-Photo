@@ -1,7 +1,7 @@
 import { Photo } from '@redux/types/response.type'
 
 export const sortPhotosByMonthAndYear = (photos: Photo[]) => {
-  const photosByYearAndMonth = new Map<string, Photo[]>()
+  const photosByYearAndMonth = new Map<string, Photo[]>()   
   photos.forEach(photo => {
     const date = new Date(photo.takenAt)
     const year = date.getFullYear()

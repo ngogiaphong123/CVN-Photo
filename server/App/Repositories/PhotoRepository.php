@@ -82,7 +82,8 @@ class PhotoRepository {
 	}
 
 	public function findUserPhotos (string $userId): array {
-		$query = "SELECT id, name, description, url, publicId, size, userId, takenAt, createdAt, updatedAt FROM photos WHERE userId = :userId";
+		$query = "SELECT id, name, description, url, publicId, size, userId, takenAt, createdAt, updatedAt FROM photos WHERE userId = :userId 
+        ORDER BY takenAt DESC";
 		$statement = $this->database->getConnection()->prepare($query);
 		$statement->execute([
 			':userId' => $userId,
@@ -92,7 +93,7 @@ class PhotoRepository {
 
     public function findUsersPhotos(string $userId, int $page, int $limit) {
         $offset = ($page - 1) * $limit;
-        $query = "SELECT id, name, description, url, publicId, size, userId, takenAt, createdAt, updatedAt FROM photos WHERE userId = :userId LIMIT :limit OFFSET :offset";
+        $query = "SELECT id, name, description, url, publicId, size, userId, takenAt, createdAt, updatedAt FROM photos WHERE userId = :userId LIMIT :limit OFFSET :offset ORDER BY takenAt DESC";
         $statement = $this->database->getConnection()->prepare($query);
         $statement->bindValue(':userId', $userId, PDO::PARAM_STR);
         $statement->bindValue(':limit', $limit, PDO::PARAM_INT);

@@ -2,7 +2,7 @@ import PhotoByMonth from '@components/photo-by-month'
 import { sortPhotosByMonthAndYear } from '@lib/helper'
 import PhotosSkeleton from '@components/layouts/photos-skeleton'
 import { motion } from 'framer-motion'
-import { usePhotos } from '../hooks/photo.hook'
+import { usePhotos } from '@/hooks/photo.hook'
 
 export function Photos() {
   const { data, isLoading, isError } = usePhotos()
