@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react'
+import { Link } from 'react-router-dom'
 
 export default function Footer() {
   return (
@@ -10,8 +11,12 @@ export default function Footer() {
         </div>
       </div>
       <div className="flex gap-4">
-        <Icon icon="skill-icons:instagram" />
-        <Icon icon="logos:facebook" />
+        <Link to="https://www.instagram.com/giaphong.ngo13/">
+          <Icon icon="skill-icons:instagram" />
+        </Link>
+        <Link to="https://www.facebook.com/giaphong.ngo.13/">
+          <Icon icon="logos:facebook" />
+        </Link>
         <Icon icon="openmoji:youtube" />
         <i></i>
       </div>

@@ -5,7 +5,7 @@ import {
   useRemovePhotoFromCategory,
 } from '../hooks/category.hook'
 import { useEffect, useState } from 'react'
-import { renderPhotoDetailIcon } from '../lib/helper'
+import { renderPhotoDetailIcon } from '@lib/helper'
 
 export default function PhotoImage({
   photo,

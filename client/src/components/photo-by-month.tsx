@@ -1,7 +1,7 @@
 import { Photo } from '@redux/types/response.type'
 import { convertToMonth } from '@lib/helper'
 import PhotoImage from '@/components/photo-image'
-import { useAppSelector } from '../redux/store'
+import { useAppSelector } from '@redux/store'
 
 export default function PhotoByMonth({
   date,

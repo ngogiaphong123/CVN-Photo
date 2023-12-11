@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import DeletePhotoDialog from './dialog/delete-photo-dialog'
-import { renderPhotoDetailIcon } from '../lib/helper'
+import DeletePhotoDialog from '@components/dialog/delete-photo-dialog'
+import { renderPhotoDetailIcon } from '@lib/helper'
 import {
   useAddPhotoToCategory,
   useRemovePhotoFromCategory,

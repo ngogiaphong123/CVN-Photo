@@ -3,11 +3,11 @@ import { Cloudinary } from '@cloudinary/url-gen'
 import { useParams } from 'react-router-dom'
 import { NotFound } from '@/pages/not-found'
 import PhotoInfo from '@components/photo-info'
-import PhotoImageDetail from '../components/photo-image-detail'
+import PhotoImageDetail from '@components/photo-image-detail'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { AppDispatch, useAppSelector } from '../redux/store'
-import { getCategories } from '../redux/slices/category.slice'
+import { AppDispatch, useAppSelector } from '@redux/store'
+import { getCategories } from '@redux/slices/category.slice'
 
 export default function PhotoDetail() {
   const { photoId } = useParams()
