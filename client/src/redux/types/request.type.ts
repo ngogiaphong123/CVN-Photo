@@ -18,3 +18,15 @@ export type UpdatePhotoInput = {
   description?: string
   takenAt?: string
 }
+
+export type CreateCategoryInput = {
+  name: string
+  memo: string
+  url: string
+  publicId: string
+}
+
+export type UpdateCategoryInput = {
+  name?: string
+  memo?: string
+}

@@ -1,8 +1,8 @@
-import { Button } from '@components/ui/button'
 import { Separator } from '@components/ui/separator'
 import { useAppSelector } from '@redux/store'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import CreateCategoryDialog from '../components/dialog/create-category-dialog'
 
 export default function Category() {
   const categories = useAppSelector(state => state.category).categories.filter(
@@ -20,9 +20,8 @@ export default function Category() {
       <div className="flex items-center justify-between px-8 pb-4">
         <p className="text-xl text-primary">Category</p>
         <div>
-          <Button className="text-accent" variant={'ghost'} size="lg">
-            Create category
-          </Button>
+          {' '}
+          <CreateCategoryDialog />
         </div>
       </div>
       <Separator />
@@ -31,15 +30,15 @@ export default function Category() {
           <Link key={category.id} to={`/category/${category.id}`} className="">
             <div
               key={category.id}
-              className="flex flex-col items-center justify-center gap-2 h-72"
+              className="flex flex-col items-center justify-center gap-1 h-72"
             >
               <img
                 src={category.url}
                 alt={category.name}
                 className="h-64 transition-all duration-200 ease-in-out rounded-lg hover:rounded-none"
               />
-              <div className="text-black">{category.name}</div>
-              <div className="text-black">{category.numPhotos}</div>
+              <div className="w-full text-center text-black truncate">{category.name}</div>
+              <div className="text-gray-700">{category.numPhotos}</div>
             </div>
           </Link>
         ))}

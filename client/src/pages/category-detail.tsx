@@ -5,7 +5,8 @@ import { Skeleton } from '@components/ui/skeleton'
 import { useCategory, useCategoryPhotos } from '@/hooks/category.hook'
 import PhotoImage from '@/components/photo-image'
 import { useAppSelector } from '@/redux/store'
-
+import UpdateCategoryNameForm from '@components/form/update-category-name-form'
+import UpdateCategoryMemoForm from '@components/form/update-category-memo-form'
 export default function CategoryDetail() {
   const { categoryId } = useParams()
   const { data: category } = useCategory(categoryId)
@@ -25,13 +26,11 @@ export default function CategoryDetail() {
       )
     }
     if (!photos || !category) return <div>no data</div>
-
     return (
       <div className="flex flex-col h-screen pt-20">
-        <div className="flex flex-col justify-center gap-4 p-4">
-          <div className="flex text-xl font-bold uppercase md:text-2xl text-accent">
-            {category.name} - {category.numPhotos} photos
-          </div>
+        <div className="flex flex-col justify-center gap-4 p-8">
+          <UpdateCategoryNameForm category={category} />
+          <UpdateCategoryMemoForm category={category} />
           <div className="font-semi text-muted-foreground">
             Create at {new Date(category.createdAt).toDateString()}
           </div>

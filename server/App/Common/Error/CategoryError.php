@@ -9,4 +9,5 @@ enum CategoryError: string {
 	case CANNOT_REMOVE_FROM_UNCATEGORIZED = 'Cannot remove photo from Uncategorized category';
 	case PHOTO_ALREADY_IN_CATEGORY = 'Photo already in category';
 	case PHOTO_NOT_IN_CATEGORY = 'Photo not in category';
+	case INVALID_PAGE_OR_LIMIT = 'Invalid page or limit';
 }

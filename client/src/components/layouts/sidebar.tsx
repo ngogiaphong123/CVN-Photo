@@ -7,8 +7,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useEffect } from 'react'
 import { getCategories } from '@redux/slices/category.slice'
 import { useDispatch } from 'react-redux'
+import CategorySidebar from './category-sidebar'
 
-type SidebarItem = {
+export type SidebarItem = {
   id?: string
   title: string
   icon: string
@@ -69,19 +70,16 @@ export default function Sidebar({ className }: { className?: string }) {
                 pathname === '/profile'
                   ? 'text-primary hover:bg-muted hover:text-primary font-bold'
                   : 'hover:bg-muted hover:text-primary',
-                'justify-start w-full text-left h-12',
+                'justify-start truncate w-[95%] text-left h-12',
               )}
             >
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center justify-between gap-4 ">
                 {' '}
                 <Avatar className="w-8 h-8">
                   <AvatarImage src={user.avatar} />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <div className="hidden truncate lg:flex">
-                  {' '}
-                  {user.displayName}
-                </div>
+                <div className="hidden lg:flex"> {user.displayName}</div>
               </div>
             </Link>
             <div className="flex items-center justify-between gap-4 px-4 py-2">
@@ -98,13 +96,13 @@ export default function Sidebar({ className }: { className?: string }) {
                   pathname === item.href
                     ? 'text-primary hover:bg-muted hover:text-primary font-bold'
                     : 'hover:bg-muted hover:text-primary',
-                  'justify-start w-full text-left h-12',
+                  'justify-start truncate w-[95%] text-left h-12',
                 )}
               >
                 <div className="flex items-center justify-between gap-4">
                   {' '}
                   <Icon icon={item.icon} className="w-8 h-8 mr-2" />
-                  <div className="hidden truncate lg:flex">{item.title}</div>
+                  <p className="hidden lg:inline-block">{item.title}</p>
                 </div>
               </Link>
             ))}
@@ -117,7 +115,7 @@ export default function Sidebar({ className }: { className?: string }) {
               pathname === '/category'
                 ? 'text-primary hover:bg-muted hover:text-primary font-bold'
                 : 'hover:bg-muted hover:text-primary',
-              'justify-start w-full text-left h-12',
+              'justify-start truncate w-[95%] text-left h-12',
             )}
           >
             <div className="flex items-center justify-between gap-4">
@@ -129,29 +127,9 @@ export default function Sidebar({ className }: { className?: string }) {
               <div className="hidden text-xl truncate md:flex">Category</div>
             </div>
           </Link>
-          <div className="py-2">
+          <div className="flex flex-col w-full py-2">
             {categoryItems.map(item => (
-              <Link
-                key={item.href}
-                to={item.href}
-                className={cn(
-                  buttonVariants({ variant: 'ghost' }),
-                  pathname === item.href
-                    ? 'text-primary hover:bg-muted hover:text-primary font-bold'
-                    : 'hover:bg-muted hover:text-primary',
-                  'justify-start text-left h-12 truncate w-full',
-                )}
-              >
-                <div className="flex items-center justify-between gap-4">
-                  {' '}
-                  <img
-                    className="w-8 h-8 mr-2 rounded-full"
-                    src={item.url}
-                    alt=""
-                  />
-                  <div className="hidden truncate lg:flex">{item.title}</div>
-                </div>
-              </Link>
+              <CategorySidebar key={item.href} item={item} />
             ))}
           </div>
         </div>

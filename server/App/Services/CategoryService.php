@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Common\Enums\DefaultCategory;
 use App\Common\Enums\StatusCode;
 use App\Common\Error\CategoryError;
+use App\Common\Validator\Validator;
 use App\Exceptions\HttpException;
 use App\Repositories\CategoryRepository;
 
@@ -86,5 +87,41 @@ readonly class CategoryService {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::CATEGORY_NOT_FOUND->value);
 		}
 		return $category;
+	}
+
+	/**
+	 * @throws HttpException
+	 */
+	public function findCategoryPhotosByPage (string $categoryId, string $userId, string $page, string $limit) : array {
+		$isValid = Validator::validateInteger([
+			'page' => $page,
+			'limit' => $limit,
+		]);
+		if (!$isValid) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::INVALID_PAGE_OR_LIMIT->value);
+		}
+		$category = $this->categoryRepository->findOne($categoryId);
+		if (!$category || $category['userId'] !== $userId) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::CATEGORY_NOT_FOUND->value);
+		}
+		return $this->categoryRepository->findCategoryPhotosByPage($categoryId, $page, $limit);
+	}
+
+	/**
+	 * @throws HttpException
+	 */
+	public function findPhotosNotInCategoryByPage (string $categoryId, string $userId, string $page, string $limit): array {
+		$isValid = Validator::validateInteger([
+			'page' => $page,
+			'limit' => $limit,
+		]);
+		if (!$isValid) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::INVALID_PAGE_OR_LIMIT->value);
+		}
+		$category = $this->categoryRepository->findOne($categoryId);
+		if (!$category || $category['userId'] !== $userId) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::CATEGORY_NOT_FOUND->value);
+		}
+		return $this->categoryRepository->findPhotosNotInCategoryByPage($categoryId, $page, $limit, $userId);
 	}
 }

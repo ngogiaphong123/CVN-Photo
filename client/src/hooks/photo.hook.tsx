@@ -90,7 +90,7 @@ export const useDeletePhoto = (photoId: string | undefined) => {
 }
 
 export const useGetPhotosByPage = () => {
-  const LIMIT = 20
+  const LIMIT = 1
 
   return useInfiniteQuery({
     queryKey: ['infinitePhotos'],
