@@ -3,16 +3,21 @@ import { Category } from '@redux/types/response.type'
 import { handleAxiosError, privateApi } from '@lib/axios'
 const initialState = {
   categories: [] as Category[],
+  favoriteCategory: {} as Category,
 }
 const categorySlice = createSlice({
   name: 'category',
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder
-      .addCase(getCategories.fulfilled, (state, action) => {
-        state.categories = action.payload
-      })
+    builder.addCase(getCategories.fulfilled, (state, action) => {
+      state.categories = action.payload
+      for (const category of state.categories) {
+        if (category.name === 'favorite') {
+          state.favoriteCategory = category
+        }
+      }
+    })
   },
 })
 export const getCategories = createAsyncThunk(

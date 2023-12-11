@@ -18,7 +18,7 @@ type SidebarItem = {
 const sidebarItems: SidebarItem[] = [
   {
     title: 'Photos',
-    icon: 'solar:library-bold-duotone',
+    icon: 'material-symbols-light:photo-library-rounded',
     href: '/photos',
   },
 ]
@@ -28,7 +28,21 @@ export default function Sidebar({ className }: { className?: string }) {
   const location = useLocation()
   const { pathname } = location
   const user = useAppSelector(state => state.user).user
-  const categories = useAppSelector(state => state.category).categories
+  const categories = useAppSelector(state => state.category).categories.filter(
+    category => {
+      if (category.name === 'favorite') {
+        if (sidebarItems.find(item => item.title === 'Favorite')) return false
+        sidebarItems.push({
+          title: 'Favorite',
+          icon: 'material-symbols-light:favorite-rounded',
+          href: `/category/${category.id}`,
+          url: category.url,
+        })
+        return false
+      }
+      return category.name !== 'favorite' && category.name !== 'uncategorized'
+    },
+  )
   categoryItems = categories.map(category => {
     return {
       title: category.name,

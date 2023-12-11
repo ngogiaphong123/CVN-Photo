@@ -14,6 +14,7 @@ class PhotoRepository {
 	/**
 	 * @param array $data ['name', 'description', 'url', 'publicId', 'userId']
 	 * @return mixed|null
+	 * @throws HttpException
 	 */
 	public function create (array $data): mixed {
 		$photoEntity = new PhotoEntity();
@@ -56,8 +57,8 @@ class PhotoRepository {
 		$photoEntity = new PhotoEntity();
 		$photoEntity->setName($data['name'] ?? $originalData['name'])->setUrl($data['url'] ?? $originalData['url'])->setPublicId($data['publicId'] ?? $originalData['publicId'])
 			->setSize($data['size'] ?? $originalData['size'])->setUserId($data['userId'] ?? $originalData['userId'])->setDescription($data['description'] ?? $originalData['description'])
-			->setTakenAt($data['takenAt'] ?? $originalData['takenAt'])->build();
-		$query = "UPDATE photos SET name = :name, description = :description, url = :url, publicId = :publicId, size = :size, updatedAt = :updatedAt, takenAt = :takenAt WHERE id = :id";
+			->setTakenAt($data['takenAt'] ?? $originalData['takenAt'])->setIsFavorite($data['isFavorite'] ?? $originalData['isFavorite'])->build();
+		$query = "UPDATE photos SET name = :name, description = :description, url = :url, publicId = :publicId, size = :size, updatedAt = :updatedAt, takenAt = :takenAt, isFavorite = :isFavorite WHERE id = :id";
 		$statement = $this->database->getConnection()->prepare($query);
 		$statement->execute([
 			':id' => $id,
@@ -68,6 +69,7 @@ class PhotoRepository {
 			':size' => $photoEntity->getSize(),
 			':updatedAt' => $photoEntity->getUpdatedAt(),
 			':takenAt' => $photoEntity->getTakenAt(),
+			':isFavorite' => $photoEntity->getIsFavorite() ? 1 : 0,
 		]);
 		return $this->findOne($id);
 	}
@@ -82,7 +84,7 @@ class PhotoRepository {
 	}
 
 	public function findUserPhotos (string $userId): array {
-		$query = "SELECT id, name, description, url, publicId, size, userId, takenAt, createdAt, updatedAt FROM photos WHERE userId = :userId 
+		$query = "SELECT * FROM photos WHERE userId = :userId 
         ORDER BY takenAt DESC";
 		$statement = $this->database->getConnection()->prepare($query);
 		$statement->execute([
@@ -91,9 +93,9 @@ class PhotoRepository {
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-    public function findUsersPhotos(string $userId, int $page, int $limit) {
+    public function findUsersPhotos(string $userId, int $page, int $limit): false|array {
         $offset = ($page - 1) * $limit;
-        $query = "SELECT id, name, description, url, publicId, size, userId, takenAt, createdAt, updatedAt FROM photos WHERE userId = :userId LIMIT :limit OFFSET :offset ORDER BY takenAt DESC";
+        $query = "SELECT * FROM photos WHERE userId = :userId ORDER BY takenAt DESC LIMIT :limit OFFSET :offset";
         $statement = $this->database->getConnection()->prepare($query);
         $statement->bindValue(':userId', $userId, PDO::PARAM_STR);
         $statement->bindValue(':limit', $limit, PDO::PARAM_INT);
@@ -101,4 +103,22 @@ class PhotoRepository {
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+	public function findUserPhoto (string $id, string $userId): array {
+		$query = "SELECT * FROM photos WHERE id = :id AND userId = :userId";
+		$statement = $this->database->getConnection()->prepare($query);
+		$statement->execute([
+			':id' => $id,
+			':userId' => $userId,
+		]);
+		$result = $statement->fetch(PDO::FETCH_ASSOC);
+		if (!$result) {
+			return [];
+		}
+		$photos = $this->findUserPhotos($userId);
+		$index = array_search($result, $photos);
+		$result['previous'] = $photos[$index - 1]['id'] ?? NULL;
+		$result['next'] = $photos[$index + 1]['id'] ?? NULL;
+		return $result;
+	}
 }
