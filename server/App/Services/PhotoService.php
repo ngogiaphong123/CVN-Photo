@@ -90,13 +90,17 @@ class PhotoService {
 	 * @throws HttpException
 	 */
 	public function findUserPhoto (string $id, string $userId): array {
-		$photo = $this->photoRepository->findOne($id);
+		$photo = $this->photoRepository->findUserPhoto($id, $userId);
 		if (!$photo || $photo['userId'] !== $userId) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, PhotoError::PHOTO_NOT_FOUND->value);
 		}
 		return $photo;
 	}
-    public function findUsersPhotoByPage (string $userId, string $page, string $limit): array {
+
+	/**
+	 * @throws HttpException
+	 */
+	public function findUsersPhotoByPage (string $userId, string $page, string $limit): array {
         $isValid =Validator::validateInteger([
             'page' => $page,
             'limit' => $limit,

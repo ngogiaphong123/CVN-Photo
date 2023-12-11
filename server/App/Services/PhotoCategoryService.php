@@ -38,6 +38,11 @@ readonly class PhotoCategoryService {
 	public function addPhotoToCategory (array $data, string $userId): array {
 		$result = $this->checkPhotoCategoryOwner($data, $userId);
 		$found = $this->photoCategoryRepository->findOne($result['photo']['id'] ?? '', $result['category']['id'] ?? '');
+		if ($result['category']['name'] === DefaultCategory::FAVORITE->value) {
+			$this->photoRepository->update($result['photo']['id'], [
+				'isFavorite' => true,
+			], $result['photo']);
+		}
 		if ($found) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::PHOTO_ALREADY_IN_CATEGORY->value);
 		}
@@ -56,6 +61,11 @@ readonly class PhotoCategoryService {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::CANNOT_REMOVE_FROM_UNCATEGORIZED->value);
 		}
 		$found = $this->photoCategoryRepository->findOne($result['photo']['id'] ?? '', $result['category']['id'] ?? '');
+		if($result['category']['name'] === DefaultCategory::FAVORITE->value) {
+			$this->photoRepository->update($result['photo']['id'], [
+				'isFavorite' => false,
+			], $result['photo']);
+		}
 		if (!$found) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::PHOTO_NOT_IN_CATEGORY->value);
 		}

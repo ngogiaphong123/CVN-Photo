@@ -4,12 +4,13 @@ import { motion } from 'framer-motion'
 import { Skeleton } from '@components/ui/skeleton'
 import { useCategory, useCategoryPhotos } from '@/hooks/category.hook'
 import PhotoImage from '@/components/photo-image'
+import { useAppSelector } from '@/redux/store'
 
 export default function CategoryDetail() {
   const { categoryId } = useParams()
   const { data: category } = useCategory(categoryId)
   const { data: photos, isLoading, isError } = useCategoryPhotos(categoryId)
-
+  const favorite = useAppSelector(state => state.category.favoriteCategory)
   const renderPage = () => {
     if (isError) return <div>error</div>
     if (isLoading && !photos) {
@@ -24,6 +25,7 @@ export default function CategoryDetail() {
       )
     }
     if (!photos || !category) return <div>no data</div>
+
     return (
       <div className="flex flex-col h-screen pt-20">
         <div className="flex flex-col justify-center gap-4 p-4">
@@ -33,9 +35,16 @@ export default function CategoryDetail() {
           <div className="font-semi text-muted-foreground">
             Create at {new Date(category.createdAt).toDateString()}
           </div>
+          <div className="font-semi text-muted-foreground">
+            Last update at {new Date(category.updatedAt).toDateString()}
+          </div>
           <div className="grid grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6">
             {photos.map(photo => (
-              <PhotoImage photo={photo} />
+              <PhotoImage
+                photo={photo}
+                favoriteId={favorite.id}
+                key={photo.id}
+              />
             ))}
           </div>
         </div>

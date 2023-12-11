@@ -34,7 +34,7 @@ import { useUpdatePhoto } from '@/hooks/photo.hook'
 import { useState } from 'react'
 const schema = z.object({
   takenAt: z.date({
-    required_error: 'A date of birth is required.',
+    required_error: 'Taken date is required',
   }),
 })
 

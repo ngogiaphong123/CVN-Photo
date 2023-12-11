@@ -1,16 +1,13 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { privateApi } from '@/lib/axios'
 import { Photo } from '@/redux/types/response.type'
 import { UpdatePhotoInput } from '@redux/types/request.type'
-export const usePhotos = () => {
-  return useQuery({
-    queryKey: ['photos'],
-    queryFn: async () => {
-      const { data } = await privateApi.get('/photos')
-      return data.data as Photo[]
-    },
-  })
-}
+import { useToast } from '@components/ui/use-toast'
 
 export const useUploadPhoto = () => {
   const queryClient = useQueryClient()
@@ -35,7 +32,7 @@ export const useUploadPhoto = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['photos'],
+        queryKey: ['infinitePhotos'],
       })
     },
   })
@@ -74,6 +71,7 @@ export const useUpdatePhoto = (photoId: string) => {
 
 export const useDeletePhoto = (photoId: string | undefined) => {
   const queryClient = useQueryClient()
+  const { toast } = useToast()
   return useMutation({
     mutationKey: ['deletePhoto'],
     mutationFn: async () => {
@@ -82,8 +80,28 @@ export const useDeletePhoto = (photoId: string | undefined) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['photos'],
+        queryKey: ['infinitePhotos'],
+      })
+      toast({
+        description: `Deleted photo!`,
       })
     },
+  })
+}
+
+export const useGetPhotosByPage = () => {
+  const LIMIT = 20
+
+  return useInfiniteQuery({
+    queryKey: ['infinitePhotos'],
+    queryFn: async ({ pageParam = 1 }) => {
+      const { data } = await privateApi.get(`/photos/${pageParam}/${LIMIT}`)
+      return data.data as Photo[]
+    },
+    getNextPageParam: (_, pages) => {
+      return pages.length + 1
+    },
+    initialPageParam: 1,
+    refetchOnMount: 'always',
   })
 }

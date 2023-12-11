@@ -6,9 +6,7 @@ export default function Footer() {
       <div className="flex gap-4">
         <div className="text-primary">Web Photo</div>
         <div className="flex gap-4">
-          <p>About WebPhoto</p>
-          <p>Privacy</p>
-          <p>Terms</p>
+          <p>Developed by Gia Phong Ngo</p>
         </div>
       </div>
       <div className="flex gap-4">

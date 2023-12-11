@@ -12,11 +12,11 @@ class CategoryRepository {
 
 	/**
 	 * @param array $data ['name', 'memo', 'url', 'publicId', 'userId']
-	 * @return mixed|null
+	 * @return array
 	 * @throws HttpException
 	 */
 
-	public function create (array $data): mixed {
+	public function create (array $data): array {
 		$categoryEntity = new CategoryEntity();
 		$categoryEntity->setName($data['name'] ?? "")->setMemo($data['memo'] ?? "")->setUrl($data['url'] ?? "")->setPublicId($data['publicId'] ?? "")
 			->setUserId($data['userId'] ?? "")->build();
@@ -128,7 +128,7 @@ class CategoryRepository {
 	}
 
 	public function findCategoryPhotos (string $categoryId): array {
-		$query = "SELECT id, name, description, url, publicId, size, createdAt, updatedAt FROM photos WHERE id IN (SELECT photoId FROM photoCategory WHERE categoryId = :categoryId)";
+		$query = "SELECT * FROM photos WHERE id IN (SELECT photoId FROM photoCategory WHERE categoryId = :categoryId)";
 		$statement = $this->database->getConnection()->prepare($query);
 		$statement->execute([
 			':categoryId' => $categoryId,

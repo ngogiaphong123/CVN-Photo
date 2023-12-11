@@ -18,6 +18,9 @@ export type Photo = {
   takenAt: string
   createdAt: string
   updatedAt: string
+  next?: string
+  previous?: string
+  isFavorite: number
 }
 
 export type Category = {

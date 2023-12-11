@@ -1,30 +1,44 @@
 import PhotoByMonth from '@components/photo-by-month'
 import { sortPhotosByMonthAndYear } from '@lib/helper'
-import PhotosSkeleton from '@components/layouts/photos-skeleton'
 import { motion } from 'framer-motion'
-import { usePhotos } from '@/hooks/photo.hook'
+import { useGetPhotosByPage } from '@/hooks/photo.hook'
+import { useEffect, useRef } from 'react'
+import { useIntersection } from '@/hooks/useIntersection'
 
 export function Photos() {
-  const { data, isLoading, isError } = usePhotos()
+  const { data, fetchNextPage } = useGetPhotosByPage()
+  const lastImageRef = useRef<HTMLElement>(null)
+  const { ref, entry } = useIntersection({
+    root: lastImageRef.current,
+    rootMargin: '100px',
+    threshold: 0,
+  })
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      fetchNextPage()
+    }
+  }, [entry])
   const renderPhotos = () => {
-    if (isLoading && !data)
-      return (
-        <div className="pt-20">
-          <PhotosSkeleton />
-        </div>
-      )
-    if (isError) return <div>error</div>
-    if (!data) return <div>no data</div>
-    const processedPhotos = sortPhotosByMonthAndYear(data)
+    const photos = data?.pages.flatMap(page => page)
+    const processedPhotos = sortPhotosByMonthAndYear(photos)
     return (
-      <>
-        {' '}
-        <div className="flex flex-col h-screen pt-20">
-          {processedPhotos.map(([key, photos]) => (
-            <PhotoByMonth date={key} photos={photos} key={key} />
-          ))}
-        </div>
-      </>
+      <div className="pt-20">
+        {processedPhotos.map(([key, photos], i) => {
+          if (i === processedPhotos.length - 1) {
+            return (
+              <div key={key}>
+                <PhotoByMonth
+                  date={key}
+                  photos={photos}
+                  key={key}
+                  lastRef={ref}
+                />
+              </div>
+            )
+          }
+          return <PhotoByMonth date={key} photos={photos} key={key} />
+        })}
+      </div>
     )
   }
   return (

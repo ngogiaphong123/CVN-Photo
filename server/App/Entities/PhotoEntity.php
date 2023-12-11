@@ -19,6 +19,7 @@ class PhotoEntity extends BaseEntity {
 
 	private string $createdAt;
 	private string $updatedAt;
+	private bool $isFavorite;
 
 	public function __construct () {
 		parent::__construct();
@@ -115,5 +116,14 @@ class PhotoEntity extends BaseEntity {
 		}
 		$this->takenAt = $takenAt;
 		return $this;
+	}
+
+	public function setIsFavorite (bool $isFavorite): PhotoEntity {
+		$this->isFavorite = $isFavorite;
+		return $this;
+	}
+
+	public function getIsFavorite (): bool {
+		return $this->isFavorite;
 	}
 }

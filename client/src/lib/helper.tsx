@@ -1,7 +1,9 @@
+import { Icon } from '@iconify/react'
 import { Photo } from '@redux/types/response.type'
 
-export const sortPhotosByMonthAndYear = (photos: Photo[]) => {
-  const photosByYearAndMonth = new Map<string, Photo[]>()   
+export const sortPhotosByMonthAndYear = (photos: Photo[] | undefined) => {
+  if (!photos) return []
+  const photosByYearAndMonth = new Map<string, Photo[]>()
   photos.forEach(photo => {
     const date = new Date(photo.takenAt)
     const year = date.getFullYear()
@@ -37,4 +39,18 @@ export const convertToMonth = (month: number) => {
     'December',
   ]
   return months[month]
+}
+
+export const renderPhotoDetailIcon = (
+  name: string,
+  isFavorite: boolean = false,
+) => {
+  return (
+    <div className="flex items-center justify-center w-12 h-12 rounded-full hover:opacity-80">
+      <Icon
+        icon={`material-symbols-light:${name}`}
+        className={`w-8 h-8 ${isFavorite ? 'text-red-600' : 'text-white'}`}
+      />
+    </div>
+  )
 }
