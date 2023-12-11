@@ -2,8 +2,8 @@ import { useGetPhotosByPage } from '@/hooks/photo.hook'
 import { Dispatch, useEffect, useRef } from 'react'
 import { useIntersection } from '@/hooks/useIntersection'
 import { motion } from 'framer-motion'
-import { FormControl } from './ui/form'
-import { cn } from '../lib/utils'
+import { FormControl } from '@components/ui/form'
+import { cn } from '@lib/utils'
 
 export default function ChoosePhoto({
   setUrl,

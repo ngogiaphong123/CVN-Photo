@@ -2,7 +2,7 @@ import { Separator } from '@components/ui/separator'
 import { useAppSelector } from '@redux/store'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import CreateCategoryDialog from '../components/dialog/create-category-dialog'
+import CreateCategoryDialog from '@components/dialog/create-category-dialog'
 
 export default function Category() {
   const categories = useAppSelector(state => state.category).categories.filter(

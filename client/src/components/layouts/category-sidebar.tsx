@@ -5,11 +5,11 @@ import {
   ContextMenuTrigger,
 } from '@/components/ui/context-menu'
 import { useDeleteCategory } from '@/hooks/category.hook'
-import { SidebarItem } from './sidebar'
+import { SidebarItem } from '@components/layouts/sidebar'
 import { cn } from '@/lib/utils'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { buttonVariants } from '../ui/button'
-import AddPhotosDialog from '../dialog/add-photos-dialog'
+import { buttonVariants } from '@components/ui/button'
+import AddPhotosDialog from '@components/dialog/add-photos-dialog'
 import { useState } from 'react'
 
 export default function CategorySidebar({ item }: { item: SidebarItem }) {
@@ -66,7 +66,12 @@ export default function CategorySidebar({ item }: { item: SidebarItem }) {
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
-      <AddPhotosDialog categoryId={id} isOpen={isOpen} setIsOpen={setIsOpen} categoryTitle={item.title}/>
+      <AddPhotosDialog
+        categoryId={id}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        categoryTitle={item.title}
+      />
     </>
   )
 }

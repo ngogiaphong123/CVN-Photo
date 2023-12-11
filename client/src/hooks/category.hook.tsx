@@ -12,7 +12,7 @@ import { getCategories } from '@redux/slices/category.slice'
 import {
   CreateCategoryInput,
   UpdateCategoryInput,
-} from '../redux/types/request.type'
+} from '@redux/types/request.type'
 
 export const useCategoryPhotos = (categoryId: string | undefined) => {
   return useQuery({

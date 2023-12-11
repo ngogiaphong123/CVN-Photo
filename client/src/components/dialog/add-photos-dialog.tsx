@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogHeader } from '@components/ui/dialog'
 import React, { useEffect, useRef } from 'react'
 import { useIntersection } from '@/hooks/useIntersection'
 import { cn } from '@/lib/utils'
-import { useGetPhotosNotInCategoryByPage } from '../../hooks/category.hook'
+import { useGetPhotosNotInCategoryByPage } from '@/hooks/category.hook'
 
 export default function AddPhotosDialog({
   categoryId,

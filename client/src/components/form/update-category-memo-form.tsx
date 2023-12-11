@@ -2,9 +2,9 @@ import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
-import { Category } from '../../redux/types/response.type'
-import { Input } from '../ui/input'
-import { useUpdateCategory } from '../../hooks/category.hook'
+import { Category } from '@redux/types/response.type'
+import { Input } from '@components/ui/input'
+import { useUpdateCategory } from '@/hooks/category.hook'
 const formSchema = z.object({
   memo: z.string().optional(),
 })

@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useEffect } from 'react'
 import { getCategories } from '@redux/slices/category.slice'
 import { useDispatch } from 'react-redux'
-import CategorySidebar from './category-sidebar'
+import CategorySidebar from '@components/layouts/category-sidebar'
 
 export type SidebarItem = {
   id?: string
