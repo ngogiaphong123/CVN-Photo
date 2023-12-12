@@ -10,14 +10,15 @@ class Validator {
 		$dateTime = DateTime::createFromFormat($format, $date);
 		return $dateTime->format($format) === $date;
 	}
-    static function validateInteger(array $data): bool {
-        foreach ($data as $key => $value) {
-            if (!is_numeric($value) || intval($value) === 0) {
-                return false;
-            }
-        }
-        return true;
-    }
+
+	static function validateInteger (array $data): bool {
+		foreach ($data as $key => $value) {
+			if (!is_numeric($value) || intval($value) === 0) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	static function validate ($array, $rules): string {
 		$errors = [];
@@ -45,6 +46,10 @@ class Validator {
 				} else if ($component === 'email') {
 					if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
 						$errors[$key][] = "must be a valid email address";
+					}
+				} else if ($component === "password") {
+					if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,32}$/', $value)) {
+						$errors[$key][] = "must be at least 8 characters and at most 32 characters, at least 1 uppercase letter, 1 lowercase letter and 1 number";
 					}
 				}
 			}

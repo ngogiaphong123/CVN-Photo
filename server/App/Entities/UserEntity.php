@@ -77,7 +77,7 @@ class UserEntity extends BaseEntity {
 		$error = Validator::validate([
 			'password' => $password,
 		], [
-			'password' => 'required|min:8|max:32',
+			'password' => 'required|min:8|max:32|password',
 		]);
 		if (!empty($error)) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, "Validation failed", $error);
