@@ -168,4 +168,18 @@ class CategoryRepository {
 		}
 		return $result;
 	}
+
+	public function findPhotosNotInCategory (string $categoryId, string $userId): array {
+		$query = "SELECT * FROM photos WHERE id NOT IN (SELECT photoId FROM photoCategory WHERE categoryId = :categoryId) AND userId = :userId ORDER BY takenAt DESC";
+		$statement = $this->database->getConnection()->prepare($query);
+		$statement->execute([
+			':categoryId' => $categoryId,
+			':userId' => $userId,
+		]);
+		$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+		if (!$result) {
+			return [];
+		}
+		return $result;
+	}
 }

@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import { useGetPhotosNotInCategoryByPage } from '@/hooks/category.hook'
-import { useIntersection } from '@/hooks/useIntersection'
+import React from 'react'
+import { useGetPhotosNotInCategory } from '@/hooks/category.hook'
 import { cn } from '@/lib/utils'
 
 export default function PhotoAddDialog({
@@ -12,15 +11,20 @@ export default function PhotoAddDialog({
   chosenPhotos: string[]
   setChosenPhotos: React.Dispatch<React.SetStateAction<string[]>>
 }) {
-  const { data, fetchNextPage } = useGetPhotosNotInCategoryByPage(categoryId)
-  const lastImageRef = useRef<HTMLElement>(null)
-  const { ref, entry } = useIntersection({
-    root: lastImageRef.current,
-    rootMargin: '100px',
-    threshold: 1,
-  })
-  const photos = data?.pages.flatMap(page => page)
-
+  //   const { data, fetchNextPage } = useGetPhotosNotInCategoryByPage(categoryId)
+  //   const lastImageRef = useRef<HTMLElement>(null)
+  //   const { ref, entry } = useIntersection({
+  //     root: lastImageRef.current,
+  //     rootMargin: '240px',
+  //     threshold: 0,
+  //   })
+  //   const photos = data?.pages.flatMap(page => page)
+  //   useEffect(() => {
+  //     if (entry?.isIntersecting) {
+  //       fetchNextPage()
+  //     }
+  //   }, [entry])
+  const { data: photos } = useGetPhotosNotInCategory(categoryId)
   const renderPhotosInScrollArea = (
     photoUrl: string,
     photoName: string,
@@ -48,21 +52,16 @@ export default function PhotoAddDialog({
       />
     )
   }
-  useEffect(() => {
-    if (entry?.isIntersecting) {
-      fetchNextPage()
-    }
-  }, [entry])
+  if (photos?.length === 0 || !photos) {
+    return (
+      <div className="flex items-center justify-center w-full h-full text-xl text-muted-foreground">
+        You have added all photos to this category
+      </div>
+    )
+  }
   return (
     <div className="grid grid-cols-3 gap-2">
-      {photos?.map((photo, i) => {
-        if (i === photos.length - 1) {
-          return (
-            <section key={photo.id} ref={ref}>
-              {renderPhotosInScrollArea(photo.url, photo.name, photo.id)}
-            </section>
-          )
-        }
+      {photos?.map(photo => {
         return (
           <div key={photo.id}>
             {renderPhotosInScrollArea(photo.url, photo.name, photo.id)}

@@ -58,7 +58,7 @@ export const useAddPhotoToCategory = (categoryId: string) => {
         queryKey: [`${categoryId}`],
       })
       queryClient.invalidateQueries({
-        queryKey: [`infinitePhotosNotInCategory${categoryId}`],
+        queryKey: [`photosNotInCategory${categoryId}`],
       })
       dispatch(getCategories())
     },
@@ -87,7 +87,7 @@ export const useRemovePhotoFromCategory = (categoryId: string) => {
         queryKey: [`${categoryId}`],
       })
       queryClient.invalidateQueries({
-        queryKey: [`infinitePhotosNotInCategory${categoryId}`],
+        queryKey: [`photosNotInCategory${categoryId}`],
       })
       dispatch(getCategories())
     },
@@ -154,11 +154,12 @@ export const useDeleteCategory = (categoryId: string) => {
 export const useGetPhotosNotInCategoryByPage = (categoryId: string) => {
   const LIMIT = 20
   return useInfiniteQuery({
-    queryKey: [`infinitePhotosNotInCategory${categoryId}`],
+    queryKey: [`photosNotInCategory${categoryId}`],
     queryFn: async ({ pageParam = 1 }) => {
       const { data } = await privateApi.get(
         `/categories/${categoryId}/photos/not-in-category/${pageParam}/${LIMIT}`,
       )
+      if (data.data.length === 0) throw new Error('No more photos')
       return data.data as Photo[]
     },
     getNextPageParam: (_, pages) => {
@@ -166,6 +167,20 @@ export const useGetPhotosNotInCategoryByPage = (categoryId: string) => {
     },
     initialPageParam: 1,
     refetchOnMount: 'always',
+    retry: false,
+    refetchOnWindowFocus: false,
+  })
+}
+
+export const useGetPhotosNotInCategory = (categoryId: string) => {
+  return useQuery({
+    queryKey: [`photosNotInCategory${categoryId}`],
+    queryFn: async () => {
+      const { data } = await privateApi.get(
+        `/categories/${categoryId}/photos/not-in-category`,
+      )
+      return data.data as Photo[]
+    },
   })
 }
 

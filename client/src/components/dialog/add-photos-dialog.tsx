@@ -27,6 +27,7 @@ export default function AddPhotosDialog({
   const [isOpen, setIsOpen] = useState(false)
   const [chosenPhotos, setChosenPhotos] = useState<string[]>([])
   const queryClient = useQueryClient()
+
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
@@ -61,21 +62,31 @@ export default function AddPhotosDialog({
             const formData = new FormData()
             formData.append('photoId', photoId)
             formData.append('categoryId', categoryId)
-            await privateApi.post(`/photo-category`, formData)
+            try {
+              await privateApi.post(`/photo-category`, formData)
+            } catch (err: any) {
+              toast({
+                title: 'Oops!',
+                description: `${err.message}`,
+                variant: 'destructive',
+              })
+            }
           })
-          queryClient.invalidateQueries({
+          await queryClient.invalidateQueries({
             queryKey: ['infinitePhotos'],
           })
-          queryClient.invalidateQueries({
+          await queryClient.invalidateQueries({
             queryKey: [`categoryPhotos${categoryId}`],
           })
-          queryClient.invalidateQueries({
+          await queryClient.invalidateQueries({
             queryKey: [`${categoryId}`],
           })
-          queryClient.invalidateQueries({
-            queryKey: [`infinitePhotosNotInCategory${categoryId}`],
+          await queryClient.invalidateQueries({
+            queryKey: [`photosNotInCategory${categoryId}`],
+            stale: true,
           })
-          dispatch(getCategories())
+          await dispatch(getCategories())
+          console.log('dispatched')
           toast({
             description: `Added ${chosenPhotos.length} photos to category ${categoryTitle}`,
           })
@@ -97,11 +108,7 @@ export default function AddPhotosDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger
-        onClick={() => {
-          setIsOpen(true)
-        }}
-      >
+      <DialogTrigger>
         <div
           className={cn(
             buttonVariants({ variant: 'ghost', size: 'lg' }),
