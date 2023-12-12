@@ -34,7 +34,6 @@ export default function PhotoDetail() {
       cloudName: 'giaphong',
     },
   })
-  console.log(photo)
   const image = cld.image(photo?.publicId).addAction(`fl_attachment`)
   return (
     <div key={photo.id} className="relative">

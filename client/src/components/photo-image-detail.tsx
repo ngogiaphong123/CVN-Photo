@@ -26,14 +26,9 @@ export default function PhotoImageDetail({
     setIsFavorite(photo.isFavorite)
   }, [photo])
 
-  const { mutateAsync: addToFavorite } = useAddPhotoToCategory(
-    favoriteId,
-    photo.id,
-  )
-  const { mutateAsync: removeFromFavorite } = useRemovePhotoFromCategory(
-    favoriteId,
-    photo.id,
-  )
+  const { mutateAsync: addToFavorite } = useAddPhotoToCategory(favoriteId)
+  const { mutateAsync: removeFromFavorite } =
+    useRemovePhotoFromCategory(favoriteId)
 
   const renderLeftArrow = () => {
     if (photo.previous === null) return <div className="w-1/12"></div>
@@ -68,7 +63,7 @@ export default function PhotoImageDetail({
       <div className="absolute top-0 left-0 z-10 flex items-center justify-between w-full h-16 px-4">
         <div
           onClick={() => {
-            navigate('/photos')
+            navigate(-1)
           }}
         >
           {renderPhotoDetailIcon('arrow-left-alt')}
@@ -85,9 +80,9 @@ export default function PhotoImageDetail({
           <button
             onClick={async () => {
               if (isFavorite) {
-                await removeFromFavorite()
+                await removeFromFavorite(photo.id)
               } else {
-                await addToFavorite()
+                await addToFavorite(photo.id)
               }
               setIsFavorite(isFavorite ^ 1)
             }}

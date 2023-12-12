@@ -34,15 +34,16 @@ export const useCategory = (categoryId: string | undefined) => {
   })
 }
 
-export const useAddPhotoToCategory = (categoryId: string, photoId: string) => {
+export const useAddPhotoToCategory = (categoryId: string) => {
   const formData = new FormData()
-  formData.append('photoId', photoId)
   formData.append('categoryId', categoryId)
   const queryClient = useQueryClient()
   const dispatch = useDispatch<AppDispatch>()
   return useMutation({
     mutationKey: ['addPhotoToCategory', categoryId],
-    mutationFn: async () => {
+    mutationFn: async (photoId: string) => {
+      formData.delete('photoId')
+      formData.append('photoId', photoId)
       const { data } = await privateApi.post(`/photo-category`, formData)
       return data.data
     },
@@ -56,23 +57,22 @@ export const useAddPhotoToCategory = (categoryId: string, photoId: string) => {
       queryClient.invalidateQueries({
         queryKey: [`${categoryId}`],
       })
+      queryClient.invalidateQueries({
+        queryKey: [`infinitePhotosNotInCategory${categoryId}`],
+      })
       dispatch(getCategories())
     },
   })
 }
-
-export const useRemovePhotoFromCategory = (
-  categoryId: string,
-  photoId: string,
-) => {
+export const useRemovePhotoFromCategory = (categoryId: string) => {
   const formData = new FormData()
-  formData.append('photoId', photoId)
   formData.append('categoryId', categoryId)
   const queryClient = useQueryClient()
   const dispatch = useDispatch<AppDispatch>()
   return useMutation({
     mutationKey: ['removePhotoFromCategory', categoryId],
-    mutationFn: async () => {
+    mutationFn: async (photoId: string) => {
+      formData.append('photoId', photoId)
       const { data } = await privateApi.post(`photo-category/delete`, formData)
       return data.data
     },
@@ -85,6 +85,9 @@ export const useRemovePhotoFromCategory = (
       })
       queryClient.invalidateQueries({
         queryKey: [`${categoryId}`],
+      })
+      queryClient.invalidateQueries({
+        queryKey: [`infinitePhotosNotInCategory${categoryId}`],
       })
       dispatch(getCategories())
     },
@@ -149,12 +152,32 @@ export const useDeleteCategory = (categoryId: string) => {
 }
 
 export const useGetPhotosNotInCategoryByPage = (categoryId: string) => {
-  const LIMIT = 1
+  const LIMIT = 20
   return useInfiniteQuery({
-    queryKey: ['photosNotInCategory', categoryId],
+    queryKey: [`infinitePhotosNotInCategory${categoryId}`],
     queryFn: async ({ pageParam = 1 }) => {
       const { data } = await privateApi.get(
         `/categories/${categoryId}/photos/not-in-category/${pageParam}/${LIMIT}`,
+      )
+      return data.data as Photo[]
+    },
+    getNextPageParam: (_, pages) => {
+      return pages.length + 1
+    },
+    initialPageParam: 1,
+    refetchOnMount: 'always',
+  })
+}
+
+export const useGetPhotosInCategoryByPage = (
+  categoryId: string | undefined,
+) => {
+  const LIMIT = 20
+  return useInfiniteQuery({
+    queryKey: ['photosInCategory', categoryId],
+    queryFn: async ({ pageParam = 1 }) => {
+      const { data } = await privateApi.get(
+        `/categories/${categoryId}/photos/${pageParam}/${LIMIT}`,
       )
       return data.data as Photo[]
     },

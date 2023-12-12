@@ -7,6 +7,7 @@ import PhotoImage from '@/components/photo-image'
 import { useAppSelector } from '@/redux/store'
 import UpdateCategoryNameForm from '@components/form/update-category-name-form'
 import UpdateCategoryMemoForm from '@components/form/update-category-memo-form'
+import AddPhotosDialog from '../components/dialog/add-photos-dialog'
 export default function CategoryDetail() {
   const { categoryId } = useParams()
   const { data: category } = useCategory(categoryId)
@@ -31,6 +32,10 @@ export default function CategoryDetail() {
         <div className="flex flex-col justify-center gap-4 p-8">
           <UpdateCategoryNameForm category={category} />
           <UpdateCategoryMemoForm category={category} />
+          <AddPhotosDialog
+            categoryId={category.id}
+            categoryTitle={category.name}
+          />
           <div className="font-semi text-muted-foreground">
             Create at {new Date(category.createdAt).toDateString()}
           </div>

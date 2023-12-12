@@ -9,8 +9,6 @@ import { SidebarItem } from '@components/layouts/sidebar'
 import { cn } from '@/lib/utils'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { buttonVariants } from '@components/ui/button'
-import AddPhotosDialog from '@components/dialog/add-photos-dialog'
-import { useState } from 'react'
 
 export default function CategorySidebar({ item }: { item: SidebarItem }) {
   const location = useLocation()
@@ -18,7 +16,6 @@ export default function CategorySidebar({ item }: { item: SidebarItem }) {
   const id = pathname.split('/')[2]
   const navigate = useNavigate()
   const { mutateAsync: deleteCategory } = useDeleteCategory(id)
-  const [isOpen, setIsOpen] = useState(false)
   return (
     <>
       {' '}
@@ -49,13 +46,6 @@ export default function CategorySidebar({ item }: { item: SidebarItem }) {
         </ContextMenuTrigger>
         <ContextMenuContent>
           <ContextMenuItem
-            onClick={() => {
-              setIsOpen(true)
-            }}
-          >
-            Add photos
-          </ContextMenuItem>
-          <ContextMenuItem
             className="focus:text-destructive"
             onClick={() => {
               deleteCategory()
@@ -66,12 +56,6 @@ export default function CategorySidebar({ item }: { item: SidebarItem }) {
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
-      <AddPhotosDialog
-        categoryId={id}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        categoryTitle={item.title}
-      />
     </>
   )
 }
