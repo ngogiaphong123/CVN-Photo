@@ -90,12 +90,13 @@ export const useDeletePhoto = (photoId: string | undefined) => {
 }
 
 export const useGetPhotosByPage = () => {
-  const LIMIT = 1
+  const LIMIT = 20
 
   return useInfiniteQuery({
     queryKey: ['infinitePhotos'],
     queryFn: async ({ pageParam = 1 }) => {
       const { data } = await privateApi.get(`/photos/${pageParam}/${LIMIT}`)
+      if (data.data.length === 0) throw new Error('No more photos')
       return data.data as Photo[]
     },
     getNextPageParam: (_, pages) => {
@@ -103,5 +104,6 @@ export const useGetPhotosByPage = () => {
     },
     initialPageParam: 1,
     refetchOnMount: 'always',
+    retry: false,
   })
 }

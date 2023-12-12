@@ -10,7 +10,7 @@ export function Photos() {
   const lastImageRef = useRef<HTMLElement>(null)
   const { ref, entry } = useIntersection({
     root: lastImageRef.current,
-    rootMargin: '100px',
+    rootMargin: '240px',
     threshold: 0,
   })
   useEffect(() => {

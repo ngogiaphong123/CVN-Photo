@@ -37,17 +37,14 @@ export default function ChoosePhoto({
     return (
       <img
         onClick={() => {
-          console.log('hello')
           setUrl(photoUrl)
           setPublicId(photoPublicId)
         }}
         src={photoUrl}
         alt={photoName}
         className={cn(
-          'object-cover rounded-lg shadow-lg w-72 h-72 hover:rounded-none',
-          isChosen
-            ? 'border-2 border-primary scale-95 transition-all duration-200 ease-in-out'
-            : '',
+          'object-cover rounded-lg shadow-lg w-72 h-72 hover:rounded-none transition-all duration-200 ease-in-out',
+          isChosen ? 'border-2 border-primary scale-95' : '',
         )}
       />
     )

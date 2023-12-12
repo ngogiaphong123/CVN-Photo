@@ -124,4 +124,15 @@ readonly class CategoryService {
 		}
 		return $this->categoryRepository->findPhotosNotInCategoryByPage($categoryId, $page, $limit, $userId);
 	}
+
+	/**
+	 * @throws HttpException
+	 */
+	public function findPhotosNotInCategory (string $categoryId, string $userId): array {
+		$category = $this->categoryRepository->findOne($categoryId);
+		if (!$category || $category['userId'] !== $userId) {
+			throw new HttpException(StatusCode::BAD_REQUEST->value, CategoryError::CATEGORY_NOT_FOUND->value);
+		}
+		return $this->categoryRepository->findPhotosNotInCategory($categoryId, $userId);
+	}
 }

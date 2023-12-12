@@ -43,6 +43,9 @@ class CategoryController {
 	public function findPhotosNotInCategoryByPage (): void {
 		$this->response->response(StatusCode::OK->value, CategoryMessage::GET_CATEGORY_PHOTO_SUCCESSFULLY->value, $this->categoryService->findPhotosNotInCategoryByPage($this->request->getParam('categoryId'), Session::get("userId"), $this->request->getParam('page'), $this->request->getParam('limit')));
 	}
+	public function findAllPhotosNotInCategory (): void {
+		$this->response->response(StatusCode::OK->value, CategoryMessage::GET_CATEGORY_PHOTO_SUCCESSFULLY->value, $this->categoryService->findPhotosNotInCategory($this->request->getParam('categoryId'), Session::get("userId")));
+	}
 	/**
 	 * @throws HttpException
 	 */

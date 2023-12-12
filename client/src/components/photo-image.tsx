@@ -19,14 +19,9 @@ export default function PhotoImage({
     setIsFavorite(photo.isFavorite)
   }, [photo])
 
-  const { mutateAsync: addToFavorite } = useAddPhotoToCategory(
-    favoriteId,
-    photo.id,
-  )
-  const { mutateAsync: removeFromFavorite } = useRemovePhotoFromCategory(
-    favoriteId,
-    photo.id,
-  )
+  const { mutateAsync: addToFavorite } = useAddPhotoToCategory(favoriteId)
+  const { mutateAsync: removeFromFavorite } =
+    useRemovePhotoFromCategory(favoriteId)
   const renderFavoriteIcon = () => {
     if (isFavorite) {
       return renderPhotoDetailIcon('favorite-rounded', true)
@@ -39,9 +34,9 @@ export default function PhotoImage({
         <button
           onClick={async () => {
             if (isFavorite) {
-              await removeFromFavorite()
+              await removeFromFavorite(photo.id)
             } else {
-              await addToFavorite()
+              await addToFavorite(photo.id)
             }
             setIsFavorite(isFavorite ^ 1)
           }}
