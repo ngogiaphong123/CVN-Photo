@@ -41,7 +41,7 @@ export default function CreateCategoryDialog() {
       memo: '',
     },
   })
-  const { mutateAsync: createCategory } = useCreateCategory()
+  const { mutateAsync: createCategory, isPending } = useCreateCategory()
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (url === '' || publicId === '') return
     if (values.memo === undefined) values.memo = ''
@@ -57,7 +57,7 @@ export default function CreateCategoryDialog() {
     setOpen(false)
   }
   const renderButton = () => {
-    if (form.formState.isSubmitting)
+    if (isPending)
       return (
         <Button
           className={'bg-muted cursor-loading hover:bg-muted'}

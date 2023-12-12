@@ -1,7 +1,5 @@
 import { useParams } from 'react-router'
-import PhotosSkeleton from '@components/layouts/photos-skeleton'
 import { motion } from 'framer-motion'
-import { Skeleton } from '@components/ui/skeleton'
 import {
   useCategory,
   useCategoryPhotos,
@@ -22,30 +20,28 @@ import {
 export default function CategoryDetail() {
   const { categoryId } = useParams()
   const { data: category } = useCategory(categoryId)
-  const { data: photos, isLoading, isError } = useCategoryPhotos(categoryId)
+  const { data: photos } = useCategoryPhotos(categoryId)
+
   const { mutateAsync: removePhotoFromCategory } = useRemovePhotoFromCategory(
     categoryId as string,
   )
   const favorite = useAppSelector(state => state.category.favoriteCategory)
   const renderPage = () => {
-    if (isError) return <div>error</div>
-    if (isLoading && !photos) {
+    if (!photos || !category) return <div>no data</div>
+    const renderForm = () => {
+      if (category.name === 'favorite')
+        return <div className="text-3xl text-bold text-primary">Favorite</div>
       return (
-        <div className="flex flex-col h-screen pt-20">
-          <div className="flex flex-col justify-center gap-4 p-4">
-            <Skeleton className="h-10 w-100" />
-            <Skeleton className="h-10 w-100" />
-            <PhotosSkeleton />
-          </div>
-        </div>
+        <>
+          <UpdateCategoryNameForm category={category} />
+          <UpdateCategoryMemoForm category={category} />
+        </>
       )
     }
-    if (!photos || !category) return <div>no data</div>
     return (
       <div className="flex flex-col h-screen pt-20">
         <div className="flex flex-col justify-center gap-4 p-8">
-          <UpdateCategoryNameForm category={category} />
-          <UpdateCategoryMemoForm category={category} />
+          {renderForm()}
           <AddPhotosDialog
             categoryId={category.id}
             categoryTitle={category.name}
@@ -57,23 +53,25 @@ export default function CategoryDetail() {
             Last update at {new Date(category.updatedAt).toDateString()}
           </div>
           <div className="grid grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6">
-            {photos.map(photo => (
-              <ContextMenu key={photo.id}>
-                <ContextMenuTrigger>
-                  <PhotoImage photo={photo} favoriteId={favorite.id} />
-                </ContextMenuTrigger>
-                <ContextMenuContent>
-                  <ContextMenuItem
-                    className="focus:text-destructive"
-                    onClick={() => {
-                      removePhotoFromCategory(photo.id)
-                    }}
-                  >
-                    Delete photo from category
-                  </ContextMenuItem>
-                </ContextMenuContent>
-              </ContextMenu>
-            ))}
+            {photos.map(photo => {
+              return (
+                <ContextMenu key={photo.id}>
+                  <ContextMenuTrigger>
+                    <PhotoImage photo={photo} favoriteId={favorite.id} />
+                  </ContextMenuTrigger>
+                  <ContextMenuContent>
+                    <ContextMenuItem
+                      className="focus:text-destructive"
+                      onClick={() => {
+                        removePhotoFromCategory(photo.id)
+                      }}
+                    >
+                      Delete photo from category
+                    </ContextMenuItem>
+                  </ContextMenuContent>
+                </ContextMenu>
+              )
+            })}
           </div>
         </div>
       </div>

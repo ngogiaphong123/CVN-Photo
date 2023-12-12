@@ -72,8 +72,11 @@ export default function AddPhotosDialog({
               })
             }
           })
-          await queryClient.invalidateQueries({
+          queryClient.removeQueries({
             queryKey: ['infinitePhotos'],
+          })
+          queryClient.removeQueries({
+            queryKey: [`photosNotInCategory${categoryId}`],
           })
           await queryClient.invalidateQueries({
             queryKey: [`categoryPhotos${categoryId}`],
@@ -81,12 +84,7 @@ export default function AddPhotosDialog({
           await queryClient.invalidateQueries({
             queryKey: [`${categoryId}`],
           })
-          await queryClient.invalidateQueries({
-            queryKey: [`photosNotInCategory${categoryId}`],
-            stale: true,
-          })
           await dispatch(getCategories())
-          console.log('dispatched')
           toast({
             description: `Added ${chosenPhotos.length} photos to category ${categoryTitle}`,
           })
@@ -108,11 +106,11 @@ export default function AddPhotosDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger>
+      <DialogTrigger className="w-2/12">
         <div
           className={cn(
             buttonVariants({ variant: 'ghost', size: 'lg' }),
-            'flex p-0 text-white bg-accent hover:opacity-80 w-3/12',
+            'flex p-0 text-white bg-accent hover:opacity-80 w-full',
           )}
         >
           <div className="flex items-center gap-4 p-8">
@@ -121,7 +119,7 @@ export default function AddPhotosDialog({
               width={24}
               className="text-white"
             />
-            Add photos to your category
+            Add photos
           </div>
         </div>{' '}
       </DialogTrigger>

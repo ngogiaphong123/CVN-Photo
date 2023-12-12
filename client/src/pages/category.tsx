@@ -18,7 +18,7 @@ export default function Category() {
       className="pt-20"
     >
       <div className="flex items-center justify-between px-8 pb-4">
-        <p className="text-xl text-primary">Category</p>
+        <p className="text-2xl text-primary">Your Category</p>
         <div>
           {' '}
           <CreateCategoryDialog />
@@ -30,14 +30,14 @@ export default function Category() {
           <Link key={category.id} to={`/category/${category.id}`} className="">
             <div
               key={category.id}
-              className="flex flex-col items-center justify-center gap-1 h-72"
+              className="flex flex-col items-center justify-center h-72"
             >
               <img
                 src={category.url}
                 alt={category.name}
                 className="h-64 transition-all duration-200 ease-in-out rounded-lg hover:rounded-none"
               />
-              <div className="w-full text-center text-black truncate">{category.name}</div>
+              <div className="w-full text-center text-black">{category.name}</div>
               <div className="text-gray-700">{category.numPhotos}</div>
             </div>
           </Link>

@@ -1,6 +1,7 @@
-import React from 'react'
-import { useGetPhotosNotInCategory } from '@/hooks/category.hook'
+import React, { useEffect, useRef } from 'react'
+import { useGetPhotosNotInCategoryByPage } from '@/hooks/category.hook'
 import { cn } from '@/lib/utils'
+import { useIntersection } from '@/hooks/useIntersection'
 
 export default function PhotoAddDialog({
   categoryId,
@@ -11,20 +12,19 @@ export default function PhotoAddDialog({
   chosenPhotos: string[]
   setChosenPhotos: React.Dispatch<React.SetStateAction<string[]>>
 }) {
-  //   const { data, fetchNextPage } = useGetPhotosNotInCategoryByPage(categoryId)
-  //   const lastImageRef = useRef<HTMLElement>(null)
-  //   const { ref, entry } = useIntersection({
-  //     root: lastImageRef.current,
-  //     rootMargin: '240px',
-  //     threshold: 0,
-  //   })
-  //   const photos = data?.pages.flatMap(page => page)
-  //   useEffect(() => {
-  //     if (entry?.isIntersecting) {
-  //       fetchNextPage()
-  //     }
-  //   }, [entry])
-  const { data: photos } = useGetPhotosNotInCategory(categoryId)
+  const { data, fetchNextPage } = useGetPhotosNotInCategoryByPage(categoryId)
+  const lastImageRef = useRef<HTMLElement>(null)
+  const { ref, entry } = useIntersection({
+    root: lastImageRef.current,
+    rootMargin: '240px',
+    threshold: 0,
+  })
+  const photos = data?.pages.flatMap(page => page)
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      fetchNextPage()
+    }
+  }, [entry])
   const renderPhotosInScrollArea = (
     photoUrl: string,
     photoName: string,
@@ -61,7 +61,14 @@ export default function PhotoAddDialog({
   }
   return (
     <div className="grid grid-cols-3 gap-2">
-      {photos?.map(photo => {
+      {photos?.map((photo, i) => {
+        if (i === photos.length - 1) {
+          return (
+            <div ref={ref} key={photo.id}>
+              {renderPhotosInScrollArea(photo.url, photo.name, photo.id)}
+            </div>
+          )
+        }
         return (
           <div key={photo.id}>
             {renderPhotosInScrollArea(photo.url, photo.name, photo.id)}

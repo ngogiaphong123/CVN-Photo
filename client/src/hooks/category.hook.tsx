@@ -13,6 +13,7 @@ import {
   CreateCategoryInput,
   UpdateCategoryInput,
 } from '@redux/types/request.type'
+import { toast } from '../components/ui/use-toast'
 
 export const useCategoryPhotos = (categoryId: string | undefined) => {
   return useQuery({
@@ -48,16 +49,16 @@ export const useAddPhotoToCategory = (categoryId: string) => {
       return data.data
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      queryClient.removeQueries({
         queryKey: ['infinitePhotos'],
       })
-      queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
         queryKey: [`categoryPhotos${categoryId}`],
       })
       queryClient.invalidateQueries({
         queryKey: [`${categoryId}`],
       })
-      queryClient.invalidateQueries({
+      queryClient.removeQueries({
         queryKey: [`photosNotInCategory${categoryId}`],
       })
       dispatch(getCategories())
@@ -77,7 +78,7 @@ export const useRemovePhotoFromCategory = (categoryId: string) => {
       return data.data
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      queryClient.removeQueries({
         queryKey: ['infinitePhotos'],
       })
       queryClient.invalidateQueries({
@@ -86,7 +87,7 @@ export const useRemovePhotoFromCategory = (categoryId: string) => {
       queryClient.invalidateQueries({
         queryKey: [`${categoryId}`],
       })
-      queryClient.invalidateQueries({
+      queryClient.removeQueries({
         queryKey: [`photosNotInCategory${categoryId}`],
       })
       dispatch(getCategories())
@@ -108,6 +109,13 @@ export const useCreateCategory = () => {
     },
     onSuccess: () => {
       dispatch(getCategories())
+    },
+    onError: () => {
+      toast({
+        title: 'Oops!',
+        description: `Category name already exists!`,
+        variant: 'destructive',
+      })
     },
   })
 }
@@ -189,7 +197,7 @@ export const useGetPhotosInCategoryByPage = (
 ) => {
   const LIMIT = 20
   return useInfiniteQuery({
-    queryKey: ['photosInCategory', categoryId],
+    queryKey: [`infinitePhotosInCategory${categoryId}`],
     queryFn: async ({ pageParam = 1 }) => {
       const { data } = await privateApi.get(
         `/categories/${categoryId}/photos/${pageParam}/${LIMIT}`,

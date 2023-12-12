@@ -13,10 +13,11 @@ use Exception;
 
 class AuthService {
 	public function __construct (
-		private readonly UserRepository $userRepository,
-		private readonly JwtService     $jwtService,
+		private readonly UserRepository     $userRepository,
+		private readonly JwtService         $jwtService,
 		private readonly CategoryRepository $categoryRepository,
 	) {}
+
 	public function hideUserCredentials (array $user): array {
 		unset($user['password']);
 		unset($user['accessToken']);
@@ -43,7 +44,7 @@ class AuthService {
 		$this->categoryRepository->create([
 			'name' => DefaultCategory::FAVORITE->value,
 			'memo' => '',
-			'url' => '',
+			'url' => $_ENV['DEFAULT_CATEGORY_THUMBNAIL'],
 			'publicId' => '',
 			'userId' => $user['id'],
 		]);

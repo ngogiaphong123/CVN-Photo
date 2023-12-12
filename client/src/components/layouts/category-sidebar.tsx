@@ -13,7 +13,7 @@ import { buttonVariants } from '@components/ui/button'
 export default function CategorySidebar({ item }: { item: SidebarItem }) {
   const location = useLocation()
   const { pathname } = location
-  const id = pathname.split('/')[2]
+  const id = item.href.split('/')[2]
   const navigate = useNavigate()
   const { mutateAsync: deleteCategory } = useDeleteCategory(id)
   return (
@@ -49,7 +49,7 @@ export default function CategorySidebar({ item }: { item: SidebarItem }) {
             className="focus:text-destructive"
             onClick={() => {
               deleteCategory()
-              navigate(-1)
+              if(pathname === item.href) navigate('/category')
             }}
           >
             Delete category
