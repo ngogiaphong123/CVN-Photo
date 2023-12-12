@@ -75,14 +75,14 @@ export default function AddPhotosDialog({
           queryClient.removeQueries({
             queryKey: ['infinitePhotos'],
           })
-          queryClient.invalidateQueries({
+          queryClient.removeQueries({
+            queryKey: [`photosNotInCategory${categoryId}`],
+          })
+          await queryClient.invalidateQueries({
             queryKey: [`categoryPhotos${categoryId}`],
           })
           await queryClient.invalidateQueries({
             queryKey: [`${categoryId}`],
-          })
-          queryClient.removeQueries({
-            queryKey: [`photosNotInCategory${categoryId}`],
           })
           await dispatch(getCategories())
           toast({

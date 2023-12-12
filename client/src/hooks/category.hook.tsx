@@ -52,7 +52,7 @@ export const useAddPhotoToCategory = (categoryId: string) => {
       queryClient.removeQueries({
         queryKey: ['infinitePhotos'],
       })
-      queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
         queryKey: [`categoryPhotos${categoryId}`],
       })
       queryClient.invalidateQueries({
