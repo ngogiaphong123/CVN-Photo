@@ -112,7 +112,7 @@ class CategoryRepository {
 	}
 
 	public function findUserCategories (string $userId): array {
-		$query = "SELECT id, name, memo, url, publicId, createdAt, updatedAt FROM categories WHERE userId = :userId";
+		$query = "SELECT id, name, memo, url, publicId, createdAt, updatedAt FROM categories WHERE userId = :userId ORDER BY updatedAt DESC";
 		$statement = $this->database->getConnection()->prepare($query);
 		$statement->execute([
 			':userId' => $userId,
@@ -128,11 +128,40 @@ class CategoryRepository {
 	}
 
 	public function findCategoryPhotos (string $categoryId): array {
-		$query = "SELECT * FROM photos WHERE id IN (SELECT photoId FROM photoCategory WHERE categoryId = :categoryId)";
+		$query = "SELECT * FROM photos WHERE id IN (SELECT photoId FROM photoCategory WHERE categoryId = :categoryId) ORDER BY takenAt DESC";
 		$statement = $this->database->getConnection()->prepare($query);
 		$statement->execute([
 			':categoryId' => $categoryId,
 		]);
+		$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+		if (!$result) {
+			return [];
+		}
+		return $result;
+	}
+
+	public function findCategoryPhotosByPage (string $categoryId, string $page, string $limit): array {
+		$query = "SELECT * FROM photos WHERE id IN (SELECT photoId FROM photoCategory WHERE categoryId = :categoryId) ORDER BY takenAt DESC LIMIT :limit OFFSET :offset";
+		$statement = $this->database->getConnection()->prepare($query);
+		$statement->bindValue(':categoryId', $categoryId);
+		$statement->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+		$statement->bindValue(':offset', ((int)$page - 1) * (int)$limit, PDO::PARAM_INT);
+		$statement->execute();
+		$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+		if (!$result) {
+			return [];
+		}
+		return $result;
+	}
+
+	public function findPhotosNotInCategoryByPage (string $categoryId, string $page, string $limit, string $userId): array {
+		$query = "SELECT * FROM photos WHERE id NOT IN (SELECT photoId FROM photoCategory WHERE categoryId = :categoryId) AND userId = :userId ORDER BY takenAt DESC LIMIT :limit OFFSET :offset";
+		$statement = $this->database->getConnection()->prepare($query);
+		$statement->bindValue(':categoryId', $categoryId);
+		$statement->bindValue(':userId', $userId);
+		$statement->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+		$statement->bindValue(':offset', ((int)$page - 1) * (int)$limit, PDO::PARAM_INT);
+		$statement->execute();
 		$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 		if (!$result) {
 			return [];

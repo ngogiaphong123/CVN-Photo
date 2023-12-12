@@ -7,6 +7,8 @@ use App\Middlewares\JwtGuard;
 $router->get("categories", [JwtGuard::class], [CategoryController::class, 'findUserCategories'])
 	->get("categories/:categoryId",[JwtGuard::class], [CategoryController::class, 'findOneCategory'])
 	->get("categories/:categoryId/photos", [JwtGuard::class], [CategoryController::class, 'findCategoryPhotos'])
+	->get("categories/:categoryId/photos/:page/:limit", [JwtGuard::class], [CategoryController::class, 'findCategoryPhotosByPage'])
+	->get("categories/:categoryId/photos/not-in-category/:page/:limit", [JwtGuard::class], [CategoryController::class, 'findPhotosNotInCategoryByPage'])
 	->post("categories", [JwtGuard::class], [CategoryController::class, 'createCategory'])
 	->post("categories/:categoryId", [JwtGuard::class], [CategoryController::class, 'updateCategory'])
 	->delete("categories/:categoryId", [JwtGuard::class], [CategoryController::class, 'deleteCategory']);
