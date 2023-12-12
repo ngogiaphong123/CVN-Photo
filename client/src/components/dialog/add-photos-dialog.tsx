@@ -9,13 +9,13 @@ import { cn } from '@/lib/utils'
 import { DialogTrigger } from '@components/ui/dialog'
 import { Button, buttonVariants } from '@components/ui/button'
 import { Icon } from '@iconify/react'
-import { toast } from '../ui/use-toast'
+import { toast } from '@components/ui/use-toast'
 import PhotoAddDialog from './photos-add-dialog'
 import { useQueryClient } from '@tanstack/react-query'
-import { privateApi } from '../../lib/axios'
-import { AppDispatch } from '../../redux/store'
+import { privateApi } from '@/lib/axios'
+import { AppDispatch } from '@/redux/store'
 import { useDispatch } from 'react-redux'
-import { getCategories } from '../../redux/slices/category.slice'
+import { getCategories } from '@/redux/slices/category.slice'
 
 export default function AddPhotosDialog({
   categoryId,

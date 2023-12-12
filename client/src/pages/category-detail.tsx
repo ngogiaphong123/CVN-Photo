@@ -7,7 +7,7 @@ import PhotoImage from '@/components/photo-image'
 import { useAppSelector } from '@/redux/store'
 import UpdateCategoryNameForm from '@components/form/update-category-name-form'
 import UpdateCategoryMemoForm from '@components/form/update-category-memo-form'
-import AddPhotosDialog from '../components/dialog/add-photos-dialog'
+import AddPhotosDialog from '@components/dialog/add-photos-dialog'
 export default function CategoryDetail() {
   const { categoryId } = useParams()
   const { data: category } = useCategory(categoryId)
