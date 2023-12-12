@@ -26,20 +26,22 @@ const formSchema = z
     }),
     password: z
       .string()
-      .min(8, {
-        message: 'Password must be at least 8 characters',
-      })
-      .max(32, {
-        message: 'Password must be at most 32 characters',
-      }),
+      .refine(
+        value => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,32}$/.test(value),
+        {
+          message:
+            'Password must contain at least 1 uppercase, 1 lowercase, and 1 number and must be at least 8 characters and at most 32 characters.',
+        },
+      ),
     confirmPassword: z
       .string()
-      .min(8, {
-        message: 'Password must be at least 8 characters',
-      })
-      .max(32, {
-        message: 'Password must be at most 32 characters',
-      }),
+      .refine(
+        value => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,32}$/.test(value),
+        {
+          message:
+            'Password must contain at least 1 uppercase, 1 lowercase, and 1 number and must be at least 8 characters and at most 32 characters.',
+        },
+      ),
     displayName: z
       .string()
       .min(3, {
