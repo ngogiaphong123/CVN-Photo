@@ -99,6 +99,7 @@ export const useGetPhotosByPage = () => {
       if (data.data.length === 0) throw new Error('No more photos')
       return data.data as Photo[]
     },
+    enabled: true,
     getNextPageParam: (_, pages) => {
       return pages.length + 1
     },
