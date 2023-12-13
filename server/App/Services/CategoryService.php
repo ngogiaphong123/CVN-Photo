@@ -9,7 +9,7 @@ use App\Common\Validator\Validator;
 use App\Exceptions\HttpException;
 use App\Repositories\CategoryRepository;
 
-readonly class CategoryService {
+class CategoryService {
 	public function __construct (private CategoryRepository $categoryRepository) {}
 
 	/**
