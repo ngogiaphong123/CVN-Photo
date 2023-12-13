@@ -11,7 +11,7 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\PhotoCategoryRepository;
 use App\Repositories\PhotoRepository;
 
-readonly class PhotoCategoryService {
+class PhotoCategoryService {
 	public function __construct (private PhotoCategoryRepository $photoCategoryRepository, private PhotoRepository $photoRepository, private CategoryRepository $categoryRepository) {}
 
 	/**

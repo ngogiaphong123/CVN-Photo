@@ -13,9 +13,9 @@ use Exception;
 
 class AuthService {
 	public function __construct (
-		private readonly UserRepository     $userRepository,
-		private readonly JwtService         $jwtService,
-		private readonly CategoryRepository $categoryRepository,
+		private UserRepository     $userRepository,
+		private JwtService         $jwtService,
+		private CategoryRepository $categoryRepository,
 	) {}
 
 	public function hideUserCredentials (array $user): array {

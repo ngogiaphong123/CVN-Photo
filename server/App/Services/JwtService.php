@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Common\Enums\StatusCode;
 use App\Common\Enums\Token;
 use App\Common\Error\AuthError;
 use App\Core\Config;
@@ -11,7 +12,7 @@ use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-readonly class JwtService {
+class JwtService {
 	public function __construct (private Config $config) {}
 
 	public function generateToken (string $userId, Token $type): string {
@@ -35,7 +36,7 @@ readonly class JwtService {
 			$decoded = JWT::decode($token, new Key($this->config::get("jwt")["publicKey"], 'RS256'));
 			return (array)$decoded;
 		} catch (Exception $e) {
-			throw new HttpException(401, AuthError::ACCESS_TOKEN_EXPIRED->value);
+			throw new HttpException(StatusCode::UNAUTHORIZED->value, AuthError::ACCESS_TOKEN_EXPIRED->value);
 		}
 	}
 

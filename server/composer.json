@@ -24,5 +24,8 @@
 		"ramsey/uuid": "^4.7",
 		"firebase/php-jwt": "^6.9",
 		"cloudinary/cloudinary_php": "^2"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^10.5"
 	}
 }
