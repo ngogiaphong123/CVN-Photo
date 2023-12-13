@@ -80,7 +80,7 @@ class UserRepository {
 	public function update (string $id, array $data, array $originalData) {
 		$userEntity = new UserEntity();
 		$userEntity->setEmail($data['email'] ?? $originalData['email'])->setDisplayName($data['displayName'] ?? $originalData['displayName'])
-			->setAvatar($data['secureUrl'] ?? $originalData['avatar'])->setAvatarPublicId($data['publicId'] ?? $originalData['avatarPublicId'])
+			->setAvatar($data['url'] ?? $originalData['avatar'])->setAvatarPublicId($data['publicId'] ?? $originalData['avatarPublicId'])
 			->setAccessToken($data['accessToken'] ?? $originalData['accessToken'])->setRefreshToken($data['refreshToken'] ?? $originalData['refreshToken'])
 			->build();
 		$query = "UPDATE users SET email = :email, displayName = :displayName, avatar = :avatar, avatarPublicId = :avatarPublicId, accessToken = :accessToken, refreshToken = :refreshToken, updatedAt = :updatedAt WHERE id = :id";
