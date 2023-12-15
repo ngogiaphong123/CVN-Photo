@@ -3,8 +3,9 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Category } from '@redux/types/response.type'
-import { Input } from '@components/ui/input'
-import { useUpdateCategory } from '@/hooks/category.hook'
+import { Textarea } from '@components/ui/textarea'
+import { useUpdateCategory } from '@/hooks/category/useUpdateCategory'
+
 const formSchema = z.object({
   memo: z.string().optional(),
 })
@@ -37,12 +38,17 @@ export default function UpdateCategoryMemoForm({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
+                    <Textarea
                       {...field}
-                      placeholder={
-                        category.memo === '' ? 'Add a memo' : category.memo
-                      }
-                      className="w-full p-0 text-xl font-bold border-0 shadow-none ring-0 focus-visible:border-primary focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white text-muted-foreground"
+                      placeholder={'Write a memo for this category (optional)'}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter' && e.shiftKey === false) {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          form.handleSubmit(onSubmit)()
+                        }
+                      }}
+                      className="w-full p-0 text-xl font-light border-0 shadow-none ring-0 focus-visible:border-primary focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white text-muted-foreground"
                     />
                   </FormControl>
                 </FormItem>

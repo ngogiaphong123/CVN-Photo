@@ -1,7 +1,7 @@
-import { useDeletePhoto } from '@/hooks/photo.hook'
 import { Dialog, DialogContent, DialogTrigger } from '@components/ui/dialog'
-import { renderPhotoDetailIcon } from '@lib/helper'
 import { useNavigate } from 'react-router-dom'
+import { renderPhotoDetailIcon } from '@lib/utils'
+import { useDeletePhoto } from '@/hooks/photo/useDeletePhoto'
 
 export default function DeletePhotoDialog({ photoId }: { photoId: string }) {
   const { mutateAsync: deletePhoto } = useDeletePhoto(photoId)

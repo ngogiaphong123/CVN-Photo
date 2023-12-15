@@ -12,10 +12,9 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
-import { cn } from '@lib/utils'
+import { cn, toastMessage } from '@lib/utils'
 import { useDispatch } from 'react-redux'
 import { updateProfile } from '@redux/slices/user.slice'
-import { useToast } from '@components/ui/use-toast'
 import AvatarDialog from '@/components/dialog/avatar-dialog'
 
 const formSchema = z.object({
@@ -35,7 +34,6 @@ const formSchema = z.object({
 export default function Profile() {
   const user = useAppSelector(state => state.user).user
   const dispatch = useDispatch<AppDispatch>()
-  const { toast } = useToast()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,22 +45,12 @@ export default function Profile() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const result = await dispatch(updateProfile(values))
-    toast({
-      description: `Profile updated!`,
-    })
-
     try {
       if (result.meta.requestStatus === 'rejected')
         throw new Error(result.payload)
-      toast({
-        description: `Profile updated!`,
-      })
+      toastMessage('Profile updated!', 'default')
     } catch (err: any) {
-      toast({
-        title: 'Oops!',
-        description: `${err.message}`,
-        variant: 'destructive',
-      })
+      toastMessage(err.message, 'destructive')
     }
   }
 
@@ -70,7 +58,10 @@ export default function Profile() {
     <div className="flex flex-col items-start h-full px-4 pt-20">
       <AvatarDialog />
       <Form {...form}>
-        <form className="w-full pt-4 md:w-8/12" onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          className="w-full pt-4 md:w-8/12"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
           <div className="flex flex-col gap-4">
             <FormField
               control={form.control}

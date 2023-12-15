@@ -17,11 +17,10 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
-import { cn } from '@/lib/utils'
-import ChoosePhoto from '../choose-photo'
+import { cn, toastMessage } from '@/lib/utils'
+import ChoosePhoto from '@components/choose-photo'
 import { useState } from 'react'
-import { useCreateCategory } from '../../hooks/category.hook'
-import { toast } from '../ui/use-toast'
+import { useCreateCategory } from '@/hooks/category/useCreateCategory'
 
 const formSchema = z.object({
   name: z.string().min(3, {
@@ -51,9 +50,7 @@ export default function CreateCategoryDialog() {
       url: url,
       publicId: publicId,
     })
-    toast({
-      description: `Category ${values.name} created!`,
-    })
+    toastMessage(`Category ${values.name} created!`, 'default')
     setOpen(false)
   }
   const renderButton = () => {

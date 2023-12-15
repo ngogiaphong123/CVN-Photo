@@ -1,16 +1,16 @@
 import { Route, Routes } from 'react-router-dom'
 import { AuthGuard, GuestGuard, UserGuard } from '@components/middlewares'
-import { Landing } from '@/pages/landing-page'
-import { Login } from '@/pages/login-page'
-import { Register } from '@/pages/register-page'
+import { Landing } from '@/pages/landing'
+import { Login } from '@/pages/login'
+import { Register } from '@/pages/register'
 import { Photos } from '@/pages/photos'
 import { NotFound } from '@pages/not-found'
 import Profile from '@/pages/profile'
 import UserLayout from '@components/layouts/user-layout'
-import CategoryDetail from '@/pages/category-detail'
-import Category from '@pages/category'
+import Category from '@/pages/category'
+import Categories from '@/pages/categories'
 import { AnimatePresence } from 'framer-motion'
-import PhotoDetail from './pages/photo-detail'
+import Photo from './pages/photo'
 
 function App() {
   return (
@@ -28,13 +28,10 @@ function App() {
               <Route path="/" element={<UserLayout />}>
                 <Route path="/photos" element={<Photos />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="category" element={<Category />} />
-                <Route
-                  path="category/:categoryId"
-                  element={<CategoryDetail />}
-                />
+                <Route path="category" element={<Categories />} />
+                <Route path="category/:categoryId" element={<Category />} />
               </Route>
-              <Route path="photos/:photoId" element={<PhotoDetail />} />
+              <Route path="photos/:photoId" element={<Photo />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

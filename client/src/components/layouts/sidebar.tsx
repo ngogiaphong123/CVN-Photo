@@ -79,7 +79,10 @@ export default function Sidebar({ className }: { className?: string }) {
                   <AvatarImage src={user.avatar} />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <div className="hidden lg:flex"> {user.displayName}</div>
+                <div className="hidden truncate lg:inline-block max-w-[120px] xl:max-w-[200px]">
+                  {' '}
+                  {user.displayName}
+                </div>
               </div>
             </Link>
             <div className="flex items-center justify-between gap-4 px-4 py-2">

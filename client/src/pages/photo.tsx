@@ -1,4 +1,3 @@
-import { usePhoto } from '@/hooks/photo.hook'
 import { Cloudinary } from '@cloudinary/url-gen'
 import { useParams } from 'react-router-dom'
 import { NotFound } from '@/pages/not-found'
@@ -8,8 +7,9 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch, useAppSelector } from '@redux/store'
 import { getCategories } from '@redux/slices/category.slice'
+import { usePhoto } from '../hooks/photo/usePhoto'
 
-export default function PhotoDetail() {
+export default function Photo() {
   const { photoId } = useParams()
   const { data: photo, isLoading, isError } = usePhoto(photoId)
   const dispatch = useDispatch<AppDispatch>()
