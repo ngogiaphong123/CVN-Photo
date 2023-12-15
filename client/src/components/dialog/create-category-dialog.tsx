@@ -20,7 +20,7 @@ import * as z from 'zod'
 import { cn, toastMessage } from '@/lib/utils'
 import ChoosePhoto from '@components/choose-photo'
 import { useState } from 'react'
-import { useCreateCategory } from '@/hooks/category.hook'
+import { useCreateCategory } from '@/hooks/category/useCreateCategory'
 
 const formSchema = z.object({
   name: z.string().min(3, {

@@ -12,9 +12,9 @@ import {
 } from '@/components/ui/form'
 
 import { Input } from '@components/ui/input'
-import { useUpdatePhoto } from '@/hooks/photo.hook'
 import ChangDateDialog from './dialog/change-date-dialog'
 import { toastMessage } from '@lib/utils'
+import { useUpdatePhoto } from '@/hooks/photo/useUpdatePhoto'
 
 function humanFileSize(bytes: number, si = true, dp = 1): string {
   const thresh = si ? 1000 : 1024

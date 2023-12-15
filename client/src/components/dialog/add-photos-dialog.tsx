@@ -112,7 +112,7 @@ export default function AddPhotosDialog({
               width={24}
               className="text-white"
             />
-            Add photos
+            <p className='hidden lg:inline'>Add photos</p>
           </div>
         </div>{' '}
       </DialogTrigger>

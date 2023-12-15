@@ -1,11 +1,9 @@
 import { Photo } from '@redux/types/response.type'
 import { Link } from 'react-router-dom'
-import {
-  useAddPhotoToCategory,
-  useRemovePhotoFromCategory,
-} from '@/hooks/category.hook'
 import { useEffect, useState } from 'react'
 import { renderPhotoDetailIcon } from '@lib/utils'
+import { useAddPhotoToCategory } from '@/hooks/category/useAddPhotoToCategory'
+import { useRemovePhotoFromCategory } from '@/hooks/category/useRemovePhotoFromCategory'
 
 export default function PhotoImage({
   photo,

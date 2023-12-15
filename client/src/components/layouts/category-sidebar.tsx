@@ -4,11 +4,11 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu'
-import { useDeleteCategory } from '@/hooks/category.hook'
 import { SidebarItem } from '@components/layouts/sidebar'
 import { cn } from '@/lib/utils'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { buttonVariants } from '@components/ui/button'
+import { useDeleteCategory } from '@/hooks/category/useDeleteCategory'
 
 export default function CategorySidebar({ item }: { item: SidebarItem }) {
   const location = useLocation()
@@ -40,7 +40,9 @@ export default function CategorySidebar({ item }: { item: SidebarItem }) {
                 src={item.url}
                 alt=""
               />
-              <p className="hidden truncate lg:inline-block max-w-[120px] xl:max-w-[200px]">{item.title}</p>
+              <p className="hidden truncate lg:inline-block max-w-[120px] xl:max-w-[200px]">
+                {item.title}
+              </p>
             </div>
           </Link>
         </ContextMenuTrigger>

@@ -10,7 +10,8 @@ import {
 } from '@/components/ui/form'
 import { Category } from '@/redux/types/response.type'
 import { Input } from '@components/ui/input'
-import { useUpdateCategory } from '@/hooks/category.hook'
+import { useUpdateCategory } from '@/hooks/category/useUpdateCategory'
+
 const formSchema = z.object({
   name: z
     .string()

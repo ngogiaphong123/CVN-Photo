@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
-import { useGetPhotosNotInCategoryByPage } from '@/hooks/category.hook'
 import { cn } from '@/lib/utils'
 import { useIntersection } from '@/hooks/useIntersection'
+import { useGetPhotosNotInCategoryByPage } from '@/hooks/category/useGetPhotosNotInCategoryByPage'
 
 export default function PhotoAddDialog({
   categoryId,

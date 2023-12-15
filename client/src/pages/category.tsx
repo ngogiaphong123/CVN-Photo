@@ -1,10 +1,5 @@
 import { useParams } from 'react-router'
 import { motion } from 'framer-motion'
-import {
-  useCategory,
-  useCategoryPhotos,
-  useRemovePhotoFromCategory,
-} from '@/hooks/category.hook'
 import PhotoImage from '@/components/photo-image'
 import { useAppSelector } from '@/redux/store'
 import UpdateCategoryNameForm from '@components/form/update-category-name-form'
@@ -16,6 +11,9 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu'
+import { useCategory } from '@/hooks/category/useCategory'
+import { useCategoryPhotos } from '@/hooks/category/useCategoryPhotos'
+import { useRemovePhotoFromCategory } from '@/hooks/category/useRemovePhotoFromCategory'
 
 export default function Category() {
   const { categoryId } = useParams()

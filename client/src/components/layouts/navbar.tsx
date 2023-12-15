@@ -14,8 +14,8 @@ import {
 import { AppDispatch, useAppSelector } from '@redux/store'
 import { useDispatch } from 'react-redux'
 import { logout } from '@redux/slices/user.slice'
-import { useUploadPhoto } from '@/hooks/photo.hook'
 import { toastMessage } from '@lib/utils'
+import { useUploadPhoto } from '@/hooks/photo/useUploadPhoto'
 
 export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>()

@@ -3,8 +3,9 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Category } from '@redux/types/response.type'
-import { useUpdateCategory } from '@/hooks/category.hook'
 import { Textarea } from '@components/ui/textarea'
+import { useUpdateCategory } from '@/hooks/category/useUpdateCategory'
+
 const formSchema = z.object({
   memo: z.string().optional(),
 })

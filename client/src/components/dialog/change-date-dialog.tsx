@@ -30,8 +30,8 @@ import { Calendar } from '@/components/ui/calendar'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { cn } from '@lib/utils'
-import { useUpdatePhoto } from '@/hooks/photo.hook'
 import { useState } from 'react'
+import { useUpdatePhoto } from '@/hooks/photo/useUpdatePhoto'
 const schema = z.object({
   takenAt: z.date({
     required_error: 'Taken date is required',
