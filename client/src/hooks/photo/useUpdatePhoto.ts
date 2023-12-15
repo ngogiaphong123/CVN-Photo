@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { UpdatePhotoInput } from '@/redux/types/request.type'
 import { privateApi } from '@/lib/axios'
 import { Photo } from '@/redux/types/response.type'
+import { toastMessage } from '@lib/utils'
 
 export const useUpdatePhoto = (photoId: string) => {
   const queryClient = useQueryClient()
@@ -19,6 +20,7 @@ export const useUpdatePhoto = (photoId: string) => {
       queryClient.invalidateQueries({
         queryKey: [`${photoId}`],
       })
+      toastMessage('Taken at updated successfully', 'default')
     },
   })
 }

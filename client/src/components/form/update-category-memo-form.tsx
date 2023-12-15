@@ -48,7 +48,7 @@ export default function UpdateCategoryMemoForm({
                           form.handleSubmit(onSubmit)()
                         }
                       }}
-                      className="w-full p-0 text-xl font-light border-0 shadow-none ring-0 focus-visible:border-primary focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white text-muted-foreground"
+                      className="w-full p-0 text-xl font-light border-0 shadow-none focus-visible:border-primary focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white text-muted-foreground"
                     />
                   </FormControl>
                 </FormItem>

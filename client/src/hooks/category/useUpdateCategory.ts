@@ -5,6 +5,7 @@ import { UpdateCategoryInput } from '@/redux/types/request.type'
 import { privateApi } from '@/lib/axios'
 import { Category } from '@/redux/types/response.type'
 import { getCategories } from '@/redux/slices/category.slice'
+import { toastMessage } from '@lib/utils'
 
 export const useUpdateCategory = (categoryId: string) => {
   const queryClient = useQueryClient()
@@ -27,6 +28,7 @@ export const useUpdateCategory = (categoryId: string) => {
         queryKey: [`${categoryId}`],
       })
       dispatch(getCategories())
+      toastMessage('Category updated successfully', 'default')
     },
   })
 }
