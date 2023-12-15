@@ -22,7 +22,7 @@ export function Photos() {
     const photos = data?.pages.flatMap(page => page)
     const processedPhotos = sortPhotosByMonthAndYear(photos)
     return (
-      <div className="pt-20">
+      <>
         {processedPhotos.map(([key, photos], i) => {
           if (i === processedPhotos.length - 1) {
             return (
@@ -38,7 +38,7 @@ export function Photos() {
           }
           return <PhotoByMonth date={key} photos={photos} key={key} />
         })}
-      </div>
+      </>
     )
   }
   return (

@@ -55,7 +55,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="flex flex-col items-start h-full px-4 pt-20">
+    <div className="flex flex-col items-start h-full p-4">
       <AvatarDialog />
       <Form {...form}>
         <form

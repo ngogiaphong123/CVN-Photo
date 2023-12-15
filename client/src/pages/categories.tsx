@@ -15,9 +15,8 @@ export default function Categories() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="pt-20"
     >
-      <div className="flex items-center justify-between px-8 pb-4">
+      <div className="flex items-center justify-between p-4 px-8">
         <p className="text-2xl text-primary">Your Category</p>
         <div>
           {' '}
