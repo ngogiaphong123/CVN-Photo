@@ -11,10 +11,10 @@ import {
   FormLabel,
 } from '@/components/ui/form'
 
-import { Input } from '@components/ui/input'
 import ChangDateDialog from './dialog/change-date-dialog'
 import { toastMessage } from '@lib/utils'
 import { useUpdatePhoto } from '@/hooks/photo/useUpdatePhoto'
+import { Textarea } from '@components/ui/textarea'
 
 function humanFileSize(bytes: number, si = true, dp = 1): string {
   const thresh = si ? 1000 : 1024
@@ -73,7 +73,7 @@ export default function PhotoInfo({ photo }: { photo: Photo }) {
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Input
+                      <Textarea
                         {...field}
                         placeholder={
                           photo.description === ''
@@ -81,6 +81,13 @@ export default function PhotoInfo({ photo }: { photo: Photo }) {
                             : photo.description
                         }
                         className="w-full border-b"
+                        onKeyDown={e => {
+                          if (e.key === 'Enter' && e.shiftKey === false) {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            form.handleSubmit(onSubmit)()
+                          }
+                        }}
                       />
                     </FormControl>
                   </FormItem>
