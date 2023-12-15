@@ -14,30 +14,21 @@ import {
 import { AppDispatch, useAppSelector } from '@redux/store'
 import { useDispatch } from 'react-redux'
 import { logout } from '@redux/slices/user.slice'
-import { useToast } from '@/components/ui/use-toast'
 import { useUploadPhoto } from '@/hooks/photo.hook'
+import { toastMessage } from '@lib/utils'
 
 export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>()
-  const { toast } = useToast()
   const navigate = useNavigate()
   const user = useAppSelector(state => state.user).user
   const { mutateAsync: uploadNewPhotos } = useUploadPhoto()
   const upload = async (input: FileList) => {
-    toast({
-      description: `Uploading your photos...`,
-    })
+    toastMessage('Uploading your photos...', 'default')
     try {
       await uploadNewPhotos(input)
-      toast({
-        description: `Uploaded photos!`,
-      })
+      toastMessage('Uploaded photos!', 'default')
     } catch (err: any) {
-      toast({
-        title: 'Oops!',
-        description: `${err.message}`,
-        variant: 'destructive',
-      })
+      toastMessage(err.message, 'destructive')
     }
   }
 
@@ -46,16 +37,10 @@ export default function Navbar() {
     try {
       if (result.meta.requestStatus === 'rejected')
         throw new Error(result.payload)
-      toast({
-        title: 'Logged out',
-        description: 'You have successfully logged out.',
-      })
+      toastMessage('You have successfully logged out.', 'default')
       navigate('/')
     } catch (err: any) {
-      toast({
-        title: 'Oops!',
-        description: `${err.message}`,
-      })
+      toastMessage(err.message, 'destructive')
     }
   }
   return (

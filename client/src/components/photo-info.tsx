@@ -13,8 +13,8 @@ import {
 
 import { Input } from '@components/ui/input'
 import { useUpdatePhoto } from '@/hooks/photo.hook'
-import { useToast } from './ui/use-toast'
 import ChangDateDialog from './dialog/change-date-dialog'
+import { toastMessage } from '@lib/utils'
 
 function humanFileSize(bytes: number, si = true, dp = 1): string {
   const thresh = si ? 1000 : 1024
@@ -45,7 +45,6 @@ const formSchema = z.object({
 
 export default function PhotoInfo({ photo }: { photo: Photo }) {
   const { mutateAsync: updatePhoto } = useUpdatePhoto(photo.id)
-  const { toast } = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,15 +53,11 @@ export default function PhotoInfo({ photo }: { photo: Photo }) {
   })
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (!values.description) values.description = ''
-    toast({
-      description: `Updating photo...`,
-    })
+    toastMessage('Updating photo...', 'default')
     await updatePhoto({
       description: values.description,
     })
-    toast({
-      description: `Updated photo!`,
-    })
+    toastMessage('Photo updated!', 'default')
   }
   return (
     <div className="flex-col hidden px-4 py-8 lg:flex lg:w-3/12">
@@ -103,7 +98,7 @@ export default function PhotoInfo({ photo }: { photo: Photo }) {
             height={24}
           />
         </div>
-        <div className='truncate'>{photo.name}</div>
+        <div className="truncate">{photo.name}</div>
       </div>
       <ChangDateDialog photo={photo} />
       <div className="flex items-center justify-start gap-4 p-4">

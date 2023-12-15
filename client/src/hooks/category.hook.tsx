@@ -13,7 +13,7 @@ import {
   CreateCategoryInput,
   UpdateCategoryInput,
 } from '@redux/types/request.type'
-import { toast } from '../components/ui/use-toast'
+import { toast } from '@components/ui/use-toast'
 
 export const useCategoryPhotos = (categoryId: string | undefined) => {
   return useQuery({

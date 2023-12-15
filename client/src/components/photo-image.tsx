@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import {
   useAddPhotoToCategory,
   useRemovePhotoFromCategory,
-} from '../hooks/category.hook'
+} from '@/hooks/category.hook'
 import { useEffect, useState } from 'react'
-import { renderPhotoDetailIcon } from '@lib/helper'
+import { renderPhotoDetailIcon } from '@lib/utils'
 
 export default function PhotoImage({
   photo,

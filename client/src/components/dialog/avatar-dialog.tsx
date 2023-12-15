@@ -9,34 +9,25 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useState } from 'react'
 import { AppDispatch, useAppSelector } from '@redux/store'
 import { useDispatch } from 'react-redux'
-import { useToast } from '@components/ui/use-toast'
 import { uploadAvatar } from '@redux/slices/user.slice'
 import { Button } from '@components/ui/button'
+import { toastMessage } from '@lib/utils'
 
 export default function AvatarDialog() {
   const [open, setOpen] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
-  const { toast } = useToast()
   const user = useAppSelector(state => state.user).user
 
   async function upload(input: File | null = null) {
     setOpen(false)
-    toast({
-      description: `Uploading your profile photo...`,
-    })
+    toastMessage('Uploading your profile photo...', 'default')
     const result = await dispatch(uploadAvatar(input))
     try {
       if (result.meta.requestStatus === 'rejected')
         throw new Error(result.payload)
-      toast({
-        description: `Profile photo updated!`,
-      })
+      toastMessage('Uploaded profile photo!', 'default')
     } catch (err: any) {
-      toast({
-        title: 'Oops!',
-        description: `${err.message}`,
-        variant: 'destructive',
-      })
+      toastMessage(err.message, 'destructive')
     }
   }
 

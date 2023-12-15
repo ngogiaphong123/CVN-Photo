@@ -1,5 +1,38 @@
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+import Cookies from 'universal-cookie'
 import { Icon } from '@iconify/react'
 import { Photo } from '@redux/types/response.type'
+import { toast } from '@components/ui/use-toast'
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+export const setCookie = (name: string, value: string) => {
+  const cookies = new Cookies()
+  cookies.set(name, value, { path: '/' })
+}
+
+export const unsetCookie = (name: string) => {
+  const cookies = new Cookies()
+  cookies.remove(name)
+}
+
+export const getCookie = (name: string) => {
+  const cookies = new Cookies()
+  return cookies.get(name)
+}
+
+export function isEmpty(obj: any) {
+  for (const prop in obj) {
+    if (Object.hasOwn(obj, prop)) {
+      return false
+    }
+  }
+
+  return true
+}
 
 export const sortPhotosByMonthAndYear = (photos: Photo[] | undefined) => {
   if (!photos) return []
@@ -53,4 +86,16 @@ export const renderPhotoDetailIcon = (
       />
     </div>
   )
+}
+
+export const toastMessage = (
+  message: string,
+  variant: 'default' | 'destructive' | null | undefined,
+) => {
+  const title = variant === 'destructive' ? 'Oops!' : undefined
+  toast({
+    title,
+    description: `${message}`,
+    variant: variant || 'default',
+  })
 }

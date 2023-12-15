@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom'
 import { AppDispatch } from '@redux/store'
 import { useDispatch } from 'react-redux'
 import { register } from '@redux/slices/user.slice'
-import { useToast } from '@components/ui/use-toast'
+import { toastMessage } from '@lib/utils'
 
 const formSchema = z
   .object({
@@ -58,7 +58,6 @@ const formSchema = z
 
 export function Register() {
   const dispatch = useDispatch<AppDispatch>()
-  const { toast } = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -74,15 +73,9 @@ export function Register() {
     try {
       if (result.meta.requestStatus === 'rejected')
         throw new Error(result.payload)
-      toast({
-        description: `Welcome, ${result.payload.displayName}!`,
-      })
+      toastMessage(`Welcome, ${result.payload.displayName}!`, 'default')
     } catch (err: any) {
-      toast({
-        title: 'Oops!',
-        description: `${err.message}`,
-        variant: 'destructive',
-      })
+      toastMessage(err.message, 'destructive')
     }
   }
 

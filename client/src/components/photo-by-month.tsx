@@ -1,5 +1,5 @@
 import { Photo } from '@redux/types/response.type'
-import { convertToMonth } from '@lib/helper'
+import { convertToMonth } from '@lib/utils'
 import PhotoImage from '@/components/photo-image'
 import { useAppSelector } from '@redux/store'
 

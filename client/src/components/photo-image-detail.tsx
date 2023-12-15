@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import DeletePhotoDialog from '@components/dialog/delete-photo-dialog'
-import { renderPhotoDetailIcon } from '@lib/helper'
+import { renderPhotoDetailIcon } from '@lib/utils'
 import {
   useAddPhotoToCategory,
   useRemovePhotoFromCategory,
-} from '../hooks/category.hook'
+} from '@/hooks/category.hook'
 import { AdvancedImage } from '@cloudinary/react'
 import { CloudinaryImage } from '@cloudinary/url-gen/index'
-import { Photo } from '../redux/types/response.type'
+import { Photo } from '@/redux/types/response.type'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 

@@ -1,5 +1,5 @@
 import PhotoByMonth from '@components/photo-by-month'
-import { sortPhotosByMonthAndYear } from '@lib/helper'
+import { sortPhotosByMonthAndYear } from '@lib/utils'
 import { motion } from 'framer-motion'
 import { useGetPhotosByPage } from '@/hooks/photo.hook'
 import { useEffect, useRef } from 'react'

@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch, useAppSelector } from '@redux/store'
 import { getCategories } from '@redux/slices/category.slice'
 
-export default function PhotoDetail() {
+export default function Photo() {
   const { photoId } = useParams()
   const { data: photo, isLoading, isError } = usePhoto(photoId)
   const dispatch = useDispatch<AppDispatch>()

@@ -5,11 +5,10 @@ import {
   DialogHeader,
 } from '@components/ui/dialog'
 import { useEffect, useState } from 'react'
-import { cn } from '@/lib/utils'
+import { cn, toastMessage } from '@/lib/utils'
 import { DialogTrigger } from '@components/ui/dialog'
 import { Button, buttonVariants } from '@components/ui/button'
 import { Icon } from '@iconify/react'
-import { toast } from '@components/ui/use-toast'
 import PhotoAddDialog from './photos-add-dialog'
 import { useQueryClient } from '@tanstack/react-query'
 import { privateApi } from '@/lib/axios'
@@ -65,11 +64,7 @@ export default function AddPhotosDialog({
             try {
               await privateApi.post(`/photo-category`, formData)
             } catch (err: any) {
-              toast({
-                title: 'Oops!',
-                description: `${err.message}`,
-                variant: 'destructive',
-              })
+              toastMessage(err.message, 'destructive')
             }
           })
           queryClient.removeQueries({
@@ -85,9 +80,7 @@ export default function AddPhotosDialog({
             queryKey: [`${categoryId}`],
           })
           await dispatch(getCategories())
-          toast({
-            description: `Added ${chosenPhotos.length} photos to category ${categoryTitle}`,
-          })
+          toastMessage(`Added ${chosenPhotos.length} photos to category ${categoryTitle}`, 'default')
           setIsOpen(false)
           setChosenPhotos([])
         }}
