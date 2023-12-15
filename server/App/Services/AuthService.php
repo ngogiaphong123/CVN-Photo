@@ -100,7 +100,7 @@ class AuthService {
 	 */
 	public function refreshTokens (array $data): array {
 		if (!isset($data['refreshToken'])) {
-			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::REFRESH_TOKEN_IS_INVALID->value);
+				throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::REFRESH_TOKEN_IS_INVALID->value);
 		}
 		$payload = $this->jwtService->verifyToken($data['refreshToken']);
 		$user = $this->userRepository->findOne($payload['userId']);

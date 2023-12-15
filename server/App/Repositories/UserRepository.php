@@ -22,7 +22,7 @@ class UserRepository {
 	public function create (array $data) {
 		$userEntity = new UserEntity();
 		$userEntity->setEmail($data["email"] ?? "")->setDisplayName($data["displayName"] ?? "")->setPassword($data["password"] ?? "")
-			->setAvatar($this->config::get('user')['default']['avatar'])->setAvatarPublicId($this->config::get('user')['default']['avatarPublicId'])
+			->setAvatar($this->config->get('user')['default']['avatar'])->setAvatarPublicId($this->config->get('user')['default']['avatarPublicId'])
 			->setAccessToken("")->setRefreshToken("")
 			->build();
 		$query = "INSERT INTO users (id, email, displayName, password, avatar, avatarPublicId, accessToken, refreshToken, createdAt, updatedAt) 
@@ -80,7 +80,7 @@ class UserRepository {
 	public function update (string $id, array $data, array $originalData) {
 		$userEntity = new UserEntity();
 		$userEntity->setEmail($data['email'] ?? $originalData['email'])->setDisplayName($data['displayName'] ?? $originalData['displayName'])
-			->setAvatar($data['url'] ?? $originalData['avatar'])->setAvatarPublicId($data['publicId'] ?? $originalData['avatarPublicId'])
+			->setAvatar($data['secureUrl'] ?? $originalData['avatar'])->setAvatarPublicId($data['publicId'] ?? $originalData['avatarPublicId'])
 			->setAccessToken($data['accessToken'] ?? $originalData['accessToken'])->setRefreshToken($data['refreshToken'] ?? $originalData['refreshToken'])
 			->build();
 		$query = "UPDATE users SET email = :email, displayName = :displayName, avatar = :avatar, avatarPublicId = :avatarPublicId, accessToken = :accessToken, refreshToken = :refreshToken, updatedAt = :updatedAt WHERE id = :id";

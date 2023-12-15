@@ -7,7 +7,7 @@ use App\Core\Database;
 use App\Entities\PhotoCategoryEntity;
 use PDO;
 
-readonly class PhotoCategoryRepository {
+class PhotoCategoryRepository {
 	public function __construct (private Database $database) {}
 
 	public function create (array $data): array {

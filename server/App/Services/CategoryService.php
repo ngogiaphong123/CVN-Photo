@@ -15,7 +15,7 @@ class CategoryService {
 	/**
 	 * @throws HttpException
 	 */
-	public function create (array $data, string $userId) {
+	public function create (array $data, string $userId): array {
 		$data['userId'] = $userId;
 		$category = $this->categoryRepository->findOneByName($data);
 		if ($category) {
