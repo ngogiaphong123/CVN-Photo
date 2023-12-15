@@ -37,8 +37,8 @@ export default function Category() {
       )
     }
     return (
-      <div className="flex flex-col h-screen pt-20">
-        <div className="flex flex-col justify-center gap-4 p-8">
+      <div className="flex flex-col h-screen">
+        <div className="flex flex-col justify-center gap-4 p-4">
           {renderForm()}
           <AddPhotosDialog
             categoryId={category.id}
