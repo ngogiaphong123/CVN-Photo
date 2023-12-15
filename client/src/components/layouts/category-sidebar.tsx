@@ -40,7 +40,7 @@ export default function CategorySidebar({ item }: { item: SidebarItem }) {
                 src={item.url}
                 alt=""
               />
-              <p className="hidden lg:inline-block">{item.title}</p>
+              <p className="hidden truncate lg:inline-block max-w-[120px] xl:max-w-[200px]">{item.title}</p>
             </div>
           </Link>
         </ContextMenuTrigger>
@@ -49,7 +49,7 @@ export default function CategorySidebar({ item }: { item: SidebarItem }) {
             className="focus:text-destructive"
             onClick={() => {
               deleteCategory()
-              if(pathname === item.href) navigate('/category')
+              if (pathname === item.href) navigate('/category')
             }}
           >
             Delete category

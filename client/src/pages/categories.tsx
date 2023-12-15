@@ -30,14 +30,14 @@ export default function Categories() {
           <Link key={category.id} to={`/category/${category.id}`} className="">
             <div
               key={category.id}
-              className="flex flex-col items-center justify-center h-72"
+              className="flex flex-col items-center justify-center group"
             >
               <img
                 src={category.url}
                 alt={category.name}
-                className="h-64 transition-all duration-200 ease-in-out rounded-lg hover:rounded-none"
+                className="object-cover transition-all duration-200 ease-in-out rounded-lg shadow-lg w-72 h-72 group-hover:rounded-none"
               />
-              <div className="w-full text-center text-black">
+              <div className="w-full mt-2 text-center text-black truncate">
                 {category.name}
               </div>
               <div className="text-gray-700">{category.numPhotos}</div>
