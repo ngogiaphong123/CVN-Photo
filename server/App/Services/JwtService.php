@@ -18,14 +18,14 @@ class JwtService {
 	public function generateToken (string $userId, Token $type): string {
 		$iat = new DateTime();
 		$exp = clone $iat;
-		$exp->modify("+{$this->config::get("jwt")["{$type->value}TTL"]}");
+		$exp->modify("+{$this->config->get("jwt")["{$type->value}TTL"]}");
 		$payload = [
 			"iss" => "localhost",
 			"iat" => $iat->getTimestamp(),
 			"exp" => $exp->getTimestamp(),
 			"userId" => $userId,
 		];
-		return JWT::encode($payload, $this->config::get("jwt")["privateKey"], 'RS256');
+		return JWT::encode($payload, $this->config->get("jwt")["privateKey"], 'RS256');
 	}
 
 	/**
@@ -33,7 +33,7 @@ class JwtService {
 	 */
 	public function verifyToken (string $token): array {
 		try {
-			$decoded = JWT::decode($token, new Key($this->config::get("jwt")["publicKey"], 'RS256'));
+			$decoded = JWT::decode($token, new Key($this->config->get("jwt")["publicKey"], 'RS256'));
 			return (array)$decoded;
 		} catch (Exception $e) {
 			throw new HttpException(StatusCode::UNAUTHORIZED->value, AuthError::ACCESS_TOKEN_EXPIRED->value);

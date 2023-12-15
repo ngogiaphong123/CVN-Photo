@@ -35,7 +35,7 @@ class Config {
 		];
 	}
 
-	public static function get (string $key) {
+	public function get (string $key) {
 
 		return self::$config[$key] ?? NULL;
 	}

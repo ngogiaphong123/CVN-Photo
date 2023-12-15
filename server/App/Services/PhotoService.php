@@ -14,7 +14,7 @@ use App\Repositories\UserRepository;
 
 class PhotoService {
 
-	public function __construct (private readonly PhotoRepository $photoRepository, private readonly UploadService $uploadService, private readonly UserRepository $userRepository, private PhotoCategoryRepository $photoCategoryRepository) {}
+	public function __construct (private PhotoRepository $photoRepository, private UploadService $uploadService, private UserRepository $userRepository, private PhotoCategoryRepository $photoCategoryRepository) {}
 
 	/**
 	 * @throws HttpException
@@ -32,6 +32,7 @@ class PhotoService {
 				throw new HttpException(StatusCode::BAD_REQUEST->value, UploadError::FILE_IS_TOO_LARGE->value);
 			}
 		}
+		$photos = [];
 		foreach ($data['name'] as $key => $value) {
 			$file = [
 				'name' => $data['name'][$key],
@@ -49,8 +50,9 @@ class PhotoService {
 				'description' => '',
 			]);
 			$this->photoCategoryRepository->addToUncategorized($photo['id'], $userId);
+			$photos[] = $photo;
 		}
-		return $this->findUserPhotos($userId);
+		return $photos;
 	}
 
 	/**

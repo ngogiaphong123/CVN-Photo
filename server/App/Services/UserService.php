@@ -22,21 +22,21 @@ class UserService {
 	/**
 	 * @throws HttpException
 	 */
-	public function uploadAvatar (array | null $file, string $userId): array {
-		if(!$file) {
+	public function uploadAvatar (array|null $file, string $userId): array {
+		if (!$file) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, UploadError::FILE_IS_REQUIRED->value);
 		}
 		$user = $this->userRepository->findOne($userId);
 		if (!$user) {
 			throw new HttpException(StatusCode::BAD_REQUEST->value, AuthError::USER_DOES_NOT_EXIST->value);
 		}
-		if ($user['avatarPublicId'] !== $this->config::get('user')['default']['avatarPublicId']) {
+		if ($user['avatarPublicId'] !== $this->config->get('user')['default']['avatarPublicId']) {
 			$this->uploadService->delete($user['avatarPublicId']);
 		}
 		if ($file["name"] === "" && $file["size"] === 0) {
 			$updatedUser = $this->userRepository->update($userId, [
-				"url" => $this->config::get('user')['default']['avatar'],
-				"publicId" => $this->config::get('user')['default']['avatarPublicId'],
+				"secureUrl" => $this->config->get('user')['default']['avatar'],
+				"publicId" => $this->config->get('user')['default']['avatarPublicId'],
 			], $user);
 			return $this->hideUserCredentials($updatedUser);
 		}

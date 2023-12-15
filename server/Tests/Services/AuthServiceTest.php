@@ -152,6 +152,13 @@ class AuthServiceTest extends TestCase {
 		$this->authService->refreshTokens(['refreshToken' => $refreshToken]);
 	}
 
+	public function testRefreshTokensWhenNoRefreshToken () {
+		$this->expectException(HttpException::class);
+		$this->expectExceptionMessage(AuthError::REFRESH_TOKEN_IS_INVALID->value);
+		$this->authService->refreshTokens([]);
+	}
+
+
 	public function testRefreshTokensWhenUserDoesNotExist () {
 		$this->expectException(HttpException::class);
 		$this->expectExceptionMessage(AuthError::USER_DOES_NOT_EXIST->value);
@@ -425,11 +432,7 @@ class AuthServiceTest extends TestCase {
 				'publicId' => '',
 				'userId' => $createdUser['id'],
 			]);
-
-		// Call the register method
 		$result = $this->authService->register($userData);
-
-		// Assert the result
 		$this->assertEquals([
 			'accessToken' => 'mockedAccessToken',
 			'refreshToken' => 'mockedAccessToken',
@@ -458,8 +461,6 @@ class AuthServiceTest extends TestCase {
 			'id' => 'existingUserId',
 			'email' => $userData['email'],
 		];
-
-		// Set up expectations for the userRepositoryMock
 		$this->userRepositoryMock
 			->expects($this->once())
 			->method('findOneByEmail')

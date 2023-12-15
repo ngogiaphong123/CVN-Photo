@@ -9,7 +9,7 @@ use Cloudinary\Api\Exception\ApiError;
 use Cloudinary\Api\Upload\UploadApi;
 
 class UploadService {
-	public function __construct (private readonly UploadApi $uploadApi) {}
+	public function __construct (private UploadApi $uploadApi) {}
 
 	public static int $MAX_FILE_SIZE = 1024 * 1024 * 2;
 
