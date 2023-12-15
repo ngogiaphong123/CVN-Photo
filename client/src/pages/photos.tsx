@@ -3,7 +3,7 @@ import { sortPhotosByMonthAndYear } from '@lib/utils'
 import { motion } from 'framer-motion'
 import { useEffect, useRef } from 'react'
 import { useIntersection } from '@/hooks/useIntersection'
-import { useGetPhotosByPage } from '../hooks/photo/useGetPhotosByPage'
+import { useGetPhotosByPage } from '@/hooks/photo/useGetPhotosByPage'
 
 export function Photos() {
   const { data, fetchNextPage } = useGetPhotosByPage()

@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch, useAppSelector } from '@redux/store'
 import { getCategories } from '@redux/slices/category.slice'
-import { usePhoto } from '../hooks/photo/usePhoto'
+import { usePhoto } from '@/hooks/photo/usePhoto'
 
 export default function Photo() {
   const { photoId } = useParams()
