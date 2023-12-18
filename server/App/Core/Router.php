@@ -113,6 +113,7 @@ class Router
     {
         $method = strtolower($this->request->getMethod());
         $path = $this->request->getPath();
+        $path = explode('?', $path)[0];
         $routes = $this->routes[$method] ?? [];
         foreach ($routes as $route => $routeInfo) {
             if (preg_match($route, $path, $matches)) {

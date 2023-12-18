@@ -61,7 +61,7 @@ export default function PhotoImageDetail({
       <div className="absolute top-0 left-0 z-10 flex items-center justify-between w-full h-16 px-4">
         <div
           onClick={() => {
-            navigate(-1)
+            navigate("/")
           }}
         >
           {renderPhotoDetailIcon('arrow-left-alt')}

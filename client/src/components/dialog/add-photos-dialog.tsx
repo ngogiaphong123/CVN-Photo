@@ -67,6 +67,7 @@ export default function AddPhotosDialog({
               toastMessage(err.message, 'destructive')
             }
           })
+          setIsOpen(false)
           queryClient.removeQueries({
             queryKey: ['infinitePhotos'],
           })
@@ -80,8 +81,10 @@ export default function AddPhotosDialog({
             queryKey: [`${categoryId}`],
           })
           await dispatch(getCategories())
-          toastMessage(`Added ${chosenPhotos.length} photos to category ${categoryTitle}`, 'default')
-          setIsOpen(false)
+          toastMessage(
+            `Added ${chosenPhotos.length} photos to category ${categoryTitle}`,
+            'default',
+          )
           setChosenPhotos([])
         }}
       >
@@ -112,7 +115,7 @@ export default function AddPhotosDialog({
               width={24}
               className="text-white"
             />
-            <p className='hidden lg:inline'>Add photos</p>
+            <p className="hidden lg:inline">Add photos</p>
           </div>
         </div>{' '}
       </DialogTrigger>

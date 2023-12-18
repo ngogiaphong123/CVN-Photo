@@ -57,8 +57,8 @@ class CategoryController
             $this->categoryService->findCategoryPhotosByPage(
                 $this->request->getParam('categoryId'),
                 Session::get("userId"),
-                $this->request->getParam('page'),
-                $this->request->getParam('limit')
+                $this->request->getQueryParam('page'),
+                $this->request->getQueryParam('limit')
             )
         );
     }
@@ -74,8 +74,8 @@ class CategoryController
             $this->categoryService->findPhotosNotInCategoryByPage(
                 $this->request->getParam('categoryId'),
                 Session::get("userId"),
-                $this->request->getParam('page'),
-                $this->request->getParam('limit')
+                $this->request->getQueryParam('page'),
+                $this->request->getQueryParam('limit')
             )
         );
     }

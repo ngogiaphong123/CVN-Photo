@@ -89,8 +89,8 @@ class PhotoController
             PhotoMessage::GET_USER_PHOTOS_SUCCESSFULLY->value,
             $this->photoService->findUsersPhotoByPage(
                 Session::get("userId"),
-                $this->request->getParam('page'),
-                $this->request->getParam('limit')
+                $this->request->getQueryParam('page'),
+                $this->request->getQueryParam('limit')
             )
         );
     }

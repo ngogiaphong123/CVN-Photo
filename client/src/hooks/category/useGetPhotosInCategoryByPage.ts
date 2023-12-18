@@ -10,7 +10,7 @@ export const useGetPhotosInCategoryByPage = (
     queryKey: [`infinitePhotosInCategory${categoryId}`],
     queryFn: async ({ pageParam = 1 }) => {
       const { data } = await privateApi.get(
-        `/categories/${categoryId}/photos/${pageParam}/${LIMIT}`,
+        `/categories/${categoryId}/photos/pagination?page=${pageParam}&limit=${LIMIT}`,
       )
       return data.data as Photo[]
     },
