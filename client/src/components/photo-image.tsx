@@ -27,7 +27,7 @@ export default function PhotoImage({
     return renderPhotoDetailIcon('favorite-outline-rounded', true)
   }
   return (
-    <div className="relative transition-all duration-200 ease-in-out rounded-lg shadow-lg group hover:rounded-none">
+    <div className="relative rounded-lg shadow-lg group group-hover:rounded-none">
       <div className="absolute top-0 right-0 transition-opacity duration-200 ease-in-out rounded-full opacity-0 group-hover:opacity-100">
         <button
           onClick={async () => {
@@ -46,7 +46,7 @@ export default function PhotoImage({
         <img
           key={photo.id}
           loading="lazy"
-          className="object-cover rounded-lg shadow-lg w-72 h-72 group-hover:rounded-none"
+          className="object-cover transition-all duration-200 ease-in-out rounded-lg shadow-lg w-72 h-72 group-hover:rounded-none"
           src={photo.url}
           alt={photo.name}
         />

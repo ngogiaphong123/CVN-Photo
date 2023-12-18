@@ -67,6 +67,31 @@ export function Register() {
       displayName: '',
     },
   })
+  const renderConfirmPasswordMessage = () => {
+    if (!form.formState.errors.confirmPassword) return null
+    if (
+      form.formState.errors.confirmPassword.message ===
+      'Passwords do not match.'
+    ) {
+      return (
+        <div className="text-[0.8rem] font-medium text-destructive">
+          {form.formState.errors.confirmPassword.message}
+        </div>
+      )
+    }
+    return (
+      <div className="text-[0.8rem] font-medium text-destructive">
+        Password must contain:
+        <ul className="list-disc list-inside">
+          <li>At least 1 uppercase</li>
+          <li>At least 1 lowercase</li>
+          <li>At least 1 number</li>
+          <li>At least 8 characters</li>
+          <li>At most 32 characters</li>
+        </ul>
+      </div>
+    )
+  }
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const result = await dispatch(register(values))
@@ -126,7 +151,18 @@ export function Register() {
                 <FormControl>
                   <Input type="password" placeholder="Password" {...field} />
                 </FormControl>
-                <FormMessage />
+                {form.formState.errors.password && (
+                  <div className="text-[0.8rem] font-medium text-destructive">
+                    Password must contain:
+                    <ul className="list-disc list-inside">
+                      <li>At least 1 uppercase</li>
+                      <li>At least 1 lowercase</li>
+                      <li>At least 1 number</li>
+                      <li>At least 8 characters</li>
+                      <li>At most 32 characters</li>
+                    </ul>
+                  </div>
+                )}
               </FormItem>
             )}
           />
@@ -143,7 +179,7 @@ export function Register() {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                {renderConfirmPasswordMessage()}
               </FormItem>
             )}
           />

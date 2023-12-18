@@ -25,12 +25,13 @@ const formSchema = z.object({
   }),
   password: z
     .string()
-    .min(8, {
-      message: 'Password must be at least 8 characters',
-    })
-    .max(32, {
-      message: 'Password must be at most 32 characters',
-    }),
+    .refine(
+      value => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,32}$/.test(value),
+      {
+        message:
+          'Password must contain at least 1 uppercase, 1 lowercase, and 1 number and must be at least 8 characters and at most 32 characters.',
+      },
+    ),
 })
 
 export function Login() {
@@ -99,7 +100,18 @@ export function Login() {
                 <FormControl>
                   <Input type="password" placeholder="Password" {...field} />
                 </FormControl>
-                <FormMessage />
+                {form.formState.errors.password && (
+                  <div className="text-[0.8rem] font-medium text-destructive">
+                    Password must contain:
+                    <ul className="list-disc list-inside">
+                      <li>At least 1 uppercase</li>
+                      <li>At least 1 lowercase</li>
+                      <li>At least 1 number</li>
+                      <li>At least 8 characters</li>
+                      <li>At most 32 characters</li>
+                    </ul>
+                  </div>
+                )}
               </FormItem>
             )}
           />
