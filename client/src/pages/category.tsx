@@ -14,18 +14,22 @@ import {
 import { useCategory } from '@/hooks/category/useCategory'
 import { useCategoryPhotos } from '@/hooks/category/useCategoryPhotos'
 import { useRemovePhotoFromCategory } from '@/hooks/category/useRemovePhotoFromCategory'
+import Loading from '../components/layouts/loading'
+import { NotFound } from './not-found'
 
 export default function Category() {
   const { categoryId } = useParams()
-  const { data: category } = useCategory(categoryId)
-  const { data: photos } = useCategoryPhotos(categoryId)
+  const { data: category, isLoading: categoryLoading } = useCategory(categoryId)
+  const { data: photos, isLoading: photosLoading } =
+    useCategoryPhotos(categoryId)
 
   const { mutateAsync: removePhotoFromCategory } = useRemovePhotoFromCategory(
     categoryId as string,
   )
   const favorite = useAppSelector(state => state.category.favoriteCategory)
   const renderPage = () => {
-    if (!photos || !category) return <div>no data</div>
+    if (categoryLoading || photosLoading) return <Loading />
+    if (!category || !photos) return <NotFound />
     const renderForm = () => {
       if (category.name === 'favorite')
         return <div className="text-3xl text-bold text-primary">Favorite</div>

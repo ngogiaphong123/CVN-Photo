@@ -9,7 +9,9 @@ use PDO;
 
 class CategoryRepository
 {
-    public function __construct(private readonly Database $database) {}
+    public function __construct(private readonly Database $database)
+    {
+    }
 
     /**
      * @param array $data ['name', 'memo', 'url', 'publicId', 'userId']
@@ -37,7 +39,7 @@ class CategoryRepository
             ':createdAt' => $categoryEntity->getCreatedAt(),
             ':updatedAt' => $categoryEntity->getUpdatedAt(),
         ]);
-        return $this->findUserCategories($categoryEntity->getUserId());
+        return $this->findOne($categoryEntity->getId());
     }
 
     /**
@@ -159,8 +161,8 @@ class CategoryRepository
         $query = "SELECT * FROM photos WHERE id IN (SELECT photoId FROM photoCategory WHERE categoryId = :categoryId) ORDER BY takenAt DESC LIMIT :limit OFFSET :offset";
         $statement = $this->database->getConnection()->prepare($query);
         $statement->bindValue(':categoryId', $categoryId);
-        $statement->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $statement->bindValue(':offset', ((int)$page - 1) * (int)$limit, PDO::PARAM_INT);
+        $statement->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
+        $statement->bindValue(':offset', ((int) $page - 1) * (int) $limit, PDO::PARAM_INT);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         if (!$result) {
@@ -179,8 +181,8 @@ class CategoryRepository
         $statement = $this->database->getConnection()->prepare($query);
         $statement->bindValue(':categoryId', $categoryId);
         $statement->bindValue(':userId', $userId);
-        $statement->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $statement->bindValue(':offset', ((int)$page - 1) * (int)$limit, PDO::PARAM_INT);
+        $statement->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
+        $statement->bindValue(':offset', ((int) $page - 1) * (int) $limit, PDO::PARAM_INT);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         if (!$result) {

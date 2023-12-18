@@ -21,8 +21,8 @@ export default function Photo() {
     return (
       <div className="relative">
         <div className="flex min-h-screen">
-          <div className="flex items-center justify-center w-9/12 bg-black"></div>
-          <div className="flex items-center justify-center w-3/12 bg-white"></div>
+          <div className="flex items-center justify-center w-full bg-black lg:w-9/12"></div>
+          <div className="items-center justify-center hidden bg-white lg:flex lg:w-3/12"></div>
         </div>
       </div>
     )

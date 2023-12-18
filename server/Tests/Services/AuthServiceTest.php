@@ -415,7 +415,7 @@ class AuthServiceTest extends TestCase
             ->expects($this->once())
             ->method('findOneByEmail')
             ->with($userData['email'])
-            ->willReturn(NULL);
+            ->willReturn(null);
         $createdUser = [
             'id' => 'newUserId',
             'email' => $userData['email'],

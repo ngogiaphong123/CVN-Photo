@@ -8,7 +8,6 @@ export default function Breadcrumbs() {
   const breadcrumbs = useMemo(() => {
     return pathnames.map((path, index) => {
       const url = `/${pathnames.slice(0, index + 1).join('/')}`
-      // capitalize first letter
       path = path.charAt(0).toUpperCase() + path.slice(1)
       return { name: path, url }
     })

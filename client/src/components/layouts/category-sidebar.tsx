@@ -6,16 +6,21 @@ import {
 } from '@/components/ui/context-menu'
 import { SidebarItem } from '@components/layouts/sidebar'
 import { cn } from '@/lib/utils'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { buttonVariants } from '@components/ui/button'
-import { useDeleteCategory } from '@/hooks/category/useDeleteCategory'
 
-export default function CategorySidebar({ item }: { item: SidebarItem }) {
+export default function CategorySidebar({
+  item,
+  setOpen,
+  setCategoryId,
+}: {
+  item: SidebarItem
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setCategoryId: React.Dispatch<React.SetStateAction<string>>
+}) {
   const location = useLocation()
   const { pathname } = location
   const id = item.href.split('/')[2]
-  const navigate = useNavigate()
-  const { mutateAsync: deleteCategory } = useDeleteCategory(id)
   return (
     <>
       {' '}
@@ -50,8 +55,8 @@ export default function CategorySidebar({ item }: { item: SidebarItem }) {
           <ContextMenuItem
             className="focus:text-destructive"
             onClick={() => {
-              deleteCategory()
-              if (pathname === item.href) navigate('/category')
+              setCategoryId(id)
+              setOpen(true)
             }}
           >
             Delete category

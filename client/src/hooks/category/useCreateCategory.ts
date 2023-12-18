@@ -6,9 +6,11 @@ import { privateApi } from '@/lib/axios'
 import { Category } from '@/redux/types/response.type'
 import { getCategories } from '@/redux/slices/category.slice'
 import { toastMessage } from '@/lib/utils'
+import { useNavigate } from 'react-router-dom'
 
 export const useCreateCategory = () => {
   const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
   return useMutation({
     mutationKey: ['createCategory'],
     mutationFn: async (input: CreateCategoryInput) => {
@@ -19,8 +21,10 @@ export const useCreateCategory = () => {
       const { data } = await privateApi.post(`/categories`, formData)
       return data.data as Category
     },
-    onSuccess: () => {
+    onSuccess: data => {
+      console.log(data)
       dispatch(getCategories())
+      navigate(`/category/${data.id}`)
     },
     onError: () => {
       toastMessage('Category name already exists!', 'destructive')

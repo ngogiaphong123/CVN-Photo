@@ -4,10 +4,11 @@ import { cn } from '@lib/utils'
 import { Link, useLocation } from 'react-router-dom'
 import { AppDispatch, useAppSelector } from '@redux/store'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getCategories } from '@redux/slices/category.slice'
 import { useDispatch } from 'react-redux'
 import CategorySidebar from '@components/layouts/category-sidebar'
+import DeleteCategoryDialog from '../dialog/delete-category-dialog'
 
 export type SidebarItem = {
   id?: string
@@ -28,6 +29,8 @@ let categoryItems: SidebarItem[] = []
 export default function Sidebar({ className }: { className?: string }) {
   const location = useLocation()
   const { pathname } = location
+  const [open, setOpen] = useState(false)
+  const [categoryId, setCategoryId] = useState('')
   const user = useAppSelector(state => state.user).user
   const categories = useAppSelector(state => state.category).categories.filter(
     category => {
@@ -132,9 +135,20 @@ export default function Sidebar({ className }: { className?: string }) {
           </Link>
           <div className="flex flex-col w-full py-2">
             {categoryItems.map(item => (
-              <CategorySidebar key={item.href} item={item} />
+              <CategorySidebar
+                key={item.href}
+                item={item}
+                setOpen={setOpen}
+                setCategoryId={setCategoryId}
+              />
             ))}
           </div>
+          <DeleteCategoryDialog
+            open={open}
+            setOpen={setOpen}
+            categoryId={categoryId}
+            pathname={pathname}
+          />
         </div>
       </div>
     </div>

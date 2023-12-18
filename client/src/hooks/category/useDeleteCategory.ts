@@ -4,11 +4,11 @@ import { useMutation } from '@tanstack/react-query'
 import { privateApi } from '@/lib/axios'
 import { getCategories } from '@/redux/slices/category.slice'
 
-export const useDeleteCategory = (categoryId: string) => {
+export const useDeleteCategory = () => {
   const dispatch = useDispatch<AppDispatch>()
   return useMutation({
     mutationKey: ['deleteCategory'],
-    mutationFn: async () => {
+    mutationFn: async (categoryId: string) => {
       const { data } = await privateApi.delete(`/categories/${categoryId}`)
       return data.data as number
     },
