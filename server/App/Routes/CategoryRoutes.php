@@ -18,6 +18,11 @@ $router->get("categories", [JwtGuard::class], [CategoryController::class, 'findU
         [JwtGuard::class],
         [CategoryController::class, 'findPhotosNotInCategoryByPage']
     )
+    ->get(
+        "categories/:categoryId/photos/not-in-category",
+        [JwtGuard::class],
+        [CategoryController::class, 'findAllPhotosNotInCategory']
+    )
     ->post("categories", [JwtGuard::class], [CategoryController::class, 'createCategory'])
     ->post("categories/:categoryId", [JwtGuard::class], [CategoryController::class, 'updateCategory'])
     ->delete("categories/:categoryId", [JwtGuard::class], [CategoryController::class, 'deleteCategory']);
