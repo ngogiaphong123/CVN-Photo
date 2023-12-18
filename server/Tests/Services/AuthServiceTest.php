@@ -406,7 +406,6 @@ class AuthServiceTest extends TestCase
      */
     public function testRegisterWithValidData()
     {
-        // Test data
         $userData = [
             'email' => 'newuser@example.com',
             'password' => 'password',
@@ -416,20 +415,19 @@ class AuthServiceTest extends TestCase
             ->expects($this->once())
             ->method('findOneByEmail')
             ->with($userData['email'])
-            ->willReturn(null);
+            ->willReturn(NULL);
         $createdUser = [
             'id' => 'newUserId',
             'email' => $userData['email'],
             'password' => password_hash($userData['password'], PASSWORD_DEFAULT),
             'displayName' => $userData['displayName'],
-            'avatar' => $_ENV['DEFAULT_USER_AVATAR'],
-            'avatarPublicId' => $_ENV['DEFAULT_USER_AVATAR_PUBLIC_ID'],
+            'avatar' => 'https://res.cloudinary.com/dq7l8216n/image/upload/v1623775201/photocloud/default/user.png',
+            'avatarPublicId' => 'photocloud/default/user',
             'accessToken' => '',
             'refreshToken' => '',
             'createdAt' => '',
             'updatedAt' => '',
         ];
-
         $this->userRepositoryMock
             ->expects($this->once())
             ->method('create')
@@ -446,8 +444,8 @@ class AuthServiceTest extends TestCase
                 'id' => 'newCategoryId',
                 'name' => DefaultCategory::UNCATEGORIZED->value,
                 'memo' => '',
-                'url' => $_ENV['DEFAULT_CATEGORY_THUMBNAIL'],
-                'publicId' => '',
+                'url' => 'https://res.cloudinary.com/dq7l8216n/image/upload/v1623775201/photocloud/default/uncategorized.png',
+                'publicId' => 'photocloud/default/uncategorized',
                 'userId' => $createdUser['id'],
             ]);
         $result = $this->authService->register($userData);
