@@ -58,4 +58,9 @@ class Request
     {
         return $_FILES[$key] ?? null;
     }
+
+    public function getQueryParam(string $key)
+    {
+        return $_GET[$key] ?? null;
+    }
 }

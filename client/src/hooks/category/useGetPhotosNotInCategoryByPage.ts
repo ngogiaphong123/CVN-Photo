@@ -8,7 +8,7 @@ export const useGetPhotosNotInCategoryByPage = (categoryId: string) => {
     queryKey: [`photosNotInCategory${categoryId}`],
     queryFn: async ({ pageParam = 1 }) => {
       const { data } = await privateApi.get(
-        `/categories/${categoryId}/photos/not-in-category/${pageParam}/${LIMIT}`,
+        `/categories/${categoryId}/photos/not-in-category/pagination?page=${pageParam}&limit=${LIMIT}`,
       )
       if (data.data.length === 0) throw new Error('No more photos')
       return data.data as Photo[]

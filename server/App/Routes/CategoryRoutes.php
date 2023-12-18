@@ -9,12 +9,12 @@ $router->get("categories", [JwtGuard::class], [CategoryController::class, 'findU
     ->get("categories/:categoryId", [JwtGuard::class], [CategoryController::class, 'findOneCategory'])
     ->get("categories/:categoryId/photos", [JwtGuard::class], [CategoryController::class, 'findCategoryPhotos'])
     ->get(
-        "categories/:categoryId/photos/:page/:limit",
+        "categories/:categoryId/photos/pagination",
         [JwtGuard::class],
         [CategoryController::class, 'findCategoryPhotosByPage']
     )
     ->get(
-        "categories/:categoryId/photos/not-in-category/:page/:limit",
+        "categories/:categoryId/photos/not-in-category/pagination",
         [JwtGuard::class],
         [CategoryController::class, 'findPhotosNotInCategoryByPage']
     )
