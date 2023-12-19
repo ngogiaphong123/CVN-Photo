@@ -12,8 +12,9 @@ export const useRemovePhotoFromCategory = (categoryId: string) => {
   return useMutation({
     mutationKey: ['removePhotoFromCategory', categoryId],
     mutationFn: async (photoId: string) => {
-      formData.append('photoId', photoId)
-      const { data } = await privateApi.post(`photo-category/delete`, formData)
+      const { data } = await privateApi.delete(
+        `/photo-category/delete/category/${categoryId}/photo/${photoId}`,
+      )
       return data.data
     },
     onSuccess: () => {

@@ -35,10 +35,14 @@ class PhotoCategoryController
      */
     public function removePhotoFromCategory(): void
     {
+        $data = [
+            "photoId" => $this->request->getParam("photoId") ?? "",
+            "categoryId" => $this->request->getParam("categoryId") ?? "",
+        ];
         $this->response->response(
             StatusCode::OK->value,
             PhotoCategoryMessage::REMOVE_PHOTO_FROM_CATEGORY_SUCCESSFULLY->value,
-            $this->photoCategoryService->removePhotoFromCategory($this->request->getBody(), Session::get("userId"))
+            $this->photoCategoryService->removePhotoFromCategory($data, Session::get("userId"))
         );
     }
 }
