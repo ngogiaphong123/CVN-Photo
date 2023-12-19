@@ -153,6 +153,7 @@ class UserServiceTest extends TestCase
             'createdAt' => '2021-08-26 00:00:00',
             'updatedAt' => '2021-08-26 00:00:00',
         ]);
+        $this->uploadServiceMock->method('checkImage')->willReturn(true);
         $this->assertEquals([
             'id' => '1',
             'email' => 'giaphong@gmail.com',
@@ -170,6 +171,43 @@ class UserServiceTest extends TestCase
                 'size' => 123456,
             ], '1'));
     }
+
+    /**
+     * @throws HttpException
+     */
+    public function testUploadAvatarWhenAvatarPublicIdIsNotDefaultAndCheckImageIsFalse()
+    {
+        $this->userRepositoryMock->expects($this->once())->method('findOne')->willReturn([
+            'id' => '1',
+            'email' => 'giaphong@gmail.com',
+            'displayName' => 'Phong Ngo',
+            'password' => '123456',
+            'avatar' => 'https://res.cloudinary.com/dt9pwfpi5/image/upload/v1629968239/avatars/1.jpg',
+            'avatarPublicId' => 'avatars/1.jpg',
+            'accessToken' => '',
+            'refreshToken' => '',
+            'createdAt' => '2021-08-26 00:00:00',
+            'updatedAt' => '2021-08-26 00:00:00',
+        ]);
+        $this->configMock->method('get')->willReturn([
+            'default' => [
+                'avatar' => 'https://res.cloudinary.com/dt9pwfpi5/image/upload/v1629968239/avatars/default.jpg',
+                'avatarPublicId' => 'avatars/default.jpg',
+            ],
+        ]);
+        $this->uploadServiceMock->expects($this->once())->method('delete');
+        $this->uploadServiceMock->method('checkImage')->willReturn(false);
+        $this->expectException(HttpException::class);
+        $this->expectExceptionMessage(UploadError::FILE_TYPE_IS_NOT_ALLOWED->value);
+        $this->userService->uploadAvatar([
+            'name' => 'avatar.jpg',
+            'type' => 'image/jpeg',
+            'tmp_name' => 'C:\xampp\tmp\phpB8A4.tmp',
+            'error' => 0,
+            'size' => 123456,
+        ], '1');
+    }
+
 
     /**
      * @throws HttpException

@@ -90,9 +90,26 @@ class PhotoServiceTest extends TestCase
         $this->userRepositoryMock->method('findOne')->willReturn([
             'id' => '1',
         ]);
+        $this->uploadServiceMock->method('checkImage')->willReturn(true);
         $this->uploadServiceMock->method('upload')->willThrowException(new HttpException(400, 'Upload error'));
         $this->expectException(HttpException::class);
         $this->expectExceptionMessage('Upload error');
+        $this->photoService->upload([
+            'type' => ['image/jpeg'],
+            'size' => [UploadService::$MAX_FILE_SIZE - 1],
+            'name' => ['name'],
+            'tmp_name' => ['tmp_name'],
+        ], '1');
+    }
+
+    public function testUploadWhenCheckImageReturnFalse()
+    {
+        $this->userRepositoryMock->method('findOne')->willReturn([
+            'id' => '1',
+        ]);
+        $this->uploadServiceMock->method('checkImage')->willReturn(false);
+        $this->expectException(HttpException::class);
+        $this->expectExceptionMessage(UploadError::FILE_TYPE_IS_NOT_ALLOWED->value);
         $this->photoService->upload([
             'type' => ['image/jpeg'],
             'size' => [UploadService::$MAX_FILE_SIZE - 1],
@@ -106,6 +123,7 @@ class PhotoServiceTest extends TestCase
      */
     public function testUploadSuccessfully()
     {
+        $this->uploadServiceMock->method('checkImage')->willReturn(true);
         $this->userRepositoryMock->method('findOne')->willReturn([
             'id' => '1',
         ]);
@@ -133,7 +151,7 @@ class PhotoServiceTest extends TestCase
             'type' => ['image/jpeg'],
             'size' => [UploadService::$MAX_FILE_SIZE - 1],
             'name' => ['name'],
-            'tmp_name' => ['tmp_name'],
+            'tmp_name' => ['tmp_name.jpg'],
         ], '1');
         $this->assertEquals([
             [

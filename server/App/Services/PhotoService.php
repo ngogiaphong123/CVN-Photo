@@ -46,7 +46,7 @@ class PhotoService
                 'tmp_name' => $data['tmp_name'][$key],
                 'size' => $data['size'][$key],
             ];
-            $checkImage = getimagesize($file['tmp_name']);
+            $checkImage = $this->uploadService->checkImage($file);
             if (!$checkImage) {
                 throw new HttpException(StatusCode::BAD_REQUEST->value, UploadError::FILE_TYPE_IS_NOT_ALLOWED->value);
             }

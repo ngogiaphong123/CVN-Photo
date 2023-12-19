@@ -24,6 +24,10 @@ class UploadServiceTest extends TestCase
         $this->uploadApiMock = $this->createMock(UploadApi::class);
         $this->uploadService = new UploadService($this->uploadApiMock);
     }
+    public function tearDown(): void
+    {
+        uopz_unset_return('getimagesize');
+    }
 
     public function testDelete()
     {
@@ -89,5 +93,20 @@ class UploadServiceTest extends TestCase
             'secureUrl' => 'https://res.cloudinary.com/dt9pwfpi5/image/upload/q_auto,f_auto/v1629968239/avatars/1.jpg',
             'publicId' => 'avatars/1.jpg',
         ], $result);
+    }
+
+    public function testCheckImageWhenImageIsNotValid()
+    {
+        $this->assertFalse($this->uploadService->checkImage([
+            'tmp_name' => 'tmp_name',
+        ]));
+    }
+
+    public function testCheckImageWhenImageIsValid()
+    {
+        uopz_set_return('getimagesize', true);
+        $this->assertTrue($this->uploadService->checkImage([
+            'tmp_name' => 'tmp_name',
+        ]));
     }
 }

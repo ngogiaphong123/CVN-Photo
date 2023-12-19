@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Services;
-
 use App\Common\Enums\StatusCode;
 use App\Common\Error\UploadError;
 use App\Exceptions\HttpException;
@@ -43,5 +42,14 @@ class UploadService
     public function delete(string $publicId): void
     {
         $this->uploadApi->destroy($publicId);
+    }
+
+    public function checkImage (array $file): bool
+    {
+        $checkImage = getimagesize($file['tmp_name']);
+        if (!$checkImage) {
+            return false;
+        }
+        return true;
     }
 }
