@@ -123,8 +123,8 @@ export default function AddPhotosDialog({
       <DialogContent>
         <DialogHeader>
           {' '}
-          <p className="text-2xl text-primary">
-            Add photos to category {categoryTitle}
+          <p className="w-full text-2xl text-primary">
+            Add photos to category
           </p>
         </DialogHeader>
         <div className="overflow-y-scroll max-h-96">
