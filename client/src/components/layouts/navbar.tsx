@@ -16,11 +16,14 @@ import { useDispatch } from 'react-redux'
 import { logout } from '@redux/slices/user.slice'
 import { toastMessage } from '@lib/utils'
 import { useUploadPhoto } from '@/hooks/photo/useUploadPhoto'
+import { useQueryClient } from '@tanstack/react-query'
+import { handleAxiosError } from '../../lib/axios'
 
 export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   const user = useAppSelector(state => state.user).user
+  const queryClient = useQueryClient()
   const { mutateAsync: uploadNewPhotos } = useUploadPhoto()
   const upload = async (input: FileList) => {
     toastMessage('Uploading your photos...', 'default')
@@ -28,7 +31,8 @@ export default function Navbar() {
       await uploadNewPhotos(input)
       toastMessage('Uploaded photos!', 'default')
     } catch (err: any) {
-      toastMessage(err.message, 'destructive')
+      const { message } = handleAxiosError(err)
+      toastMessage(message, 'destructive')
     }
   }
 
@@ -38,6 +42,7 @@ export default function Navbar() {
       if (result.meta.requestStatus === 'rejected')
         throw new Error(result.payload)
       toastMessage('You have successfully logged out.', 'default')
+      queryClient.clear()
       navigate('/')
     } catch (err: any) {
       toastMessage(err.message, 'destructive')

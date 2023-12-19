@@ -47,6 +47,10 @@ class UserService
             ], $user);
             return $this->hideUserCredentials($updatedUser);
         }
+        $checkImage = getimagesize($file['tmp_name']);
+        if (!$checkImage) {
+            throw new HttpException(StatusCode::BAD_REQUEST->value, UploadError::FILE_TYPE_IS_NOT_ALLOWED->value);
+        }
         $updatedUser = $this->userRepository->update($userId, $this->uploadService->upload($file, $userId), $user);
         return $this->hideUserCredentials($updatedUser);
     }

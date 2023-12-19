@@ -8,8 +8,12 @@ export const useGetPhotosByPage = () => {
   return useInfiniteQuery({
     queryKey: ['infinitePhotos'],
     queryFn: async ({ pageParam = 1 }) => {
-      const { data } = await privateApi.get(`/photos/pagination?page=${pageParam}&limit=${LIMIT}`)
-      if (data.data.length === 0) throw new Error('No more photos')
+      const { data } = await privateApi.get(
+        `/photos/pagination?page=${pageParam}&limit=${LIMIT}`,
+      )
+      if (data.data.length === 0) {
+        return []
+      }
       return data.data as Photo[]
     },
     enabled: true,

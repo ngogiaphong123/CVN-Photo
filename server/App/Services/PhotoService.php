@@ -46,6 +46,10 @@ class PhotoService
                 'tmp_name' => $data['tmp_name'][$key],
                 'size' => $data['size'][$key],
             ];
+            $checkImage = getimagesize($file['tmp_name']);
+            if (!$checkImage) {
+                throw new HttpException(StatusCode::BAD_REQUEST->value, UploadError::FILE_TYPE_IS_NOT_ALLOWED->value);
+            }
             $result = $this->uploadService->upload($file, $userId);
             $photo = $this->photoRepository->create([
                 'name' => $file['name'],
@@ -112,7 +116,7 @@ class PhotoService
     /**
      * @throws HttpException
      */
-    public function findUsersPhotoByPage(string $userId, string $page, string $limit): array
+    public function findUsersPhotoByPage(string $userId, mixed $page, mixed $limit): array
     {
         $isValid = Validator::validateInteger([
             'page' => $page,

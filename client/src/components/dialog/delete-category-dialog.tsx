@@ -42,7 +42,12 @@ export default function DeleteCategoryDialog({
             >
               Delete
             </button>
-            <button className="px-4 py-2 text-white rounded-lg bg-primary hover:opacity-80">
+            <button
+              className="px-4 py-2 text-white rounded-lg bg-primary hover:opacity-80"
+              onClick={() => {
+                setOpen(false)
+              }}
+            >
               Cancel
             </button>
           </div>

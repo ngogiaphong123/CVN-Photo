@@ -80,6 +80,9 @@ class CategoryController
         );
     }
 
+    /**
+     * @throws HttpException
+     */
     public function findAllPhotosNotInCategory(): void
     {
         $this->response->response(

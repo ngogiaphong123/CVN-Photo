@@ -11,7 +11,7 @@ import { Button, buttonVariants } from '@components/ui/button'
 import { Icon } from '@iconify/react'
 import PhotoAddDialog from './photos-add-dialog'
 import { useQueryClient } from '@tanstack/react-query'
-import { privateApi } from '@/lib/axios'
+import { handleAxiosError, privateApi } from '@/lib/axios'
 import { AppDispatch } from '@/redux/store'
 import { useDispatch } from 'react-redux'
 import { getCategories } from '@/redux/slices/category.slice'
@@ -64,7 +64,8 @@ export default function AddPhotosDialog({
             try {
               await privateApi.post(`/photo-category`, formData)
             } catch (err: any) {
-              toastMessage(err.message, 'destructive')
+              const { message } = handleAxiosError(err)
+              toastMessage(message, 'destructive')
             }
           })
           setIsOpen(false)

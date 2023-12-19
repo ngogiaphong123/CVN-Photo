@@ -100,7 +100,7 @@ class CategoryService
     /**
      * @throws HttpException
      */
-    public function findCategoryPhotosByPage(string $categoryId, string $userId, string $page, string $limit): array
+    public function findCategoryPhotosByPage(string $categoryId, string $userId, mixed $page, mixed $limit): array
     {
         $isValid = Validator::validateInteger([
             'page' => $page,
@@ -122,8 +122,8 @@ class CategoryService
     public function findPhotosNotInCategoryByPage(
         string $categoryId,
         string $userId,
-        string $page,
-        string $limit
+        mixed $page,
+        mixed $limit
     ): array {
         $isValid = Validator::validateInteger([
             'page' => $page,
